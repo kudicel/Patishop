@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { initCheckoutForm } from '@/lib/iyzico'
 import { prisma } from '@/lib/prisma'
 
+export const runtime = 'nodejs'
+
 export async function POST(req: NextRequest) {
+  const { initCheckoutForm } = await import('@/lib/iyzico')
   try {
     const { orderId } = await req.json() as { orderId: string }
     if (!orderId) return NextResponse.json({ error: 'orderId gerekli.' }, { status: 400 })

@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { retrieveCheckoutForm } from '@/lib/iyzico'
 import { prisma } from '@/lib/prisma'
+
+export const runtime = 'nodejs'
 
 // iyzico POSTs form data (application/x-www-form-urlencoded) here
 export async function POST(req: NextRequest) {
+  const { retrieveCheckoutForm } = await import('@/lib/iyzico')
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3001'
 
   try {

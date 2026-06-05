@@ -1,10 +1,12 @@
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
+import { neonConfig } from '@neondatabase/serverless'
+import { PrismaNeon } from '@prisma/adapter-neon'
 import { PrismaClient } from '@/generated/prisma/client'
+import ws from 'ws'
 
-const DB_URL = process.env.DATABASE_URL ?? 'file:./prisma/dev.db'
+neonConfig.webSocketConstructor = ws
 
 function createClient() {
-  const adapter = new PrismaBetterSqlite3({ url: DB_URL })
+  const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL?.trim()! })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return new (PrismaClient as any)({ adapter }) as PrismaClient
 }

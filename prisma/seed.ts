@@ -1,13 +1,19 @@
-import 'dotenv/config'
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
+import dotenv from 'dotenv'
+import { resolve } from 'path'
+dotenv.config({ path: resolve(process.cwd(), '.env') })
+
+import { neonConfig } from '@neondatabase/serverless'
+import { PrismaNeon } from '@prisma/adapter-neon'
 import bcrypt from 'bcryptjs'
+import ws from 'ws'
+
+neonConfig.webSocketConstructor = ws
 
 async function main() {
   const { PrismaClient } = await import('../src/generated/prisma/client')
-  const dbUrl = process.env.DATABASE_URL ?? 'file:./dev.db'
-  const adapter = new PrismaBetterSqlite3({ url: dbUrl })
+  const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL?.trim()! })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const prisma = new (PrismaClient as any)({ adapter })
+  const prisma  = new (PrismaClient as any)({ adapter })
 
   const hashed = await bcrypt.hash('admin123', 12)
 
@@ -17,11 +23,7 @@ async function main() {
     create: { email: 'admin@patishop.com', name: 'PatiShop Admin', password: hashed, role: 'admin' },
   })
 
-  console.log('✅ Admin kullanıcı hazır:')
-  console.log('   E-posta : admin@patishop.com')
-  console.log('   Şifre   : admin123')
-  console.log('   ID      :', admin.id)
-  await prisma.$disconnect()
+  console.log('✅ Admin hazır:', admin.email)
 }
 
 main().catch(e => { console.error(e); process.exit(1) })

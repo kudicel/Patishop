@@ -1,0 +1,137 @@
+import { notFound } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
+import { PRODUCTS } from '@/lib/products'
+import { AddToCartButton } from '@/components/AddToCartButton'
+import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
+
+interface Props { params: Promise<{ id: string }> }
+
+export async function generateStaticParams() {
+  return PRODUCTS.map(p => ({ id: p.id }))
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { id } = await params
+  const product = PRODUCTS.find(p => p.id === id)
+  if (!product) return {}
+  return { title: `${product.name} — PatiShop`, description: product.shortDesc }
+}
+
+export default async function ProductPage({ params }: Props) {
+  const { id } = await params
+  const product = PRODUCTS.find(p => p.id === id)
+  if (!product) notFound()
+
+  const related = PRODUCTS.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3)
+
+  return (
+    <>
+      <Header />
+      <main className="px-6 lg:px-12 py-12 max-w-6xl mx-auto">
+        {/* Breadcrumb */}
+        <nav className="flex items-center gap-2 text-sm text-[#c4a896] mb-10">
+          <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
+          <span>/</span>
+          <Link href="/#products" className="hover:text-white transition-colors">Ürünler</Link>
+          <span>/</span>
+          <span className="text-[#fff8f4]">{product.name}</span>
+        </nav>
+
+        {/* Product detail */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+          {/* Images */}
+          <div className="flex flex-col gap-4">
+            <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-[#1c1008]">
+              <Image
+                src={product.images[0]}
+                alt={product.name}
+                fill
+                className="object-cover"
+                sizes="(max-width:768px) 100vw, 50vw"
+                priority
+              />
+              {product.badge && (
+                <span className="absolute top-4 left-4 text-xs font-extrabold uppercase tracking-wide px-3 py-1.5 rounded-full bg-gradient-to-r from-[#ff9a3c] to-[#ff6b9d] text-white">
+                  {product.badge}
+                </span>
+              )}
+            </div>
+            {product.images.length > 1 && (
+              <div className="flex gap-3">
+                {product.images.map((img, i) => (
+                  <div key={i} className="relative w-20 h-16 rounded-2xl overflow-hidden border border-white/10 flex-shrink-0">
+                    <Image src={img} alt="" fill className="object-cover" sizes="80px"/>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Info */}
+          <div className="flex flex-col gap-5">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#ff9a3c]">
+                {product.categoryLabel}
+              </span>
+              <h1 className="text-4xl font-black mt-1 mb-2">{product.name}</h1>
+              <div className="flex items-center gap-2 text-sm">
+                <span className="text-amber-400 text-lg">
+                  {'★'.repeat(Math.round(product.rating))}{'☆'.repeat(5 - Math.round(product.rating))}
+                </span>
+                <strong>{product.rating}</strong>
+                <span className="text-[#c4a896]">({product.reviewCount} yorum)</span>
+              </div>
+            </div>
+
+            <p className="text-[#c4a896] leading-relaxed">{product.description}</p>
+
+            <ul className="space-y-2">
+              {product.features.map(f => (
+                <li key={f} className="flex items-start gap-2 text-sm text-[#c4a896]">
+                  <span className="text-[#ff9a3c] flex-shrink-0 mt-0.5">✓</span>{f}
+                </li>
+              ))}
+            </ul>
+
+            {/* Client-side cart + variant selector */}
+            <AddToCartButton product={product} />
+
+            {/* Supplier */}
+            <div className="rounded-2xl border border-[rgba(255,154,60,0.12)] bg-[rgba(255,154,60,0.04)] p-5">
+              <p className="text-xs font-bold uppercase tracking-wide text-[#ff9a3c] mb-1">Tedarikçi</p>
+              <p className="text-[#c4a896] text-sm">{product.supplier}</p>
+              <p className="text-[#c4a896] text-xs mt-1">{product.supplierNote}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Related products */}
+        {related.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-black mb-6">Benzer Ürünler</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              {related.map(p => (
+                <Link
+                  key={p.id}
+                  href={`/products/${p.id}`}
+                  className="group rounded-[2rem] border border-[rgba(255,154,60,0.12)] bg-[rgba(28,16,6,0.96)] overflow-hidden hover:border-[rgba(255,154,60,0.3)] hover:-translate-y-1 transition-all"
+                >
+                  <div className="relative h-40 overflow-hidden">
+                    <Image src={p.thumbImage} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="33vw"/>
+                  </div>
+                  <div className="p-4">
+                    <p className="font-bold">{p.name}</p>
+                    <p className="text-[#c4a896] text-xs mt-1">{p.shortDesc}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
+      <Footer />
+    </>
+  )
+}

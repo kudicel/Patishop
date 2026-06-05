@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String?
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+}
+
+model Order {
+  id             String      @id @default(cuid())
+  orderNumber    String      @unique
+  status         String      @default("pending")
+
+  firstName      String
+  lastName       String
+  email          String
+  phone          String
+
+  address        String
+  city           String
+  zip            String
+  country        String
+
+  shippingMethod String
+  shippingPrice  Float
+
+  subtotal       Float
+  total          Float
+
+  userId         String?
+  user           User?       @relation(fields: [userId], references: [id])
+  items          OrderItem[]
+
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model OrderItem {
+  id             String  @id @default(cuid())
+  orderId        String
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId      String
+  productName    String
+  productPrice   Float
+  quantity       Int
+  selectedColor  String?
+  selectedSize   String?
+}

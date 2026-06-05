@@ -2,16 +2,12 @@ import dotenv from 'dotenv'
 import { resolve } from 'path'
 dotenv.config({ path: resolve(process.cwd(), '.env') })
 
-import { neonConfig } from '@neondatabase/serverless'
-import { PrismaNeon } from '@prisma/adapter-neon'
+import { PrismaNeonHttp } from '@prisma/adapter-neon'
 import bcrypt from 'bcryptjs'
-import ws from 'ws'
-
-neonConfig.webSocketConstructor = ws
 
 async function main() {
   const { PrismaClient } = await import('../src/generated/prisma/client')
-  const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL?.trim()! })
+  const adapter = new PrismaNeonHttp(process.env.DATABASE_URL?.trim()!, {})
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const prisma  = new (PrismaClient as any)({ adapter })
 

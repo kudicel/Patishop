@@ -59,3 +59,9 @@ model OrderItem {
   selectedColor  String?
   selectedSize   String?
 }
+
+model Product {
+  id        String   @id
+  stock     Int      @default(50)
+  updatedAt DateTime @updatedAt
+}

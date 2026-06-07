@@ -5,9 +5,10 @@ import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 
 const links = [
-  { href: '/admin',           label: 'Dashboard',   icon: '▣' },
-  { href: '/admin/orders',    label: 'Siparişler',  icon: '📦' },
-  { href: '/admin/customers', label: 'Müşteriler',  icon: '👥' },
+  { href: '/admin',            label: 'Dashboard',  icon: '▣' },
+  { href: '/admin/orders',     label: 'Siparişler', icon: '📦' },
+  { href: '/admin/customers',  label: 'Müşteriler', icon: '👥' },
+  { href: '/admin/products',   label: 'Ürünler',    icon: '🛍️' },
 ]
 
 export function AdminNav({ userName }: { userName: string }) {

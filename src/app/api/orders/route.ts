@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
       status?: string
     }
 
+    // Neon HTTP adapter doesn't support transactions, so create order and items separately
     const order = await prisma.order.create({
       data: {
         orderNumber:    generateOrderNumber(),
@@ -44,19 +45,22 @@ export async function POST(req: NextRequest) {
         shippingPrice:  body.shippingPrice,
         subtotal:       body.subtotal,
         total:          body.total,
-        items: {
-          create: body.items.map(i => ({
-            productId:     i.product.id,
-            productName:   i.product.name,
-            productPrice:  i.product.price,
-            quantity:      i.quantity,
-            selectedColor: i.selectedColor ?? null,
-            selectedSize:  i.selectedSize ?? null,
-          })),
-        },
       },
-      include: { items: true },
     })
+
+    for (const i of body.items) {
+      await prisma.orderItem.create({
+        data: {
+          orderId:       order.id,
+          productId:     i.product.id,
+          productName:   i.product.name,
+          productPrice:  i.product.price,
+          quantity:      i.quantity,
+          selectedColor: i.selectedColor ?? null,
+          selectedSize:  i.selectedSize ?? null,
+        },
+      })
+    }
 
     return NextResponse.json({ id: order.id, orderNumber: order.orderNumber }, { status: 201 })
   } catch (err) {

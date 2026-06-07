@@ -37,11 +37,11 @@ function MockPaymentForm() {
       return
     }
 
-    // Update order status
-    await fetch(`/api/orders/${orderId}`, {
-      method: 'PATCH',
+    // Update order status via mock-only endpoint (no admin auth required)
+    await fetch('/api/payment/mock/confirm', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'processing' }),
+      body: JSON.stringify({ orderId }),
     })
 
     router.push(`/order-success?id=${orderId}`)

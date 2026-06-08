@@ -4,8 +4,26 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useStore } from '@/lib/store'
 import { PRODUCTS } from '@/lib/products'
-import { formatPrice, t } from '@/lib/locale'
+import { formatPrice, t, TranslationKey } from '@/lib/locale'
 import { badgeClass, stars } from '@/lib/utils'
+
+const BADGE_KEYS: Record<string, TranslationKey> = {
+  'Çok Satan':   'badge_bestseller',
+  'En İyi Değer':'badge_best_value',
+  'Premium':     'badge_premium',
+  'Bütçe Dostu': 'badge_budget',
+  'Yeni':        'badge_new',
+  'Yeni Sezon':  'badge_new_season',
+}
+
+const CATEGORY_KEYS: Record<string, TranslationKey> = {
+  'mama-kabi':       'filter_mama',
+  'kum-temizleyici': 'filter_kum',
+  'tasma':           'filter_tasma',
+  'oyuncak':         'filter_oyuncak',
+  'kiyafet':         'filter_kiyafet',
+  'yatak':           'filter_yatak',
+}
 
 export function ProductModal() {
   const modalProductId = useStore(s => s.modalProductId)
@@ -76,7 +94,7 @@ export function ProductModal() {
               />
               {product.badge && (
                 <span className={`absolute top-3 left-3 text-xs font-extrabold uppercase tracking-wide px-3 py-1 rounded-full ${badgeClass(product.badge)}`}>
-                  {product.badge}
+                  {BADGE_KEYS[product.badge] ? t(country, BADGE_KEYS[product.badge]) : product.badge}
                 </span>
               )}
             </div>
@@ -101,7 +119,7 @@ export function ProductModal() {
           <div className="flex flex-col gap-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-[#ff9a3c]">
-                {product.categoryLabel}
+                {CATEGORY_KEYS[product.category] ? t(country, CATEGORY_KEYS[product.category]) : product.categoryLabel}
               </span>
               <h2 className="text-2xl font-black mt-1">{product.name}</h2>
               <div className="flex items-center gap-2 mt-1.5 text-sm">

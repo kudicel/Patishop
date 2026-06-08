@@ -4,16 +4,16 @@ import { useState, useMemo } from 'react'
 import { Product, Category } from '@/types'
 import { ProductCard } from './ProductCard'
 import { useStore } from '@/lib/store'
-import { t } from '@/lib/locale'
+import { t, TranslationKey } from '@/lib/locale'
 
-const CATEGORIES: { key: string; label: string; i18n: string }[] = [
-  { key:'all',              label:'Hepsi',           i18n:'filter_all' },
-  { key:'mama-kabi',        label:'Mama Kabı',        i18n:'filter_mama' },
-  { key:'kum-temizleyici',  label:'Kum Temizleyici',  i18n:'filter_kum' },
-  { key:'tasma',            label:'Tasma',            i18n:'filter_tasma' },
-  { key:'oyuncak',          label:'Oyuncak',          i18n:'filter_oyuncak' },
-  { key:'kiyafet',          label:'Kıyafet',          i18n:'filter_kiyafet' },
-  { key:'yatak',            label:'Yatak',            i18n:'filter_yatak' },
+const CATEGORIES: { key: string; i18n: TranslationKey }[] = [
+  { key: 'all',             i18n: 'filter_all' },
+  { key: 'mama-kabi',       i18n: 'filter_mama' },
+  { key: 'kum-temizleyici', i18n: 'filter_kum' },
+  { key: 'tasma',           i18n: 'filter_tasma' },
+  { key: 'oyuncak',         i18n: 'filter_oyuncak' },
+  { key: 'kiyafet',         i18n: 'filter_kiyafet' },
+  { key: 'yatak',           i18n: 'filter_yatak' },
 ]
 
 export function ProductsSection({ products }: { products: Product[] }) {
@@ -33,18 +33,16 @@ export function ProductsSection({ products }: { products: Product[] }) {
 
   return (
     <section id="products" className="px-6 lg:px-12 pb-20">
-      {/* Section header */}
       <div className="mb-10">
         <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#ff9a3c] mb-3">
-          Ürün Kataloğu
+          {t(country, 'products_eyebrow')}
         </span>
-        <h2 className="text-4xl font-black mb-3">Kedi & Köpek Aksesuarları</h2>
+        <h2 className="text-4xl font-black mb-3">{t(country, 'brand_tagline')}</h2>
         <p className="text-[#c4a896] max-w-2xl leading-relaxed">
-          Tüm ürünler ISO sertifikalı Çin fabrikalarından doğrudan ithal, 17 ülkeye hızlı ve güvenli kargo.
+          {t(country, 'products_p')}
         </p>
       </div>
 
-      {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map(cat => (
@@ -57,7 +55,7 @@ export function ProductsSection({ products }: { products: Product[] }) {
                   : 'border-white/10 bg-white/5 text-[#c4a896] hover:border-[rgba(255,154,60,0.3)] hover:text-white'
               }`}
             >
-              {t(country, cat.i18n as any) || cat.label}
+              {t(country, cat.i18n)}
             </button>
           ))}
         </div>
@@ -65,15 +63,14 @@ export function ProductsSection({ products }: { products: Product[] }) {
           type="search"
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder={t(country,'search_placeholder')}
+          placeholder={t(country, 'search_placeholder')}
           className="rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm text-[#fff8f4]
             placeholder:text-white/40 focus:outline-none focus:border-[rgba(255,154,60,0.4)] min-w-[220px]"
         />
       </div>
 
-      {/* Grid */}
       {filtered.length === 0 ? (
-        <p className="text-center text-[#c4a896] py-20">Ürün bulunamadı.</p>
+        <p className="text-center text-[#c4a896] py-20">{t(country, 'products_not_found')}</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.map(product => (

@@ -3,8 +3,26 @@
 import Image from 'next/image'
 import { Product } from '@/types'
 import { useStore } from '@/lib/store'
-import { formatPrice, t } from '@/lib/locale'
+import { formatPrice, t, TranslationKey } from '@/lib/locale'
 import { badgeClass, stars } from '@/lib/utils'
+
+const BADGE_KEYS: Record<string, TranslationKey> = {
+  'Çok Satan':   'badge_bestseller',
+  'En İyi Değer':'badge_best_value',
+  'Premium':     'badge_premium',
+  'Bütçe Dostu': 'badge_budget',
+  'Yeni':        'badge_new',
+  'Yeni Sezon':  'badge_new_season',
+}
+
+const CATEGORY_KEYS: Record<string, TranslationKey> = {
+  'mama-kabi':       'filter_mama',
+  'kum-temizleyici': 'filter_kum',
+  'tasma':           'filter_tasma',
+  'oyuncak':         'filter_oyuncak',
+  'kiyafet':         'filter_kiyafet',
+  'yatak':           'filter_yatak',
+}
 
 interface Props { product: Product }
 
@@ -30,7 +48,7 @@ export function ProductCard({ product }: Props) {
         />
         {product.badge && (
           <span className={`absolute top-3 left-3 text-xs font-extrabold uppercase tracking-wide px-3 py-1 rounded-full ${badgeClass(product.badge)}`}>
-            {product.badge}
+            {BADGE_KEYS[product.badge] ? t(country, BADGE_KEYS[product.badge]) : product.badge}
           </span>
         )}
         <button
@@ -48,7 +66,7 @@ export function ProductCard({ product }: Props) {
         <div>
           <h3 className="font-bold text-base">{product.name}</h3>
           <p className="text-[#ff9a3c] text-xs font-bold uppercase tracking-wider mt-1">
-            {product.categoryLabel}
+            {CATEGORY_KEYS[product.category] ? t(country, CATEGORY_KEYS[product.category]) : product.categoryLabel}
           </p>
         </div>
         <p className="text-[#c4a896] text-sm leading-relaxed line-clamp-2">{product.shortDesc}</p>

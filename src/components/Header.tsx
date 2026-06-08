@@ -24,7 +24,7 @@ export function Header() {
           PatiShop
         </Link>
         <p className="hidden md:block text-xs text-[#c4a896] mt-0.5">
-          Kedi & Köpek Aksesuarları
+          {t(country, 'brand_tagline')}
         </p>
       </div>
 

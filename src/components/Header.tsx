@@ -43,9 +43,10 @@ export function Header() {
         {/* Auth area */}
         {status === 'loading' ? null : session ? (
           <div className="hidden sm:flex items-center gap-2">
-            <span className="text-sm text-[#c4a896] max-w-[120px] truncate">
-              {session.user?.name ?? session.user?.email}
-            </span>
+            <Link href="/account/orders"
+              className="btn-ghost px-3 py-2 rounded-full text-sm font-semibold">
+              {t(country, 'my_orders')}
+            </Link>
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
               className="btn-ghost px-3 py-2 rounded-full text-sm font-semibold"

@@ -31,7 +31,47 @@ export function Header() {
       {/* Nav */}
       <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[#7ecad6]">
         <Link href="#discover"  className="hover:text-white transition-colors">{t(country, 'nav_discover')}</Link>
-        <Link href="#products"  className="hover:text-white transition-colors">{t(country, 'nav_products')}</Link>
+
+        {/* Ürünler dropdown */}
+        <div className="relative group">
+          <button className="flex items-center gap-1 hover:text-white transition-colors">
+            {t(country, 'nav_products')}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+              className="mt-0.5 transition-transform group-hover:rotate-180">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 pointer-events-none
+            group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 z-50">
+            <div className="rounded-2xl border border-[rgba(6,182,212,0.2)] bg-[rgba(2,14,22,0.97)]
+              backdrop-blur-xl p-2 min-w-[180px] shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+              {[
+                { slug: 'mama-kabi',       label: t(country, 'filter_mama'),     icon: '🍚' },
+                { slug: 'kum-temizleyici', label: t(country, 'filter_kum'),      icon: '🪣' },
+                { slug: 'tasma',           label: t(country, 'filter_tasma'),    icon: '🦮' },
+                { slug: 'oyuncak',         label: t(country, 'filter_oyuncak'),  icon: '🎾' },
+                { slug: 'kiyafet',         label: t(country, 'filter_kiyafet'),  icon: '👕' },
+                { slug: 'yatak',           label: t(country, 'filter_yatak'),    icon: '🛏️' },
+              ].map(cat => (
+                <Link key={cat.slug} href={`/kategori/${cat.slug}`}
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#7ecad6]
+                    hover:bg-[rgba(6,182,212,0.1)] hover:text-white transition-colors">
+                  <span>{cat.icon}</span>
+                  <span>{cat.label}</span>
+                </Link>
+              ))}
+              <div className="border-t border-white/[0.06] mt-1 pt-1">
+                <Link href="/#products"
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#06b6d4]
+                    hover:bg-[rgba(6,182,212,0.1)] transition-colors font-semibold">
+                  <span>→</span>
+                  <span>Tüm Ürünler</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <Link href="#suppliers" className="hover:text-white transition-colors">{t(country, 'nav_suppliers')}</Link>
         <Link href="#analytics" className="hover:text-white transition-colors">{t(country, 'nav_analytics')}</Link>
       </nav>

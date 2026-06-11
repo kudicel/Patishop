@@ -16,7 +16,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 flex items-center justify-between gap-4 px-6 py-4 lg:px-12
-      bg-[rgba(10,7,4,0.92)] backdrop-blur-xl border-b border-white/5">
+      bg-[rgba(2,14,22,0.96)] backdrop-blur-xl border-b border-[rgba(6,182,212,0.2)]">
 
       {/* Brand */}
       <div className="flex-shrink-0">

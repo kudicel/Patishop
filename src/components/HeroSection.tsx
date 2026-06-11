@@ -36,8 +36,8 @@ export function HeroSection() {
       </div>
 
       <div className="flex justify-center lg:justify-end">
-        <div className="w-full max-w-md rounded-[2rem] border border-[rgba(6,182,212,0.15)]
-          bg-gradient-to-b from-[rgba(40,20,8,0.95)] to-[rgba(20,10,4,0.98)] p-8 shadow-brand">
+        <div className="w-full max-w-md rounded-[2rem] border border-[rgba(6,182,212,0.35)]
+          bg-gradient-to-br from-[#0a2d3f] via-[#061a28] to-[#04111c] p-8 shadow-brand">
           <h2 className="text-2xl font-bold mb-3">Öne çıkan koleksiyon</h2>
           <p className="text-[#7ecad6] mb-5">Akıllı teknoloji ile günlük bakım bir arada</p>
           <ul className="space-y-3 text-[#7ecad6]">

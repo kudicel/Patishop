@@ -5,6 +5,8 @@ import { ProductModal } from '@/components/ProductModal'
 import { AuthProvider } from '@/components/AuthProvider'
 import { getProducts } from '@/lib/db-products'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'PatiShop — Kedi & Köpek Aksesuarları',
   description: 'Çin\'den ithal premium kedi ve köpek aksesuarları. 17 ülkeye hızlı teslimat.',

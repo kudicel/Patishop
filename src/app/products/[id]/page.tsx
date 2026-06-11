@@ -17,7 +17,26 @@ export async function generateMetadata({ params }: Props) {
   const { id } = await params
   const product = await getProductById(id)
   if (!product) return {}
-  return { title: `${product.name} — PatiShop`, description: product.shortDesc }
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop-gamma.vercel.app'
+  const url  = `${base}/products/${id}`
+  return {
+    title: product.name,
+    description: product.shortDesc,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      url,
+      title: `${product.name} | PatiShop`,
+      description: product.shortDesc,
+      images: [{ url: product.images[0], width: 800, height: 600, alt: product.name }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} | PatiShop`,
+      description: product.shortDesc,
+      images: [product.images[0]],
+    },
+  }
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -25,10 +44,38 @@ export default async function ProductPage({ params }: Props) {
   const [product, allProducts] = await Promise.all([getProductById(id), getProducts()])
   if (!product) notFound()
 
-  const related = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3)
+  const related  = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3)
+  const base     = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop-gamma.vercel.app'
+  const jsonLd = {
+    '@context': 'https://schema.org/',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: product.images,
+    url: `${base}/products/${id}`,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'TRY',
+      price: product.price.toFixed(2),
+      availability: 'https://schema.org/InStock',
+      url: `${base}/products/${id}`,
+      seller: { '@type': 'Organization', name: 'PatiShop' },
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: product.rating.toFixed(1),
+      reviewCount: product.reviewCount,
+      bestRating: '5',
+      worstRating: '1',
+    },
+  }
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
       <main className="px-6 lg:px-12 py-12 max-w-6xl mx-auto">
         {/* Breadcrumb */}

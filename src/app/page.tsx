@@ -1,3 +1,10 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Premium Kedi & Köpek Aksesuarları — Ücretsiz Kargo',
+  description: 'Akıllı mama kapları, otomatik kum temizleyiciler, tasmalar ve daha fazlası. 17 ülkeye hızlı teslimat, uygun fiyat garantisi.',
+}
+
 import { Header } from '@/components/Header'
 import { HeroSection } from '@/components/HeroSection'
 import { FeaturedPanels } from '@/components/FeaturedPanels'

@@ -7,9 +7,37 @@ import { getProducts } from '@/lib/db-products'
 
 export const dynamic = 'force-dynamic'
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop-gamma.vercel.app'
+
 export const metadata: Metadata = {
-  title: 'PatiShop — Kedi & Köpek Aksesuarları',
-  description: 'Çin\'den ithal premium kedi ve köpek aksesuarları. 17 ülkeye hızlı teslimat.',
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: 'PatiShop — Premium Kedi & Köpek Aksesuarları',
+    template: '%s | PatiShop',
+  },
+  description: 'Premium kedi ve köpek aksesuarları — akıllı mama kapları, otomatik kum temizleyiciler, tasmalar ve daha fazlası. 17 ülkeye hızlı teslimat.',
+  keywords: ['kedi aksesuarı', 'köpek aksesuarı', 'evcil hayvan', 'akıllı mama kabı', 'kum temizleyici', 'tasma', 'pet shop'],
+  openGraph: {
+    type: 'website',
+    siteName: 'PatiShop',
+    title: 'PatiShop — Premium Kedi & Köpek Aksesuarları',
+    description: 'Premium kedi ve köpek aksesuarları. 17 ülkeye hızlı teslimat.',
+    url: BASE_URL,
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'PatiShop' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PatiShop — Premium Kedi & Köpek Aksesuarları',
+    description: 'Premium kedi ve köpek aksesuarları. 17 ülkeye hızlı teslimat.',
+    images: ['/og-image.jpg'],
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

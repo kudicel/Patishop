@@ -112,11 +112,12 @@ export default function CheckoutPage() {
       clearCart()
 
       // 2. Route to payment page
-      const isMock = process.env.NEXT_PUBLIC_PAYMENT_MODE === 'mock'
-      router.push(isMock
-        ? `/checkout/payment/mock?orderId=${id}`
-        : `/checkout/payment/iyzico?orderId=${id}`
-      )
+      const mode = process.env.NEXT_PUBLIC_PAYMENT_MODE
+      const paymentPath =
+        mode === 'paytr'  ? `/checkout/payment/paytr?orderId=${id}` :
+        mode === 'mock'   ? `/checkout/payment/mock?orderId=${id}`  :
+                            `/checkout/payment/iyzico?orderId=${id}`
+      router.push(paymentPath)
     } catch {
       setSubmitting(false)
     }

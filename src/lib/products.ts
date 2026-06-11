@@ -222,10 +222,10 @@ export const PRODUCTS: Product[] = [
     reviewCount: 367,
     badge: 'Çok Satan',
     images: [
-      'https://images.unsplash.com/photo-1503256207526-0d5523f39e50?w=700&h=520&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=700&h=520&fit=crop&auto=format&q=80',
       'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=700&h=520&fit=crop&auto=format&q=80',
     ],
-    thumbImage: 'https://images.unsplash.com/photo-1503256207526-0d5523f39e50?w=600&h=420&fit=crop&auto=format&q=80',
+    thumbImage: 'https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=600&h=420&fit=crop&auto=format&q=80',
     shortDesc: '5 cm memory foam, çıkarılabilir kılıf, kaymaz taban.',
     description: 'CloudNap Lüks Yatak CertiPUR-US sertifikalı 5 cm kalın memory foam tabanı ile ortopedik destek sağlar. Yaşlı veya eklem problemi yaşayan hayvanlarda ağrı azaltıcı etki gösterir.',
     features: ['5 cm CertiPUR-US memory foam', 'Çıkarılabilir kadife kılıf', 'Kaymaz silikon taban', 'Ortopedik baskı dağıtımı', 'S/M/L/XL boyut seçeneği'],

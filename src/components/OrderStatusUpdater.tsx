@@ -39,7 +39,7 @@ export function OrderStatusUpdater({
 
   return (
     <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 space-y-4">
-      <h3 className="font-bold text-sm text-[#c4a896] uppercase tracking-wide">Sipariş Durumu</h3>
+      <h3 className="font-bold text-sm text-[#7ecad6] uppercase tracking-wide">Sipariş Durumu</h3>
 
       <div className="flex items-center gap-3">
         <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${statusClass(currentStatus)}`}>
@@ -47,7 +47,7 @@ export function OrderStatusUpdater({
         </span>
         {changed && (
           <>
-            <span className="text-[#c4a896]">→</span>
+            <span className="text-[#7ecad6]">→</span>
             <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${statusClass(status)}`}>
               {statusLabel(status)}
             </span>
@@ -59,7 +59,7 @@ export function OrderStatusUpdater({
         value={status}
         onChange={e => { setStatus(e.target.value); setSaved(false) }}
         className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-3 text-sm
-          text-white focus:outline-none focus:border-[#ff9a3c]/60 transition-colors"
+          text-white focus:outline-none focus:border-[#06b6d4]/60 transition-colors"
       >
         {ORDER_STATUSES.map(s => (
           <option key={s.value} value={s.value}>{s.label}</option>

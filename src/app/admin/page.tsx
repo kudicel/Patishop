@@ -31,7 +31,7 @@ export default async function AdminDashboard() {
   return (
     <div className="p-6 lg:p-8">
       <h1 className="text-2xl font-black mb-1">Dashboard</h1>
-      <p className="text-[#c4a896] text-sm mb-8">Mağaza genel durumu</p>
+      <p className="text-[#7ecad6] text-sm mb-8">Mağaza genel durumu</p>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
@@ -40,7 +40,7 @@ export default async function AdminDashboard() {
             className={`rounded-2xl border border-white/[0.08] bg-gradient-to-br ${s.color} p-5`}>
             <div className="text-2xl mb-2">{s.icon}</div>
             <div className="text-2xl font-black">{s.value}</div>
-            <div className="text-xs text-[#c4a896] mt-1">{s.label}</div>
+            <div className="text-xs text-[#7ecad6] mt-1">{s.label}</div>
           </div>
         ))}
       </div>
@@ -49,17 +49,17 @@ export default async function AdminDashboard() {
       <div className="rounded-2xl border border-white/[0.08] overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
           <h2 className="font-bold">Son Siparişler</h2>
-          <Link href="/admin/orders" className="text-sm text-[#ff9a3c] hover:underline">
+          <Link href="/admin/orders" className="text-sm text-[#06b6d4] hover:underline">
             Tümünü gör →
           </Link>
         </div>
         {recentOrders.length === 0 ? (
-          <p className="px-6 py-8 text-[#c4a896] text-sm text-center">Henüz sipariş yok.</p>
+          <p className="px-6 py-8 text-[#7ecad6] text-sm text-center">Henüz sipariş yok.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-[#c4a896] text-xs uppercase tracking-wide border-b border-white/[0.06]">
+                <tr className="text-[#7ecad6] text-xs uppercase tracking-wide border-b border-white/[0.06]">
                   <th className="px-6 py-3 text-left">Sipariş No</th>
                   <th className="px-6 py-3 text-left">Müşteri</th>
                   <th className="px-6 py-3 text-left">Tarih</th>
@@ -73,14 +73,14 @@ export default async function AdminDashboard() {
                     className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
                     <td className="px-6 py-3">
                       <Link href={`/admin/orders/${order.id}`}
-                        className="text-[#ff9a3c] font-bold hover:underline">
+                        className="text-[#06b6d4] font-bold hover:underline">
                         {order.orderNumber}
                       </Link>
                     </td>
-                    <td className="px-6 py-3 text-[#c4a896]">
+                    <td className="px-6 py-3 text-[#7ecad6]">
                       {order.firstName} {order.lastName}
                     </td>
-                    <td className="px-6 py-3 text-[#c4a896]">
+                    <td className="px-6 py-3 text-[#7ecad6]">
                       {new Date(order.createdAt).toLocaleDateString('tr-TR')}
                     </td>
                     <td className="px-6 py-3 text-right font-semibold">

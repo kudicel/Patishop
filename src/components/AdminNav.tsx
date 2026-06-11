@@ -5,10 +5,11 @@ import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 
 const links = [
-  { href: '/admin',            label: 'Dashboard',  icon: '▣' },
-  { href: '/admin/orders',     label: 'Siparişler', icon: '📦' },
-  { href: '/admin/customers',  label: 'Müşteriler', icon: '👥' },
-  { href: '/admin/products',   label: 'Ürünler',    icon: '🛍️' },
+  { href: '/admin',             label: 'Dashboard',   icon: '▣' },
+  { href: '/admin/orders',      label: 'Siparişler',  icon: '📦' },
+  { href: '/admin/customers',   label: 'Müşteriler',  icon: '👥' },
+  { href: '/admin/products',    label: 'Ürünler',     icon: '🛍️' },
+  { href: '/admin/suppliers',   label: 'Tedarikçiler', icon: '🏭' },
 ]
 
 export function AdminNav({ userName }: { userName: string }) {
@@ -28,7 +29,7 @@ export function AdminNav({ userName }: { userName: string }) {
         <Link href="/" className="brand-gradient text-xl font-black tracking-tight block">
           PatiShop
         </Link>
-        <span className="text-[10px] text-[#c4a896] mt-0.5 block uppercase tracking-widest">
+        <span className="text-[10px] text-[#7ecad6] mt-0.5 block uppercase tracking-widest">
           Admin Paneli
         </span>
       </div>
@@ -41,8 +42,8 @@ export function AdminNav({ userName }: { userName: string }) {
             href={l.href}
             className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all
               ${isActive(l.href)
-                ? 'bg-[rgba(255,154,60,0.12)] text-[#ff9a3c] border border-[rgba(255,154,60,0.2)]'
-                : 'text-[#c4a896] hover:bg-white/[0.05] hover:text-white'}`}
+                ? 'bg-[rgba(6,182,212,0.12)] text-[#06b6d4] border border-[rgba(6,182,212,0.2)]'
+                : 'text-[#7ecad6] hover:bg-white/[0.05] hover:text-white'}`}
           >
             <span className="text-base">{l.icon}</span>
             {l.label}
@@ -52,15 +53,15 @@ export function AdminNav({ userName }: { userName: string }) {
 
       {/* Footer */}
       <div className="px-5 py-4 border-t border-white/[0.06] space-y-2">
-        <p className="text-xs text-[#c4a896] truncate">{userName}</p>
+        <p className="text-xs text-[#7ecad6] truncate">{userName}</p>
         <div className="flex gap-2">
-          <Link href="/" className="text-xs text-[#c4a896] hover:text-white transition-colors">
+          <Link href="/" className="text-xs text-[#7ecad6] hover:text-white transition-colors">
             ← Mağaza
           </Link>
           <span className="text-white/20">·</span>
           <button
             onClick={() => signOut({ callbackUrl: '/login' })}
-            className="text-xs text-[#c4a896] hover:text-red-400 transition-colors"
+            className="text-xs text-[#7ecad6] hover:text-red-400 transition-colors"
           >
             Çıkış
           </button>

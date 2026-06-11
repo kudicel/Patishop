@@ -35,36 +35,36 @@ function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-md rounded-[2rem] border border-[rgba(255,154,60,0.12)] bg-[rgba(255,255,255,0.04)] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.3)]">
+    <div className="w-full max-w-md rounded-[2rem] border border-[rgba(6,182,212,0.12)] bg-[rgba(255,255,255,0.04)] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.3)]">
       <h1 className="text-3xl font-black mb-2">Giriş Yap</h1>
-      <p className="text-[#c4a896] text-sm mb-8 leading-relaxed">
+      <p className="text-[#7ecad6] text-sm mb-8 leading-relaxed">
         Hesabını yönetmek, sepetine erişmek ve özel tekliflerden yararlanmak için giriş yap.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <label className="block">
-          <span className="text-sm font-semibold text-[#c4a896] block mb-1.5">E-posta</span>
+          <span className="text-sm font-semibold text-[#7ecad6] block mb-1.5">E-posta</span>
           <input
             type="email"
             required
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="ornek@eposta.com"
-            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-[#fff8f4]
-              placeholder:text-white/30 focus:outline-none focus:border-[rgba(255,154,60,0.5)] transition-colors"
+            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-[#f0fafb]
+              placeholder:text-white/30 focus:outline-none focus:border-[rgba(6,182,212,0.5)] transition-colors"
           />
         </label>
 
         <label className="block">
-          <span className="text-sm font-semibold text-[#c4a896] block mb-1.5">Şifre</span>
+          <span className="text-sm font-semibold text-[#7ecad6] block mb-1.5">Şifre</span>
           <input
             type="password"
             required
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder="Şifrenizi girin"
-            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-[#fff8f4]
-              placeholder:text-white/30 focus:outline-none focus:border-[rgba(255,154,60,0.5)] transition-colors"
+            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-[#f0fafb]
+              placeholder:text-white/30 focus:outline-none focus:border-[rgba(6,182,212,0.5)] transition-colors"
           />
         </label>
 
@@ -84,12 +84,12 @@ function LoginForm() {
       </form>
 
       <div className="flex justify-between mt-6 text-sm">
-        <span className="text-[#c4a896]">Şifremi unuttum</span>
-        <Link href="/register" className="text-[#ff9a3c] hover:underline">Kaydol</Link>
+        <span className="text-[#7ecad6]">Şifremi unuttum</span>
+        <Link href="/register" className="text-[#06b6d4] hover:underline">Kaydol</Link>
       </div>
 
       <div className="mt-6 text-center">
-        <Link href="/" className="text-[#c4a896] text-sm hover:text-white transition-colors">
+        <Link href="/" className="text-[#7ecad6] text-sm hover:text-white transition-colors">
           ← Ana Sayfaya Dön
         </Link>
       </div>
@@ -103,7 +103,7 @@ export default function LoginPage() {
       <Link href="/" className="brand-gradient text-3xl font-black tracking-tight mb-2">
         PatiShop
       </Link>
-      <p className="text-[#c4a896] text-sm mb-10">Hesabına hızlıca giriş yap</p>
+      <p className="text-[#7ecad6] text-sm mb-10">Hesabına hızlıca giriş yap</p>
       <Suspense fallback={null}>
         <LoginForm />
       </Suspense>

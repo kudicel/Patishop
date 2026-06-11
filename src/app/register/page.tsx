@@ -73,11 +73,11 @@ export default function RegisterPage() {
       <Link href="/" className="brand-gradient text-3xl font-black tracking-tight mb-2">
         PatiShop
       </Link>
-      <p className="text-[#c4a896] text-sm mb-10">Yeni hesap oluştur, alışverişe başla</p>
+      <p className="text-[#7ecad6] text-sm mb-10">Yeni hesap oluştur, alışverişe başla</p>
 
-      <div className="w-full max-w-md rounded-[2rem] border border-[rgba(255,154,60,0.12)] bg-[rgba(255,255,255,0.04)] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.3)]">
+      <div className="w-full max-w-md rounded-[2rem] border border-[rgba(6,182,212,0.12)] bg-[rgba(255,255,255,0.04)] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.3)]">
         <h1 className="text-3xl font-black mb-2">Kaydol</h1>
-        <p className="text-[#c4a896] text-sm mb-8 leading-relaxed">
+        <p className="text-[#7ecad6] text-sm mb-8 leading-relaxed">
           Hızlı kayıt ile hesabını oluştur ve premium evcil hayvan ürünlerine eriş.
         </p>
 
@@ -89,15 +89,15 @@ export default function RegisterPage() {
             { id: 'password2', label: 'Şifre Tekrar',   type: 'password', placeholder: 'Şifrenizi tekrar girin' },
           ].map(field => (
             <label key={field.id} className="block">
-              <span className="text-sm font-semibold text-[#c4a896] block mb-1.5">{field.label}</span>
+              <span className="text-sm font-semibold text-[#7ecad6] block mb-1.5">{field.label}</span>
               <input
                 type={field.type}
                 required
                 value={(form as unknown as Record<string, string>)[field.id]}
                 onChange={e => set(field.id, e.target.value)}
                 placeholder={field.placeholder}
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-[#fff8f4]
-                  placeholder:text-white/30 focus:outline-none focus:border-[rgba(255,154,60,0.5)] transition-colors"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-[#f0fafb]
+                  placeholder:text-white/30 focus:outline-none focus:border-[rgba(6,182,212,0.5)] transition-colors"
               />
             </label>
           ))}
@@ -107,9 +107,9 @@ export default function RegisterPage() {
               type="checkbox"
               checked={form.terms}
               onChange={e => set('terms', e.target.checked)}
-              className="mt-1 accent-[#ff9a3c]"
+              className="mt-1 accent-[#06b6d4]"
             />
-            <span className="text-sm text-[#c4a896] leading-relaxed">
+            <span className="text-sm text-[#7ecad6] leading-relaxed">
               Kullanım Şartlarını ve Gizlilik Politikasını kabul ediyorum.
             </span>
           </label>
@@ -130,8 +130,8 @@ export default function RegisterPage() {
         </form>
 
         <div className="flex justify-between mt-6 text-sm">
-          <Link href="/login" className="text-[#ff9a3c] hover:underline">Zaten hesabın var mı? Giriş Yap</Link>
-          <Link href="/" className="text-[#c4a896] hover:text-white transition-colors">Ana Sayfa</Link>
+          <Link href="/login" className="text-[#06b6d4] hover:underline">Zaten hesabın var mı? Giriş Yap</Link>
+          <Link href="/" className="text-[#7ecad6] hover:text-white transition-colors">Ana Sayfa</Link>
         </div>
       </div>
     </div>

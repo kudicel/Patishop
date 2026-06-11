@@ -43,6 +43,9 @@ model Order {
   user           User?       @relation(fields: [userId], references: [id])
   items          OrderItem[]
 
+  cjOrderId      String?
+  cjStatus       String?
+
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 }
@@ -61,7 +64,41 @@ model OrderItem {
 }
 
 model Product {
-  id        String   @id
-  stock     Int      @default(50)
-  updatedAt DateTime @updatedAt
+  id            String   @id
+  stock         Int      @default(50)
+  cjProductId   String?
+  cjVariantId   String?
+  updatedAt     DateTime @updatedAt
+
+  // Product detail fields (seeded from static data, editable via admin)
+  name          String   @default("")
+  category      String   @default("")
+  categoryLabel String   @default("")
+  price         Float    @default(0)
+  rating        Float    @default(0)
+  reviewCount   Int      @default(0)
+  badge         String?
+  images        String[] @default([])
+  thumbImage    String   @default("")
+  shortDesc     String   @default("")
+  description   String   @default("")
+  features      String[] @default([])
+  colors        String[] @default([])
+  sizes         String[] @default([])
+  supplier      String   @default("")
+  supplierNote  String   @default("")
+  active        Boolean  @default(true)
+}
+
+model Supplier {
+  id         String   @id @default(cuid())
+  name       String
+  email      String   @unique
+  phone      String?
+  country    String   @default("CN")
+  productIds String[] @default([])
+  active     Boolean  @default(true)
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

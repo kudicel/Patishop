@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --accent: #ff9a3c;
-  --accent-2: #ff6b9d;
+  --accent: #06b6d4;
+  --accent-2: #ec4899;
 }
 
 * { box-sizing: border-box; }
@@ -10,43 +10,43 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background-color: #0a0704;
+  background-color: #050f12;
   background-image:
-    radial-gradient(circle at top, rgba(255,154,60,0.1), transparent 36%),
-    linear-gradient(180deg, #0d0908 0%, #0a0704 100%);
-  color: #fff8f4;
+    radial-gradient(circle at top, rgba(6,182,212,0.1), transparent 36%),
+    linear-gradient(180deg, #060c14 0%, #050f12 100%);
+  color: #f0fafb;
   min-height: 100vh;
   font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #1a1008; }
-::-webkit-scrollbar-thumb { background: rgba(255,154,60,0.3); border-radius: 3px; }
+::-webkit-scrollbar-track { background: #0a1820; }
+::-webkit-scrollbar-thumb { background: rgba(6,182,212,0.3); border-radius: 3px; }
 
 .brand-gradient {
-  background: linear-gradient(135deg, #ff9a3c, #ff6b9d);
+  background: linear-gradient(135deg, #06b6d4, #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .btn-brand {
-  background: linear-gradient(135deg, #ff9a3c, #ff6b9d);
+  background: linear-gradient(135deg, #06b6d4, #ec4899);
   color: #fff;
   border: none;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.btn-brand:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,107,157,0.3); }
+.btn-brand:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(236,72,153,0.3); }
 
 .btn-ghost {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.12);
-  color: #fff8f4;
+  color: #f0fafb;
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
 }
-.btn-ghost:hover { background: rgba(255,154,60,0.12); border-color: rgba(255,154,60,0.35); }
+.btn-ghost:hover { background: rgba(6,182,212,0.12); border-color: rgba(6,182,212,0.35); }
 
 .img-zoom { overflow: hidden; }
 .img-zoom img { transition: transform 0.4s ease; display: block; }

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { PRODUCTS } from '@/lib/products'
+import { getProducts, getProductById } from '@/lib/db-products'
 import { AddToCartButton } from '@/components/AddToCartButton'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
@@ -9,22 +9,23 @@ import { Footer } from '@/components/Footer'
 interface Props { params: Promise<{ id: string }> }
 
 export async function generateStaticParams() {
-  return PRODUCTS.map(p => ({ id: p.id }))
+  const products = await getProducts()
+  return products.map(p => ({ id: p.id }))
 }
 
 export async function generateMetadata({ params }: Props) {
   const { id } = await params
-  const product = PRODUCTS.find(p => p.id === id)
+  const product = await getProductById(id)
   if (!product) return {}
   return { title: `${product.name} — PatiShop`, description: product.shortDesc }
 }
 
 export default async function ProductPage({ params }: Props) {
   const { id } = await params
-  const product = PRODUCTS.find(p => p.id === id)
+  const [product, allProducts] = await Promise.all([getProductById(id), getProducts()])
   if (!product) notFound()
 
-  const related = PRODUCTS.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3)
+  const related = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3)
 
   return (
     <>

@@ -54,18 +54,18 @@ export default function MyOrdersPage() {
 
   if (status === 'loading' || loading) {
     return (
-      <div className="min-h-screen bg-[#0a0602] flex items-center justify-center text-[#c4a896]">
-        <span className="w-6 h-6 border-2 border-[#ff9a3c] border-t-transparent rounded-full animate-spin mr-3" />
+      <div className="min-h-screen bg-[#050f12] flex items-center justify-center text-[#7ecad6]">
+        <span className="w-6 h-6 border-2 border-[#06b6d4] border-t-transparent rounded-full animate-spin mr-3" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0602] text-white">
+    <div className="min-h-screen bg-[#050f12] text-white">
       {/* Top bar */}
       <div className="border-b border-white/[0.06] px-6 py-4 flex items-center justify-between lg:px-12">
         <Link href="/" className="brand-gradient text-2xl font-black tracking-tight">PatiShop</Link>
-        <span className="text-[#c4a896] text-sm truncate max-w-[200px]">{session?.user?.email}</span>
+        <span className="text-[#7ecad6] text-sm truncate max-w-[200px]">{session?.user?.email}</span>
       </div>
 
       <div className="max-w-3xl mx-auto px-6 py-10 lg:px-12">
@@ -74,7 +74,7 @@ export default function MyOrdersPage() {
         {orders.length === 0 ? (
           <div className="text-center py-24">
             <p className="text-5xl mb-5">📦</p>
-            <p className="text-[#c4a896] mb-6">{t(country, 'no_orders_yet')}</p>
+            <p className="text-[#7ecad6] mb-6">{t(country, 'no_orders_yet')}</p>
             <Link href="/" className="btn-brand px-8 py-3 rounded-full font-bold text-sm inline-block">
               {t(country, 'btn_catalog')}
             </Link>
@@ -85,13 +85,13 @@ export default function MyOrdersPage() {
               const statusKey = STATUS_KEYS[order.status]
               return (
                 <article key={order.id}
-                  className="rounded-[1.75rem] border border-[rgba(255,154,60,0.1)] bg-white/[0.03] p-6">
+                  className="rounded-[1.75rem] border border-[rgba(6,182,212,0.1)] bg-white/[0.03] p-6">
 
                   {/* Header */}
                   <div className="flex items-start justify-between gap-4 mb-5">
                     <div>
-                      <p className="text-[#ff9a3c] font-black text-lg">{order.orderNumber}</p>
-                      <p className="text-[#c4a896] text-xs mt-0.5">
+                      <p className="text-[#06b6d4] font-black text-lg">{order.orderNumber}</p>
+                      <p className="text-[#7ecad6] text-xs mt-0.5">
                         {new Date(order.createdAt).toLocaleDateString(undefined, {
                           year: 'numeric', month: 'long', day: 'numeric',
                         })}
@@ -106,7 +106,7 @@ export default function MyOrdersPage() {
                   <div className="space-y-2 mb-5">
                     {order.items.map((item, i) => (
                       <div key={i} className="flex items-center justify-between text-sm">
-                        <span className="text-[#c4a896]">
+                        <span className="text-[#7ecad6]">
                           {item.productName}
                           {item.selectedColor && <span className="text-xs ml-1.5 opacity-70">· {item.selectedColor}</span>}
                           {item.selectedSize  && <span className="text-xs ml-1 opacity-70">[{item.selectedSize}]</span>}
@@ -121,7 +121,7 @@ export default function MyOrdersPage() {
 
                   {/* Total */}
                   <div className="flex items-center justify-between border-t border-white/[0.06] pt-4">
-                    <span className="text-[#c4a896] text-sm">{t(country, 'co_total')}</span>
+                    <span className="text-[#7ecad6] text-sm">{t(country, 'co_total')}</span>
                     <span className="font-black text-xl">{formatPrice(order.total, order.country)}</span>
                   </div>
                 </article>

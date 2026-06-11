@@ -54,8 +54,8 @@ export function StockInput({ productId, initial }: { productId: string; initial:
         onBlur={save}
         onKeyDown={onKey}
         disabled={saving}
-        className="w-20 bg-white/[0.08] border border-[#ff9a3c]/40 rounded-lg px-2 py-1
-          text-sm text-center font-mono focus:outline-none focus:border-[#ff9a3c]"
+        className="w-20 bg-white/[0.08] border border-[#06b6d4]/40 rounded-lg px-2 py-1
+          text-sm text-center font-mono focus:outline-none focus:border-[#06b6d4]"
         autoFocus
       />
     )

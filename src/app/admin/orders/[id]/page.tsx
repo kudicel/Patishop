@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { formatPrice } from '@/lib/locale'
 import { OrderStatusUpdater } from '@/components/OrderStatusUpdater'
+import { CJOrderPanel } from '@/components/CJOrderPanel'
 
 export default async function AdminOrderDetailPage({
   params,
@@ -99,9 +100,14 @@ export default async function AdminOrderDetailPage({
           </div>
         </div>
 
-        {/* Right: status updater */}
-        <div>
+        {/* Right: status updater + CJ panel */}
+        <div className="space-y-4">
           <OrderStatusUpdater orderId={order.id} currentStatus={order.status} />
+          <CJOrderPanel
+            orderId={order.id}
+            initialCjOrderId={order.cjOrderId ?? null}
+            initialCjStatus={order.cjStatus ?? null}
+          />
         </div>
       </div>
     </div>

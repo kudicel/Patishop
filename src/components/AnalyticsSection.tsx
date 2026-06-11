@@ -27,21 +27,21 @@ export function AnalyticsSection() {
   return (
     <section id="analytics" className="px-6 lg:px-12 pb-20">
       <div className="mb-10">
-        <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#ff9a3c] mb-3">
+        <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#06b6d4] mb-3">
           {t(country, 'ana_eyebrow')}
         </span>
         <h2 className="text-4xl font-black mb-3">{t(country, 'ana_h2')}</h2>
-        <p className="text-[#c4a896]">{t(country, 'ana_p')}</p>
+        <p className="text-[#7ecad6]">{t(country, 'ana_p')}</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {CARDS.map(c => (
-          <article key={c.titleKey} className="rounded-[1.75rem] border border-[rgba(255,154,60,0.1)] bg-white/[0.04] p-7">
+          <article key={c.titleKey} className="rounded-[1.75rem] border border-[rgba(6,182,212,0.1)] bg-white/[0.04] p-7">
             <h3 className="font-bold text-lg mb-2">{t(country, c.titleKey)}</h3>
-            <p className="text-[#c4a896] text-sm leading-relaxed mb-5">{t(country, c.descKey)}</p>
+            <p className="text-[#7ecad6] text-sm leading-relaxed mb-5">{t(country, c.descKey)}</p>
             {c.stats.map(s => (
               <div key={s.key} className="flex items-baseline justify-between border-t border-white/[0.06] pt-4 mt-4">
-                <span className="text-3xl font-black text-[#ff9a3c]">{s.val}</span>
-                <span className="text-[#c4a896] text-sm">{t(country, s.key)}</span>
+                <span className="text-3xl font-black text-[#06b6d4]">{s.val}</span>
+                <span className="text-[#7ecad6] text-sm">{t(country, s.key)}</span>
               </div>
             ))}
           </article>

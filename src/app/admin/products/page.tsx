@@ -1,27 +1,19 @@
 import { prisma } from '@/lib/prisma'
-import { PRODUCTS } from '@/lib/products'
 import { formatPrice } from '@/lib/locale'
 import { StockInput } from './StockInput'
-
-const CATEGORY_LABELS: Record<string, string> = {
-  'mama-kabi':       'Mama Kabı',
-  'kum-temizleyici': 'Kum Temizleyici',
-  'tasma':           'Tasma',
-  'oyuncak':         'Oyuncak',
-  'kiyafet':         'Kıyafet',
-  'yatak':           'Yatak',
-}
+import { CJLinkButton } from './CJLinkButton'
+import { ProductEditTrigger } from './ProductEditTrigger'
 
 const LOW_STOCK = 10
 
 export default async function AdminProductsPage() {
-  const dbRows = await prisma.product.findMany()
-  const stockMap = Object.fromEntries(dbRows.map(r => [r.id, r.stock]))
+  const dbRows = await prisma.product.findMany({
+    where: { active: true, NOT: { name: '' } },
+    orderBy: { id: 'asc' },
+  })
+  const cjVariantMap = Object.fromEntries(dbRows.map(r => [r.id, r.cjVariantId ?? null]))
 
-  const products = PRODUCTS.map(p => ({
-    ...p,
-    stock: stockMap[p.id] ?? 50,
-  }))
+  const products = dbRows
 
   const totalStock   = products.reduce((s, p) => s + p.stock, 0)
   const lowCount     = products.filter(p => p.stock > 0 && p.stock <= LOW_STOCK).length
@@ -30,7 +22,7 @@ export default async function AdminProductsPage() {
   return (
     <div className="p-6 lg:p-8">
       <h1 className="text-2xl font-black mb-1">Ürünler</h1>
-      <p className="text-[#c4a896] text-sm mb-8">
+      <p className="text-[#7ecad6] text-sm mb-8">
         {products.length} ürün · Stok rakamına tıkla → düzenle
       </p>
 
@@ -39,17 +31,17 @@ export default async function AdminProductsPage() {
         <div className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-blue-500/20 to-blue-600/5 p-5">
           <div className="text-2xl mb-2">📦</div>
           <div className="text-2xl font-black">{totalStock}</div>
-          <div className="text-xs text-[#c4a896] mt-1">Toplam Stok</div>
+          <div className="text-xs text-[#7ecad6] mt-1">Toplam Stok</div>
         </div>
         <div className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-yellow-500/20 to-yellow-600/5 p-5">
           <div className="text-2xl mb-2">⚠️</div>
           <div className="text-2xl font-black">{lowCount}</div>
-          <div className="text-xs text-[#c4a896] mt-1">Düşük Stok (≤{LOW_STOCK})</div>
+          <div className="text-xs text-[#7ecad6] mt-1">Düşük Stok (≤{LOW_STOCK})</div>
         </div>
         <div className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-red-500/20 to-red-600/5 p-5">
           <div className="text-2xl mb-2">🚫</div>
           <div className="text-2xl font-black">{outCount}</div>
-          <div className="text-xs text-[#c4a896] mt-1">Tükendi</div>
+          <div className="text-xs text-[#7ecad6] mt-1">Tükendi</div>
         </div>
       </div>
 
@@ -58,13 +50,15 @@ export default async function AdminProductsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-[#c4a896] text-xs uppercase tracking-wide border-b border-white/[0.06] bg-white/[0.02]">
+              <tr className="text-[#7ecad6] text-xs uppercase tracking-wide border-b border-white/[0.06] bg-white/[0.02]">
                 <th className="px-6 py-3 text-left">Ürün</th>
                 <th className="px-6 py-3 text-left">Kategori</th>
                 <th className="px-6 py-3 text-right">Fiyat</th>
                 <th className="px-6 py-3 text-center">Puan</th>
                 <th className="px-6 py-3 text-center">Stok</th>
+                <th className="px-6 py-3 text-center">CJ</th>
                 <th className="px-6 py-3 text-center">Durum</th>
+                <th className="px-6 py-3"></th>
               </tr>
             </thead>
             <tbody>
@@ -81,25 +75,31 @@ export default async function AdminProductsPage() {
                     <td className="px-6 py-3">
                       <div className="font-semibold text-white">{p.name}</div>
                       {p.badge && (
-                        <span className="text-[10px] text-[#ff9a3c] font-bold uppercase">{p.badge}</span>
+                        <span className="text-[10px] text-[#06b6d4] font-bold uppercase">{p.badge}</span>
                       )}
                     </td>
-                    <td className="px-6 py-3 text-[#c4a896]">
-                      {CATEGORY_LABELS[p.category] ?? p.category}
+                    <td className="px-6 py-3 text-[#7ecad6]">
+                      {p.categoryLabel || p.category}
                     </td>
                     <td className="px-6 py-3 text-right font-semibold">
                       {formatPrice(p.price, 'TR')}
                     </td>
-                    <td className="px-6 py-3 text-center text-[#c4a896]">
+                    <td className="px-6 py-3 text-center text-[#7ecad6]">
                       ★ {p.rating} <span className="text-xs">({p.reviewCount})</span>
                     </td>
                     <td className="px-6 py-3 text-center">
                       <StockInput productId={p.id} initial={p.stock} />
                     </td>
                     <td className="px-6 py-3 text-center">
+                      <CJLinkButton productId={p.id} initialVariantId={cjVariantMap[p.id]} />
+                    </td>
+                    <td className="px-6 py-3 text-center">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${status.cls}`}>
                         {status.label}
                       </span>
+                    </td>
+                    <td className="px-6 py-3 text-right">
+                      <ProductEditTrigger product={p} />
                     </td>
                   </tr>
                 )
@@ -109,7 +109,7 @@ export default async function AdminProductsPage() {
         </div>
       </div>
 
-      <p className="text-xs text-[#c4a896] mt-4 text-center">
+      <p className="text-xs text-[#7ecad6] mt-4 text-center">
         Stok alanına tıklayıp yeni değeri yaz → Enter ile kaydet
       </p>
     </div>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useStore } from '@/lib/store'
-import { PRODUCTS } from '@/lib/products'
+import { Product } from '@/types'
 import { formatPrice, t, TranslationKey } from '@/lib/locale'
 import { badgeClass, stars } from '@/lib/utils'
 
@@ -25,18 +25,21 @@ const CATEGORY_KEYS: Record<string, TranslationKey> = {
   'yatak':           'filter_yatak',
 }
 
-export function ProductModal() {
+type PublicSupplier = { name: string; productIds: string[] }
+
+export function ProductModal({ products }: { products: Product[] }) {
   const modalProductId = useStore(s => s.modalProductId)
   const closeModal     = useStore(s => s.closeModal)
   const addToCart      = useStore(s => s.addToCart)
   const country        = useStore(s => s.currentCountry)
 
-  const product = PRODUCTS.find(p => p.id === modalProductId)
+  const product = products.find(p => p.id === modalProductId)
 
-  const [imgIndex,  setImgIndex]  = useState(0)
-  const [qty,       setQty]       = useState(1)
-  const [color,     setColor]     = useState<string|undefined>()
-  const [size,      setSize]      = useState<string|undefined>()
+  const [imgIndex,     setImgIndex]     = useState(0)
+  const [qty,          setQty]          = useState(1)
+  const [color,        setColor]        = useState<string|undefined>()
+  const [size,         setSize]         = useState<string|undefined>()
+  const [supplierName, setSupplierName] = useState<string | null>(null)
 
   useEffect(() => {
     if (product) {
@@ -44,6 +47,14 @@ export function ProductModal() {
       setQty(1)
       setColor(product.colors?.[0])
       setSize(product.sizes?.[0])
+      setSupplierName(null)
+      fetch('/api/public/suppliers')
+        .then(r => r.json())
+        .then((suppliers: PublicSupplier[]) => {
+          const match = suppliers.find(s => s.productIds.includes(product.id))
+          setSupplierName(match?.name ?? null)
+        })
+        .catch(() => {})
     }
   }, [product])
 
@@ -70,12 +81,12 @@ export function ProductModal() {
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in"
       onClick={e => { if (e.target === e.currentTarget) closeModal() }}
     >
-      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-[2rem] border border-[rgba(255,154,60,0.18)] bg-[#110b05] shadow-modal animate-scale-in">
+      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-[2rem] border border-[rgba(6,182,212,0.18)] bg-[#060f12] shadow-modal animate-scale-in">
         {/* Close */}
         <button
           onClick={closeModal}
           className="sticky top-3 float-right mr-4 mt-3 z-10 w-9 h-9 rounded-full border border-white/10 bg-white/5
-            flex items-center justify-center text-xl font-light hover:bg-[rgba(255,154,60,0.15)] transition-colors"
+            flex items-center justify-center text-xl font-light hover:bg-[rgba(6,182,212,0.15)] transition-colors"
         >
           ×
         </button>
@@ -83,7 +94,7 @@ export function ProductModal() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 clear-both">
           {/* Gallery */}
           <div className="flex flex-col gap-3">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#1c1008]">
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#061218]">
               <Image
                 src={product.images[imgIndex]}
                 alt={product.name}
@@ -105,7 +116,7 @@ export function ProductModal() {
                     key={i}
                     onClick={() => setImgIndex(i)}
                     className={`relative w-16 h-12 rounded-xl overflow-hidden border-2 transition-colors flex-shrink-0 ${
-                      i === imgIndex ? 'border-[#ff9a3c]' : 'border-transparent'
+                      i === imgIndex ? 'border-[#06b6d4]' : 'border-transparent'
                     }`}
                   >
                     <Image src={img} alt="" fill className="object-cover" sizes="64px"/>
@@ -118,23 +129,23 @@ export function ProductModal() {
           {/* Info */}
           <div className="flex flex-col gap-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#ff9a3c]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#06b6d4]">
                 {CATEGORY_KEYS[product.category] ? t(country, CATEGORY_KEYS[product.category]) : product.categoryLabel}
               </span>
               <h2 className="text-2xl font-black mt-1">{product.name}</h2>
               <div className="flex items-center gap-2 mt-1.5 text-sm">
                 <span className="text-amber-400">{stars(product.rating)}</span>
                 <strong>{product.rating}</strong>
-                <span className="text-[#c4a896]">({product.reviewCount} {t(country,'reviews_label')})</span>
+                <span className="text-[#7ecad6]">({product.reviewCount} {t(country,'reviews_label')})</span>
               </div>
             </div>
 
-            <p className="text-[#c4a896] text-sm leading-relaxed">{product.description}</p>
+            <p className="text-[#7ecad6] text-sm leading-relaxed">{product.description}</p>
 
             <ul className="space-y-1.5">
               {product.features.map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-[#c4a896]">
-                  <span className="text-[#ff9a3c] flex-shrink-0 mt-px">✓</span>{f}
+                <li key={f} className="flex items-start gap-2 text-sm text-[#7ecad6]">
+                  <span className="text-[#06b6d4] flex-shrink-0 mt-px">✓</span>{f}
                 </li>
               ))}
             </ul>
@@ -142,7 +153,7 @@ export function ProductModal() {
             {/* Variants */}
             {product.colors && (
               <div>
-                <p className="text-xs font-bold text-[#c4a896] mb-2">
+                <p className="text-xs font-bold text-[#7ecad6] mb-2">
                   {t(country,'color_label')} <span className="text-white">{color}</span>
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -152,8 +163,8 @@ export function ProductModal() {
                       onClick={() => setColor(c)}
                       className={`rounded-full px-3 py-1.5 text-xs font-semibold border transition-all ${
                         c === color
-                          ? 'border-[#ff9a3c] bg-[rgba(255,154,60,0.15)] text-[#ff9a3c]'
-                          : 'border-white/10 bg-white/5 text-[#c4a896] hover:border-white/30'
+                          ? 'border-[#06b6d4] bg-[rgba(6,182,212,0.15)] text-[#06b6d4]'
+                          : 'border-white/10 bg-white/5 text-[#7ecad6] hover:border-white/30'
                       }`}
                     >
                       {c}
@@ -165,7 +176,7 @@ export function ProductModal() {
 
             {product.sizes && (
               <div>
-                <p className="text-xs font-bold text-[#c4a896] mb-2">
+                <p className="text-xs font-bold text-[#7ecad6] mb-2">
                   {t(country,'size_label')} <span className="text-white">{size}</span>
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -175,8 +186,8 @@ export function ProductModal() {
                       onClick={() => setSize(s)}
                       className={`rounded-xl px-3 py-1.5 text-xs font-semibold border transition-all ${
                         s === size
-                          ? 'border-[#ff9a3c] bg-[rgba(255,154,60,0.15)] text-[#ff9a3c]'
-                          : 'border-white/10 bg-white/5 text-[#c4a896] hover:border-white/30'
+                          ? 'border-[#06b6d4] bg-[rgba(6,182,212,0.15)] text-[#06b6d4]'
+                          : 'border-white/10 bg-white/5 text-[#7ecad6] hover:border-white/30'
                       }`}
                     >
                       {s}
@@ -188,18 +199,18 @@ export function ProductModal() {
 
             {/* Qty */}
             <div className="flex items-center gap-4">
-              <span className="text-xs font-bold text-[#c4a896]">{t(country,'qty_label')}</span>
+              <span className="text-xs font-bold text-[#7ecad6]">{t(country,'qty_label')}</span>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setQty(q => Math.max(1,q-1))}
-                  className="w-9 h-9 rounded-full border border-white/15 bg-white/5 flex items-center justify-center text-lg hover:border-[#ff9a3c] hover:bg-[rgba(255,154,60,0.1)] transition-colors"
+                  className="w-9 h-9 rounded-full border border-white/15 bg-white/5 flex items-center justify-center text-lg hover:border-[#06b6d4] hover:bg-[rgba(6,182,212,0.1)] transition-colors"
                 >
                   −
                 </button>
                 <span className="text-lg font-bold w-8 text-center">{qty}</span>
                 <button
                   onClick={() => setQty(q => q+1)}
-                  className="w-9 h-9 rounded-full border border-white/15 bg-white/5 flex items-center justify-center text-lg hover:border-[#ff9a3c] hover:bg-[rgba(255,154,60,0.1)] transition-colors"
+                  className="w-9 h-9 rounded-full border border-white/15 bg-white/5 flex items-center justify-center text-lg hover:border-[#06b6d4] hover:bg-[rgba(6,182,212,0.1)] transition-colors"
                 >
                   +
                 </button>
@@ -215,12 +226,14 @@ export function ProductModal() {
             </div>
 
             {/* Supplier */}
-            <div className="rounded-2xl border border-[rgba(255,154,60,0.1)] bg-[rgba(255,154,60,0.04)] p-4">
-              <p className="text-xs font-bold uppercase tracking-wide text-[#ff9a3c] mb-1">
+            <div className="rounded-2xl border border-[rgba(6,182,212,0.1)] bg-[rgba(6,182,212,0.04)] p-4">
+              <p className="text-xs font-bold uppercase tracking-wide text-[#06b6d4] mb-1">
                 {t(country,'supplier_label')}
               </p>
-              <p className="text-[#c4a896] text-sm">{product.supplier}</p>
-              <p className="text-[#c4a896] text-xs mt-0.5">{product.supplierNote}</p>
+              <p className="text-[#7ecad6] text-sm">
+                {supplierName ?? product.supplier}
+              </p>
+              <p className="text-[#7ecad6] text-xs mt-0.5">{product.supplierNote}</p>
             </div>
           </div>
         </div>

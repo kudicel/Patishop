@@ -15,17 +15,17 @@ export function ReviewsSection() {
   return (
     <section className="px-6 lg:px-12 pb-20">
       <div className="mb-10">
-        <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#ff9a3c] mb-3">
+        <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#06b6d4] mb-3">
           {t(country, 'rev_eyebrow')}
         </span>
         <h2 className="text-4xl font-black">{t(country, 'rev_h2')}</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {reviews.map((r, i) => (
-          <article key={i} className="rounded-[1.75rem] border border-[rgba(255,154,60,0.1)] bg-white/[0.04] p-7">
+          <article key={i} className="rounded-[1.75rem] border border-[rgba(6,182,212,0.1)] bg-white/[0.04] p-7">
             <p className="text-amber-400 text-lg mb-3">★★★★★</p>
-            <p className="text-[#fff8f4] leading-relaxed italic mb-4 text-sm">{t(country, r.textKey)}</p>
-            <span className="text-[#ff9a3c] font-bold text-sm">{t(country, r.authorKey)}</span>
+            <p className="text-[#f0fafb] leading-relaxed italic mb-4 text-sm">{t(country, r.textKey)}</p>
+            <span className="text-[#06b6d4] font-bold text-sm">{t(country, r.authorKey)}</span>
           </article>
         ))}
       </div>

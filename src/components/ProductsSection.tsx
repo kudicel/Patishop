@@ -34,11 +34,11 @@ export function ProductsSection({ products }: { products: Product[] }) {
   return (
     <section id="products" className="px-6 lg:px-12 pb-20">
       <div className="mb-10">
-        <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#ff9a3c] mb-3">
+        <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#06b6d4] mb-3">
           {t(country, 'products_eyebrow')}
         </span>
         <h2 className="text-4xl font-black mb-3">{t(country, 'brand_tagline')}</h2>
-        <p className="text-[#c4a896] max-w-2xl leading-relaxed">
+        <p className="text-[#7ecad6] max-w-2xl leading-relaxed">
           {t(country, 'products_p')}
         </p>
       </div>
@@ -51,8 +51,8 @@ export function ProductsSection({ products }: { products: Product[] }) {
               onClick={() => setActiveFilter(cat.key)}
               className={`rounded-full px-4 py-2 text-sm font-semibold border transition-all ${
                 activeFilter === cat.key
-                  ? 'border-[rgba(255,154,60,0.5)] bg-[rgba(255,154,60,0.15)] text-[#ff9a3c]'
-                  : 'border-white/10 bg-white/5 text-[#c4a896] hover:border-[rgba(255,154,60,0.3)] hover:text-white'
+                  ? 'border-[rgba(6,182,212,0.5)] bg-[rgba(6,182,212,0.15)] text-[#06b6d4]'
+                  : 'border-white/10 bg-white/5 text-[#7ecad6] hover:border-[rgba(6,182,212,0.3)] hover:text-white'
               }`}
             >
               {t(country, cat.i18n)}
@@ -64,13 +64,13 @@ export function ProductsSection({ products }: { products: Product[] }) {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder={t(country, 'search_placeholder')}
-          className="rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm text-[#fff8f4]
-            placeholder:text-white/40 focus:outline-none focus:border-[rgba(255,154,60,0.4)] min-w-[220px]"
+          className="rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm text-[#f0fafb]
+            placeholder:text-white/40 focus:outline-none focus:border-[rgba(6,182,212,0.4)] min-w-[220px]"
         />
       </div>
 
       {filtered.length === 0 ? (
-        <p className="text-center text-[#c4a896] py-20">{t(country, 'products_not_found')}</p>
+        <p className="text-center text-[#7ecad6] py-20">{t(country, 'products_not_found')}</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.map(product => (

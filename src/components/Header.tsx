@@ -23,13 +23,13 @@ export function Header() {
         <Link href="/" className="brand-gradient text-2xl font-black tracking-tight">
           PatiShop
         </Link>
-        <p className="hidden md:block text-xs text-[#c4a896] mt-0.5">
+        <p className="hidden md:block text-xs text-[#7ecad6] mt-0.5">
           {t(country, 'brand_tagline')}
         </p>
       </div>
 
       {/* Nav */}
-      <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[#c4a896]">
+      <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[#7ecad6]">
         <Link href="#discover"  className="hover:text-white transition-colors">{t(country, 'nav_discover')}</Link>
         <Link href="#products"  className="hover:text-white transition-colors">{t(country, 'nav_products')}</Link>
         <Link href="#suppliers" className="hover:text-white transition-colors">{t(country, 'nav_suppliers')}</Link>

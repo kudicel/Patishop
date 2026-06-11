@@ -16,7 +16,7 @@ export function AddToCartButton({ product }: { product: Product }) {
     <div className="flex flex-col gap-4">
       {product.colors && (
         <div>
-          <p className="text-xs font-bold text-[#c4a896] mb-2">
+          <p className="text-xs font-bold text-[#7ecad6] mb-2">
             {t(country, 'color_label')} <span className="text-white">{color}</span>
           </p>
           <div className="flex flex-wrap gap-2">
@@ -26,8 +26,8 @@ export function AddToCartButton({ product }: { product: Product }) {
                 onClick={() => setColor(c)}
                 className={`rounded-full px-4 py-1.5 text-sm font-semibold border transition-all ${
                   c === color
-                    ? 'border-[#ff9a3c] bg-[rgba(255,154,60,0.15)] text-[#ff9a3c]'
-                    : 'border-white/10 bg-white/5 text-[#c4a896] hover:border-white/30'
+                    ? 'border-[#06b6d4] bg-[rgba(6,182,212,0.15)] text-[#06b6d4]'
+                    : 'border-white/10 bg-white/5 text-[#7ecad6] hover:border-white/30'
                 }`}
               >
                 {c}
@@ -39,7 +39,7 @@ export function AddToCartButton({ product }: { product: Product }) {
 
       {product.sizes && (
         <div>
-          <p className="text-xs font-bold text-[#c4a896] mb-2">
+          <p className="text-xs font-bold text-[#7ecad6] mb-2">
             {t(country, 'size_label')} <span className="text-white">{size}</span>
           </p>
           <div className="flex flex-wrap gap-2">
@@ -49,8 +49,8 @@ export function AddToCartButton({ product }: { product: Product }) {
                 onClick={() => setSize(s)}
                 className={`rounded-xl px-4 py-1.5 text-sm font-semibold border transition-all ${
                   s === size
-                    ? 'border-[#ff9a3c] bg-[rgba(255,154,60,0.15)] text-[#ff9a3c]'
-                    : 'border-white/10 bg-white/5 text-[#c4a896] hover:border-white/30'
+                    ? 'border-[#06b6d4] bg-[rgba(6,182,212,0.15)] text-[#06b6d4]'
+                    : 'border-white/10 bg-white/5 text-[#7ecad6] hover:border-white/30'
                 }`}
               >
                 {s}

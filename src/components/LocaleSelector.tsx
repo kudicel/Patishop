@@ -33,18 +33,18 @@ export function LocaleSelector() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-52 rounded-3xl border border-white/10 bg-[#110b05] shadow-[0_20px_60px_rgba(0,0,0,0.5)] z-50 overflow-hidden max-h-[420px] overflow-y-auto">
+        <div className="absolute right-0 top-full mt-2 w-52 rounded-3xl border border-white/10 bg-[#060f12] shadow-[0_20px_60px_rgba(0,0,0,0.5)] z-50 overflow-hidden max-h-[420px] overflow-y-auto">
           {Object.entries(COUNTRIES).map(([code, c]) => (
             <button
               key={code}
               onClick={() => { setCountry(code); setOpen(false) }}
               className={`flex w-full items-center gap-3 px-4 py-3 text-left text-sm transition-colors hover:bg-white/5 ${
-                code === currentCountry ? 'bg-white/5 text-[#ff9a3c]' : 'text-[#fff8f4]'
+                code === currentCountry ? 'bg-white/5 text-[#06b6d4]' : 'text-[#f0fafb]'
               }`}
             >
               <span className="text-xl">{c.flag}</span>
               <span className="flex-1 font-semibold">{c.name}</span>
-              <span className="text-xs text-[#c4a896] bg-white/5 px-2 py-0.5 rounded-full">{c.currency}</span>
+              <span className="text-xs text-[#7ecad6] bg-white/5 px-2 py-0.5 rounded-full">{c.currency}</span>
             </button>
           ))}
         </div>

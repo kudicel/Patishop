@@ -124,7 +124,7 @@ export default function CheckoutPage() {
 
   if (cart.length === 0 && step < 2) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-[#c4a896]">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-[#7ecad6]">
         <p className="text-lg">{t(country, 'cart_empty')}</p>
         <Link href="/" className="btn-brand px-8 py-3 rounded-full font-bold text-sm">
           {t(country, 'co_continue')}
@@ -140,12 +140,12 @@ export default function CheckoutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#0a0602] text-white">
+    <div className="min-h-screen bg-[#050f12] text-white">
       {/* Top bar */}
       <div className="border-b border-white/[0.06] px-6 py-4 flex items-center gap-4">
-        <Link href="/" className="text-[#ff9a3c] font-black text-xl tracking-tight">PatiShop</Link>
+        <Link href="/" className="text-[#06b6d4] font-black text-xl tracking-tight">PatiShop</Link>
         <span className="text-white/20">/</span>
-        <span className="text-sm text-[#c4a896]">{t(country, 'co_title')}</span>
+        <span className="text-sm text-[#7ecad6]">{t(country, 'co_title')}</span>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-8 lg:py-12">
@@ -155,15 +155,15 @@ export default function CheckoutPage() {
             <div key={i} className="flex items-center flex-1 last:flex-none">
               <div className="flex flex-col items-center">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors
-                  ${i < step ? 'bg-[#ff9a3c] text-black' : i === step ? 'bg-[#ff9a3c] text-black' : 'bg-white/10 text-[#c4a896]'}`}>
+                  ${i < step ? 'bg-[#06b6d4] text-black' : i === step ? 'bg-[#06b6d4] text-black' : 'bg-white/10 text-[#7ecad6]'}`}>
                   {i < step ? '✓' : i + 1}
                 </div>
-                <span className={`text-[10px] mt-1 whitespace-nowrap ${i === step ? 'text-white' : 'text-[#c4a896]'}`}>
+                <span className={`text-[10px] mt-1 whitespace-nowrap ${i === step ? 'text-white' : 'text-[#7ecad6]'}`}>
                   {label}
                 </span>
               </div>
               {i < steps.length - 1 && (
-                <div className={`flex-1 h-px mx-2 mb-4 ${i < step ? 'bg-[#ff9a3c]' : 'bg-white/10'}`} />
+                <div className={`flex-1 h-px mx-2 mb-4 ${i < step ? 'bg-[#06b6d4]' : 'bg-white/10'}`} />
               )}
             </div>
           ))}
@@ -242,23 +242,23 @@ export default function CheckoutPage() {
                         <label key={id}
                           className={`flex items-center justify-between gap-3 p-4 rounded-xl border cursor-pointer transition-colors
                             ${form.shippingId === id
-                              ? 'border-[#ff9a3c] bg-[rgba(255,154,60,0.06)]'
+                              ? 'border-[#06b6d4] bg-[rgba(6,182,212,0.06)]'
                               : 'border-white/[0.08] hover:border-white/20'}`}>
                           <div className="flex items-center gap-3">
                             <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0
-                              ${form.shippingId === id ? 'border-[#ff9a3c]' : 'border-white/30'}`}>
-                              {form.shippingId === id && <div className="w-2 h-2 rounded-full bg-[#ff9a3c]" />}
+                              ${form.shippingId === id ? 'border-[#06b6d4]' : 'border-white/30'}`}>
+                              {form.shippingId === id && <div className="w-2 h-2 rounded-full bg-[#06b6d4]" />}
                             </div>
                             <div>
                               <p className="font-semibold text-sm">
                                 {t(country, id === 'standard' ? 'co_std' : 'co_exp')}
                               </p>
-                              <p className="text-xs text-[#c4a896]">
+                              <p className="text-xs text-[#7ecad6]">
                                 {t(country, id === 'standard' ? 'co_std_days' : 'co_exp_days')}
                               </p>
                             </div>
                           </div>
-                          <span className={`font-bold text-sm ${isFree ? 'text-green-400' : 'text-[#ff9a3c]'}`}>
+                          <span className={`font-bold text-sm ${isFree ? 'text-green-400' : 'text-[#06b6d4]'}`}>
                             {isFree
                               ? t(country, 'co_free')
                               : formatPrice(price, displayCountry)}
@@ -310,13 +310,13 @@ export default function CheckoutPage() {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold truncate">{item.product.name}</p>
                       {(item.selectedColor || item.selectedSize) && (
-                        <p className="text-xs text-[#c4a896]">
+                        <p className="text-xs text-[#7ecad6]">
                           {[item.selectedColor, item.selectedSize].filter(Boolean).join(' / ')}
                         </p>
                       )}
-                      <p className="text-xs text-[#c4a896]">x{item.quantity}</p>
+                      <p className="text-xs text-[#7ecad6]">x{item.quantity}</p>
                     </div>
-                    <span className="text-sm font-bold text-[#ff9a3c] flex-shrink-0">
+                    <span className="text-sm font-bold text-[#06b6d4] flex-shrink-0">
                       {formatPrice(item.product.price * item.quantity, displayCountry)}
                     </span>
                   </div>
@@ -325,11 +325,11 @@ export default function CheckoutPage() {
 
               <div className="border-t border-white/[0.06] mt-4 pt-4 space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#c4a896]">{t(country, 'co_subtotal')}</span>
+                  <span className="text-[#7ecad6]">{t(country, 'co_subtotal')}</span>
                   <span>{formatPrice(subtotalTRY, displayCountry)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#c4a896]">{t(country, 'co_shipping')}</span>
+                  <span className="text-[#7ecad6]">{t(country, 'co_shipping')}</span>
                   <span className={shippingTRY === 0 ? 'text-green-400' : ''}>
                     {shippingTRY === 0
                       ? t(country, 'co_free')
@@ -338,7 +338,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between font-bold pt-2 border-t border-white/[0.06]">
                   <span>{t(country, 'co_total')}</span>
-                  <span className="text-[#ff9a3c] text-lg">{formatPrice(totalTRY, displayCountry)}</span>
+                  <span className="text-[#06b6d4] text-lg">{formatPrice(totalTRY, displayCountry)}</span>
                 </div>
               </div>
             </div>
@@ -352,7 +352,7 @@ export default function CheckoutPage() {
 function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold text-[#c4a896] uppercase tracking-wide">{label}</label>
+      <label className="block text-xs font-semibold text-[#7ecad6] uppercase tracking-wide">{label}</label>
       {children}
       {error && <p className="text-xs text-red-400">{error}</p>}
     </div>
@@ -361,6 +361,6 @@ function Field({ label, error, children }: { label: string; error?: string; chil
 
 function input(hasError: boolean) {
   return `w-full bg-white/[0.05] border ${hasError ? 'border-red-500/60' : 'border-white/[0.08]'}
-    rounded-xl px-4 py-3 text-sm text-white placeholder-[#c4a896]/50
-    focus:outline-none focus:border-[#ff9a3c]/60 transition-colors`
+    rounded-xl px-4 py-3 text-sm text-white placeholder-[#7ecad6]/50
+    focus:outline-none focus:border-[#06b6d4]/60 transition-colors`
 }

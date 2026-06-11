@@ -6,16 +6,17 @@ import { ReviewsSection } from '@/components/ReviewsSection'
 import { SuppliersSection } from '@/components/SuppliersSection'
 import { AnalyticsSection } from '@/components/AnalyticsSection'
 import { Footer } from '@/components/Footer'
-import { PRODUCTS } from '@/lib/products'
+import { getProducts } from '@/lib/db-products'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await getProducts()
   return (
     <>
       <Header />
       <main>
         <HeroSection />
         <FeaturedPanels />
-        <ProductsSection products={PRODUCTS} />
+        <ProductsSection products={products} />
         <ReviewsSection />
         <SuppliersSection />
         <AnalyticsSection />

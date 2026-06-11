@@ -25,13 +25,13 @@ export default async function StripeSuccessPage({
 
   // Payment not completed — show error
   return (
-    <div className="min-h-screen bg-[#0a0602] text-white flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-[#050f12] text-white flex flex-col items-center justify-center px-4">
       <div className="w-20 h-20 rounded-full bg-red-500/10 border border-red-500/30
         flex items-center justify-center text-4xl mb-6">
         ✗
       </div>
       <h1 className="text-2xl font-black mb-2">Ödeme Tamamlanamadı</h1>
-      <p className="text-[#c4a896] text-sm mb-8">
+      <p className="text-[#7ecad6] text-sm mb-8">
         Ödeme işlemi beklenmedik bir şekilde sonuçlandı.
       </p>
       <Link href="/" className="btn-brand px-8 py-3 rounded-full font-bold text-sm">

@@ -56,10 +56,10 @@ function MockPaymentForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0602] text-white">
+    <div className="min-h-screen bg-[#050f12] text-white">
       {/* Header */}
       <div className="border-b border-white/[0.06] px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="text-[#ff9a3c] font-black text-xl">PatiShop</Link>
+        <Link href="/" className="text-[#06b6d4] font-black text-xl">PatiShop</Link>
         <div className="flex items-center gap-2 text-xs text-yellow-400 bg-yellow-400/10
           border border-yellow-400/20 rounded-full px-3 py-1">
           <span>⚠</span> Test Modu
@@ -68,11 +68,11 @@ function MockPaymentForm() {
 
       <div className="max-w-md mx-auto px-4 py-10">
         <h1 className="text-2xl font-black mb-1">Ödeme</h1>
-        <p className="text-[#c4a896] text-sm mb-8">Kart bilgilerinizi girin</p>
+        <p className="text-[#7ecad6] text-sm mb-8">Kart bilgilerinizi girin</p>
 
         {/* Test card hints */}
         <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-6 space-y-2">
-          <p className="text-xs text-[#c4a896] uppercase tracking-wide font-semibold mb-3">Test Kartları</p>
+          <p className="text-xs text-[#7ecad6] uppercase tracking-wide font-semibold mb-3">Test Kartları</p>
           {TEST_CARDS.map(tc => (
             <button
               key={tc.number}
@@ -80,8 +80,8 @@ function MockPaymentForm() {
               className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs
                 transition-colors text-left
                 ${card === tc.number
-                  ? 'bg-[rgba(255,154,60,0.12)] border border-[rgba(255,154,60,0.3)] text-white'
-                  : 'hover:bg-white/[0.04] text-[#c4a896]'}`}
+                  ? 'bg-[rgba(6,182,212,0.12)] border border-[rgba(6,182,212,0.3)] text-white'
+                  : 'hover:bg-white/[0.04] text-[#7ecad6]'}`}
             >
               <span className="font-mono">{tc.number}</span>
               <span className={tc.result === 'success' ? 'text-green-400' : 'text-red-400'}>
@@ -95,7 +95,7 @@ function MockPaymentForm() {
         <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 space-y-4">
           {/* Card number */}
           <div>
-            <label className="block text-xs font-semibold text-[#c4a896] uppercase tracking-wide mb-1.5">
+            <label className="block text-xs font-semibold text-[#7ecad6] uppercase tracking-wide mb-1.5">
               Kart Numarası
             </label>
             <input
@@ -103,13 +103,13 @@ function MockPaymentForm() {
               onChange={e => setCard(formatCard(e.target.value))}
               placeholder="0000 0000 0000 0000"
               className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-3
-                text-sm font-mono focus:outline-none focus:border-[#ff9a3c]/60 transition-colors"
+                text-sm font-mono focus:outline-none focus:border-[#06b6d4]/60 transition-colors"
             />
           </div>
 
           {/* Name */}
           <div>
-            <label className="block text-xs font-semibold text-[#c4a896] uppercase tracking-wide mb-1.5">
+            <label className="block text-xs font-semibold text-[#7ecad6] uppercase tracking-wide mb-1.5">
               Kart Üzerindeki Ad
             </label>
             <input
@@ -117,14 +117,14 @@ function MockPaymentForm() {
               onChange={e => setName(e.target.value.toUpperCase())}
               placeholder="AD SOYAD"
               className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-3
-                text-sm focus:outline-none focus:border-[#ff9a3c]/60 transition-colors"
+                text-sm focus:outline-none focus:border-[#06b6d4]/60 transition-colors"
             />
           </div>
 
           {/* Expiry + CVV */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-[#c4a896] uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-[#7ecad6] uppercase tracking-wide mb-1.5">
                 Son Kullanma
               </label>
               <input
@@ -132,11 +132,11 @@ function MockPaymentForm() {
                 onChange={e => setExpiry(formatExpiry(e.target.value))}
                 placeholder="AA/YY"
                 className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-3
-                  text-sm font-mono focus:outline-none focus:border-[#ff9a3c]/60 transition-colors"
+                  text-sm font-mono focus:outline-none focus:border-[#06b6d4]/60 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#c4a896] uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-[#7ecad6] uppercase tracking-wide mb-1.5">
                 CVV
               </label>
               <input
@@ -145,7 +145,7 @@ function MockPaymentForm() {
                 placeholder="123"
                 type="password"
                 className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-3
-                  text-sm font-mono focus:outline-none focus:border-[#ff9a3c]/60 transition-colors"
+                  text-sm font-mono focus:outline-none focus:border-[#06b6d4]/60 transition-colors"
               />
             </div>
           </div>
@@ -171,7 +171,7 @@ function MockPaymentForm() {
           </button>
         </div>
 
-        <div className="flex items-center justify-center gap-2 mt-6 text-xs text-[#c4a896]">
+        <div className="flex items-center justify-center gap-2 mt-6 text-xs text-[#7ecad6]">
           <span>🔒</span>
           <span>Bu bir test ortamıdır — gerçek ödeme alınmaz</span>
         </div>
@@ -183,7 +183,7 @@ function MockPaymentForm() {
 export default function MockPaymentPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#0a0602] flex items-center justify-center text-[#c4a896]">
+      <div className="min-h-screen bg-[#050f12] flex items-center justify-center text-[#7ecad6]">
         Yükleniyor...
       </div>
     }>

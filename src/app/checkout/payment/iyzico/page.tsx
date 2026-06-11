@@ -52,9 +52,9 @@ function IyzicoPaymentForm() {
   }, [html])
 
   if (loading) return (
-    <div className="min-h-screen bg-[#0a0602] flex items-center justify-center text-[#c4a896]">
+    <div className="min-h-screen bg-[#050f12] flex items-center justify-center text-[#7ecad6]">
       <div className="text-center">
-        <div className="w-10 h-10 border-2 border-[#ff9a3c] border-t-transparent rounded-full
+        <div className="w-10 h-10 border-2 border-[#06b6d4] border-t-transparent rounded-full
           animate-spin mx-auto mb-4" />
         <p className="text-sm">Ödeme formu hazırlanıyor...</p>
       </div>
@@ -62,12 +62,12 @@ function IyzicoPaymentForm() {
   )
 
   if (error) return (
-    <div className="min-h-screen bg-[#0a0602] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#050f12] flex items-center justify-center px-4">
       <div className="text-center">
         <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/30
           flex items-center justify-center text-3xl mx-auto mb-4">✗</div>
         <p className="text-white font-bold mb-2">Ödeme başlatılamadı</p>
-        <p className="text-[#c4a896] text-sm mb-6">{error}</p>
+        <p className="text-[#7ecad6] text-sm mb-6">{error}</p>
         <Link href="/" className="btn-brand px-6 py-2.5 rounded-full text-sm font-bold">
           Ana Sayfaya Dön
         </Link>
@@ -76,11 +76,11 @@ function IyzicoPaymentForm() {
   )
 
   return (
-    <div className="min-h-screen bg-[#0a0602]">
+    <div className="min-h-screen bg-[#050f12]">
       {/* Header */}
       <div className="border-b border-white/[0.06] px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="text-[#ff9a3c] font-black text-xl tracking-tight">PatiShop</Link>
-        <div className="flex items-center gap-2 text-xs text-[#c4a896]">
+        <Link href="/" className="text-[#06b6d4] font-black text-xl tracking-tight">PatiShop</Link>
+        <div className="flex items-center gap-2 text-xs text-[#7ecad6]">
           <span className="inline-block w-4 h-4 rounded-full border-2 border-green-400 flex items-center justify-center text-green-400">✓</span>
           Güvenli Ödeme — iyzico
         </div>
@@ -95,7 +95,7 @@ function IyzicoPaymentForm() {
 export default function IyzicoPaymentPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#0a0602] flex items-center justify-center text-[#c4a896]">
+      <div className="min-h-screen bg-[#050f12] flex items-center justify-center text-[#7ecad6]">
         Yükleniyor...
       </div>
     }>

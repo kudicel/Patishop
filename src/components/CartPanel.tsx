@@ -20,7 +20,7 @@ export function CartPanel() {
     <>
       <div className="fixed inset-0 z-40 bg-black/40" onClick={() => setCartOpen(false)} />
       <div className="fixed right-4 bottom-4 z-50 w-full max-w-[420px] max-h-[80vh] flex flex-col
-        rounded-[1.75rem] border border-[rgba(255,154,60,0.2)] bg-[rgba(10,6,2,0.98)]
+        rounded-[1.75rem] border border-[rgba(6,182,212,0.2)] bg-[rgba(10,6,2,0.98)]
         shadow-modal animate-slide-up overflow-hidden">
 
         {/* Header */}
@@ -37,40 +37,40 @@ export function CartPanel() {
         {/* Items */}
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
           {cart.length === 0 ? (
-            <p className="text-[#c4a896] text-sm">{t(country,'cart_empty')}</p>
+            <p className="text-[#7ecad6] text-sm">{t(country,'cart_empty')}</p>
           ) : (
             cart.map((item, idx) => (
               <div key={idx} className="flex items-start gap-3 py-3 border-b border-white/[0.06] last:border-0">
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-sm truncate">{item.product.name}</p>
                   {(item.selectedColor || item.selectedSize) && (
-                    <p className="text-[#c4a896] text-xs mt-0.5">
+                    <p className="text-[#7ecad6] text-xs mt-0.5">
                       {[item.selectedColor, item.selectedSize].filter(Boolean).join(' / ')}
                     </p>
                   )}
                   <div className="flex items-center gap-2 mt-2">
                     <button
                       onClick={() => updateQty(item.product.id, item.quantity - 1)}
-                      className="w-7 h-7 rounded-full border border-white/10 text-sm flex items-center justify-center hover:border-[#ff9a3c] transition-colors"
+                      className="w-7 h-7 rounded-full border border-white/10 text-sm flex items-center justify-center hover:border-[#06b6d4] transition-colors"
                     >
                       −
                     </button>
                     <span className="text-sm font-bold w-6 text-center">{item.quantity}</span>
                     <button
                       onClick={() => updateQty(item.product.id, item.quantity + 1)}
-                      className="w-7 h-7 rounded-full border border-white/10 text-sm flex items-center justify-center hover:border-[#ff9a3c] transition-colors"
+                      className="w-7 h-7 rounded-full border border-white/10 text-sm flex items-center justify-center hover:border-[#06b6d4] transition-colors"
                     >
                       +
                     </button>
                     <button
                       onClick={() => removeFromCart(item.product.id)}
-                      className="ml-1 text-xs text-[#c4a896] hover:text-red-400 transition-colors"
+                      className="ml-1 text-xs text-[#7ecad6] hover:text-red-400 transition-colors"
                     >
                       Sil
                     </button>
                   </div>
                 </div>
-                <span className="text-[#ff9a3c] font-bold text-sm flex-shrink-0">
+                <span className="text-[#06b6d4] font-bold text-sm flex-shrink-0">
                   {formatPrice(item.product.price * item.quantity, country)}
                 </span>
               </div>
@@ -83,7 +83,7 @@ export function CartPanel() {
           <div className="border-t border-white/8 px-6 py-4 space-y-3">
             <div className="flex justify-between items-center font-bold">
               <span>{t(country,'cart_total')}</span>
-              <span className="text-xl text-[#ff9a3c]">{formatPrice(totalTRY, country)}</span>
+              <span className="text-xl text-[#06b6d4]">{formatPrice(totalTRY, country)}</span>
             </div>
             <Link
               href="/checkout"

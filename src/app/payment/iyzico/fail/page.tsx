@@ -8,18 +8,18 @@ export default async function IyzicoFailPage({
   const { orderId } = await searchParams
 
   return (
-    <div className="min-h-screen bg-[#0a0602] text-white flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-[#050f12] text-white flex flex-col items-center justify-center px-4">
       <div className="w-20 h-20 rounded-full bg-red-500/10 border border-red-500/30
         flex items-center justify-center text-4xl mb-6">
         ✗
       </div>
       <h1 className="text-2xl font-black mb-2">Ödeme Başarısız</h1>
-      <p className="text-[#c4a896] text-sm mb-2">
+      <p className="text-[#7ecad6] text-sm mb-2">
         Kart bilgilerinizi kontrol edip tekrar deneyin.
       </p>
       {orderId && (
-        <p className="text-xs text-[#c4a896] mb-8">
-          Sipariş: <span className="text-[#ff9a3c] font-bold">{orderId}</span>
+        <p className="text-xs text-[#7ecad6] mb-8">
+          Sipariş: <span className="text-[#06b6d4] font-bold">{orderId}</span>
         </p>
       )}
       <div className="flex gap-3">

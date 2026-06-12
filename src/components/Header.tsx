@@ -1,10 +1,20 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { useStore } from '@/lib/store'
 import { t } from '@/lib/locale'
 import { LocaleSelector } from './LocaleSelector'
+
+const CATEGORIES = [
+  { slug: 'mama-kabi',       labelKey: 'filter_mama',    icon: '🍚' },
+  { slug: 'kum-temizleyici', labelKey: 'filter_kum',     icon: '🪣' },
+  { slug: 'tasma',           labelKey: 'filter_tasma',   icon: '🦮' },
+  { slug: 'oyuncak',         labelKey: 'filter_oyuncak', icon: '🎾' },
+  { slug: 'kiyafet',         labelKey: 'filter_kiyafet', icon: '👕' },
+  { slug: 'yatak',           labelKey: 'filter_yatak',   icon: '🛏️' },
+] as const
 
 export function Header() {
   const { data: session, status } = useSession()
@@ -13,9 +23,11 @@ export function Header() {
   const cart        = useStore(s => s.cart)
   const country     = useStore(s => s.currentCountry)
   const totalQty    = cart.reduce((sum, i) => sum + i.quantity, 0)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [catsOpen, setCatsOpen]     = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-between gap-4 px-6 py-4 lg:px-12
+    <header className="sticky top-0 z-40 relative flex items-center justify-between gap-4 px-6 py-4 lg:px-12
       bg-[rgba(2,14,22,0.96)] backdrop-blur-xl border-b border-[rgba(6,182,212,0.2)]">
 
       {/* Brand */}
@@ -45,19 +57,12 @@ export function Header() {
             group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 z-50">
             <div className="rounded-2xl border border-[rgba(6,182,212,0.2)] bg-[rgba(2,14,22,0.97)]
               backdrop-blur-xl p-2 min-w-[180px] shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-              {[
-                { slug: 'mama-kabi',       label: t(country, 'filter_mama'),     icon: '🍚' },
-                { slug: 'kum-temizleyici', label: t(country, 'filter_kum'),      icon: '🪣' },
-                { slug: 'tasma',           label: t(country, 'filter_tasma'),    icon: '🦮' },
-                { slug: 'oyuncak',         label: t(country, 'filter_oyuncak'),  icon: '🎾' },
-                { slug: 'kiyafet',         label: t(country, 'filter_kiyafet'),  icon: '👕' },
-                { slug: 'yatak',           label: t(country, 'filter_yatak'),    icon: '🛏️' },
-              ].map(cat => (
+              {CATEGORIES.map(cat => (
                 <Link key={cat.slug} href={`/kategori/${cat.slug}`}
                   className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#7ecad6]
                     hover:bg-[rgba(6,182,212,0.1)] hover:text-white transition-colors">
                   <span>{cat.icon}</span>
-                  <span>{cat.label}</span>
+                  <span>{t(country, cat.labelKey)}</span>
                 </Link>
               ))}
               <div className="border-t border-white/[0.06] mt-1 pt-1">
@@ -117,7 +122,96 @@ export function Header() {
             </span>
           )}
         </button>
+
+        {/* Hamburger — only mobile */}
+        <button
+          onClick={() => setMobileOpen(o => !o)}
+          className="md:hidden btn-ghost p-2 rounded-xl"
+          aria-label="Menü"
+        >
+          {mobileOpen ? (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          ) : (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M3 12h18M3 6h18M3 18h18"/>
+            </svg>
+          )}
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 z-50
+          bg-[rgba(2,14,22,0.98)] backdrop-blur-xl border-b border-[rgba(6,182,212,0.2)]
+          px-6 py-4 flex flex-col gap-1">
+
+          <Link href="#discover" onClick={() => setMobileOpen(false)}
+            className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+            {t(country, 'nav_discover')}
+          </Link>
+
+          {/* Kategoriler accordion */}
+          <button
+            onClick={() => setCatsOpen(o => !o)}
+            className="flex items-center justify-between px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors"
+          >
+            <span>{t(country, 'nav_products')}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+              className={`transition-transform ${catsOpen ? 'rotate-180' : ''}`}>
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+
+          {catsOpen && (
+            <div className="ml-3 flex flex-col gap-0.5">
+              {CATEGORIES.map(cat => (
+                <Link key={cat.slug} href={`/kategori/${cat.slug}`}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+                  <span>{cat.icon}</span>
+                  <span>{t(country, cat.labelKey)}</span>
+                </Link>
+              ))}
+              <Link href="/#products" onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#06b6d4] font-semibold hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+                <span>→</span>
+                <span>Tüm Ürünler</span>
+              </Link>
+            </div>
+          )}
+
+          <Link href="#suppliers" onClick={() => setMobileOpen(false)}
+            className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+            {t(country, 'nav_suppliers')}
+          </Link>
+          <Link href="#analytics" onClick={() => setMobileOpen(false)}
+            className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+            {t(country, 'nav_analytics')}
+          </Link>
+
+          <div className="border-t border-white/[0.06] mt-2 pt-2">
+            {status !== 'loading' && (session ? (
+              <>
+                <Link href="/account/orders" onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+                  {t(country, 'my_orders')}
+                </Link>
+                <button onClick={() => { setMobileOpen(false); signOut({ callbackUrl: '/' }) }}
+                  className="w-full text-left px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+                  {t(country, 'logout')}
+                </button>
+              </>
+            ) : (
+              <Link href="/login" onClick={() => setMobileOpen(false)}
+                className="block px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+                {t(country, 'nav_login')}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </header>
   )
 }

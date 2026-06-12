@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
 import { useStore } from '@/lib/store'
 import { t } from '@/lib/locale'
@@ -25,6 +26,19 @@ export function Header() {
   const totalQty    = cart.reduce((sum, i) => sum + i.quantity, 0)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [catsOpen, setCatsOpen]     = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQ, setSearchQ]       = useState('')
+  const searchRef = useRef<HTMLInputElement>(null)
+  const router    = useRouter()
+
+  function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const q = searchQ.trim()
+    if (!q) return
+    setSearchOpen(false)
+    setSearchQ('')
+    router.push(`/search?q=${encodeURIComponent(q)}`)
+  }
 
   return (
     <header className="sticky top-0 z-40 relative flex items-center justify-between gap-4 px-6 py-4 lg:px-12
@@ -81,8 +95,42 @@ export function Header() {
         <Link href="#analytics" className="hover:text-white transition-colors">{t(country, 'nav_analytics')}</Link>
       </nav>
 
+      {/* Search overlay */}
+      {searchOpen && (
+        <>
+          <div className="fixed inset-0 z-50 bg-black/50" onClick={() => setSearchOpen(false)} />
+          <div className="absolute top-full left-0 right-0 z-50 px-6 py-4
+            bg-[rgba(2,14,22,0.98)] backdrop-blur-xl border-b border-[rgba(6,182,212,0.2)]">
+            <form onSubmit={handleSearch} className="flex items-center gap-3 max-w-2xl mx-auto">
+              <input
+                ref={searchRef}
+                autoFocus
+                value={searchQ}
+                onChange={e => setSearchQ(e.target.value)}
+                placeholder="Ürün ara..."
+                className="flex-1 bg-white/5 border border-[rgba(6,182,212,0.2)] rounded-full px-5 py-3
+                  text-sm text-white placeholder-[#7ecad6] outline-none focus:border-[#06b6d4] transition-colors"
+              />
+              <button type="submit" className="btn-brand px-5 py-3 rounded-full text-sm font-bold">
+                Ara
+              </button>
+            </form>
+          </div>
+        </>
+      )}
+
       {/* Right actions */}
       <div className="flex items-center gap-3">
+        {/* Search button */}
+        <button
+          onClick={() => setSearchOpen(o => !o)}
+          className="btn-ghost p-2.5 rounded-full"
+          aria-label="Ara"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </button>
         <LocaleSelector />
 
         {/* Auth area */}
@@ -141,11 +189,20 @@ export function Header() {
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile backdrop */}
       {mobileOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 z-50
-          bg-[rgba(2,14,22,0.98)] backdrop-blur-xl border-b border-[rgba(6,182,212,0.2)]
-          px-6 py-4 flex flex-col gap-1">
+        <div
+          className="md:hidden fixed inset-0 z-40 bg-black/50"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Mobile menu — always rendered, animated open/close */}
+      <div className={`md:hidden absolute top-full left-0 right-0 z-50
+        bg-[rgba(2,14,22,0.98)] backdrop-blur-xl border-b border-[rgba(6,182,212,0.2)]
+        overflow-hidden transition-all duration-300 ease-in-out
+        ${mobileOpen ? 'max-h-[90vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}>
+        <div className="px-6 py-4 flex flex-col gap-1">
 
           <Link href="#discover" onClick={() => setMobileOpen(false)}
             className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
@@ -159,28 +216,28 @@ export function Header() {
           >
             <span>{t(country, 'nav_products')}</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-              className={`transition-transform ${catsOpen ? 'rotate-180' : ''}`}>
+              className={`transition-transform duration-200 ${catsOpen ? 'rotate-180' : ''}`}>
               <path d="M6 9l6 6 6-6"/>
             </svg>
           </button>
 
-          {catsOpen && (
-            <div className="ml-3 flex flex-col gap-0.5">
-              {CATEGORIES.map(cat => (
-                <Link key={cat.slug} href={`/kategori/${cat.slug}`}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
-                  <span>{cat.icon}</span>
-                  <span>{t(country, cat.labelKey)}</span>
-                </Link>
-              ))}
-              <Link href="/#products" onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#06b6d4] font-semibold hover:bg-[rgba(6,182,212,0.08)] transition-colors">
-                <span>→</span>
-                <span>Tüm Ürünler</span>
+          {/* Kategori listesi — animasyonlu */}
+          <div className={`ml-3 flex flex-col gap-0.5 overflow-hidden transition-all duration-200 ease-in-out
+            ${catsOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+            {CATEGORIES.map(cat => (
+              <Link key={cat.slug} href={`/kategori/${cat.slug}`}
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+                <span>{cat.icon}</span>
+                <span>{t(country, cat.labelKey)}</span>
               </Link>
-            </div>
-          )}
+            ))}
+            <Link href="/#products" onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#06b6d4] font-semibold hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+              <span>→</span>
+              <span>Tüm Ürünler</span>
+            </Link>
+          </div>
 
           <Link href="#suppliers" onClick={() => setMobileOpen(false)}
             className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
@@ -211,7 +268,7 @@ export function Header() {
             ))}
           </div>
         </div>
-      )}
+      </div>
     </header>
   )
 }

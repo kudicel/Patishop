@@ -6,6 +6,7 @@ import { AddToCartButton } from '@/components/AddToCartButton'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { ProductReviews } from '@/components/ProductReviews'
+import { ImageGallery } from '@/components/ImageGallery'
 
 interface Props { params: Promise<{ id: string }> }
 
@@ -95,30 +96,12 @@ export default async function ProductPage({ params }: Props) {
         {/* Product detail */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
           {/* Images */}
-          <div className="flex flex-col gap-4">
-            <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-[#1c1008]">
-              <Image
-                src={product.images[0]}
-                alt={product.name}
-                fill
-                className="object-cover"
-                sizes="(max-width:768px) 100vw, 50vw"
-                priority
-              />
-              {product.badge && (
-                <span className="absolute top-4 left-4 text-xs font-extrabold uppercase tracking-wide px-3 py-1.5 rounded-full bg-gradient-to-r from-[#ff9a3c] to-[#ff6b9d] text-white">
-                  {product.badge}
-                </span>
-              )}
-            </div>
-            {product.images.length > 1 && (
-              <div className="flex gap-3">
-                {product.images.map((img, i) => (
-                  <div key={i} className="relative w-20 h-16 rounded-2xl overflow-hidden border border-white/10 flex-shrink-0">
-                    <Image src={img} alt="" fill className="object-cover" sizes="80px"/>
-                  </div>
-                ))}
-              </div>
+          <div className="relative">
+            <ImageGallery images={product.images} name={product.name} />
+            {product.badge && (
+              <span className="absolute top-4 left-4 z-10 text-xs font-extrabold uppercase tracking-wide px-3 py-1.5 rounded-full bg-gradient-to-r from-[#ff9a3c] to-[#ff6b9d] text-white pointer-events-none">
+                {product.badge}
+              </span>
             )}
           </div>
 

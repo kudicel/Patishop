@@ -21,15 +21,15 @@ type FormData = {
 type Errors = Partial<Record<keyof FormData, string>>
 
 const TR_SHIPPING: Record<'standard' | 'express', { priceTRY: number }> = {
-  standard: { priceTRY: 49 },
-  express:  { priceTRY: 99 },
+  standard: { priceTRY: 499 },
+  express:  { priceTRY: 799 },
 }
 const INTL_SHIPPING: Record<'standard' | 'express', { priceTRY: number }> = {
-  standard: { priceTRY: 350 },
-  express:  { priceTRY: 650 },
+  standard: { priceTRY: 499 },
+  express:  { priceTRY: 799 },
 }
-const FREE_THRESHOLD_TR   = 500
-const FREE_THRESHOLD_INTL = 4000
+const FREE_THRESHOLD_TR   = 3000
+const FREE_THRESHOLD_INTL = 3000
 
 export default function CheckoutPage() {
   const router  = useRouter()

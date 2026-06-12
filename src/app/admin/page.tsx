@@ -4,10 +4,11 @@ import { formatPrice } from '@/lib/locale'
 import { statusLabel, statusClass } from '@/lib/orderStatus'
 
 export default async function AdminDashboard() {
-  const [totalOrders, totalCustomers, pendingOrders, recentOrders] = await Promise.all([
+  const [totalOrders, totalCustomers, pendingOrders, pendingReviews, recentOrders] = await Promise.all([
     prisma.order.count(),
     prisma.user.count({ where: { role: 'user' } }),
     prisma.order.count({ where: { status: 'pending' } }),
+    prisma.review.count({ where: { approved: false } }),
     prisma.order.findMany({
       orderBy: { createdAt: 'desc' },
       take: 8,
@@ -24,8 +25,9 @@ export default async function AdminDashboard() {
   const stats = [
     { label: 'Toplam Sipariş',   value: totalOrders,                       icon: '📦', color: 'from-orange-500/20 to-orange-600/5' },
     { label: 'Toplam Gelir',     value: formatPrice(totalRevenue, 'TR'),   icon: '₺',  color: 'from-green-500/20 to-green-600/5' },
-    { label: 'Bekleyen',         value: pendingOrders,                     icon: '⏳', color: 'from-yellow-500/20 to-yellow-600/5' },
+    { label: 'Bekleyen Sipariş', value: pendingOrders,                     icon: '⏳', color: 'from-yellow-500/20 to-yellow-600/5' },
     { label: 'Müşteri',          value: totalCustomers,                    icon: '👥', color: 'from-blue-500/20 to-blue-600/5' },
+    { label: 'Bekleyen Yorum',   value: pendingReviews,                    icon: '💬', color: 'from-purple-500/20 to-purple-600/5' },
   ]
 
   return (
@@ -34,7 +36,7 @@ export default async function AdminDashboard() {
       <p className="text-[#7ecad6] text-sm mb-8">Mağaza genel durumu</p>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
         {stats.map(s => (
           <div key={s.label}
             className={`rounded-2xl border border-white/[0.08] bg-gradient-to-br ${s.color} p-5`}>

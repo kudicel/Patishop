@@ -16,20 +16,33 @@ const CATEGORIES: { key: string; i18n: TranslationKey }[] = [
   { key: 'yatak',           i18n: 'filter_yatak' },
 ]
 
+const KEDI_CATS  = new Set(['kum-temizleyici'])
+const KOPEK_CATS = new Set(['tasma'])
+
 export function ProductsSection({ products }: { products: Product[] }) {
   const [activeFilter, setActiveFilter] = useState('all')
+  const [petFilter, setPetFilter]       = useState<'tumu' | 'kedi' | 'kopek'>('tumu')
   const [search, setSearch] = useState('')
   const country = useStore(s => s.currentCountry)
 
   const filtered = useMemo(() => {
     let list = products
     if (activeFilter !== 'all') list = list.filter(p => p.category === activeFilter as Category)
+    if (petFilter !== 'tumu') {
+      list = list.filter(p => {
+        const isKedi  = KEDI_CATS.has(p.category)
+        const isKopek = KOPEK_CATS.has(p.category)
+        if (petFilter === 'kedi')  return isKedi  || (!isKedi && !isKopek)
+        if (petFilter === 'kopek') return isKopek || (!isKedi && !isKopek)
+        return true
+      })
+    }
     if (search.trim()) {
       const q = search.toLowerCase()
       list = list.filter(p => p.name.toLowerCase().includes(q) || p.shortDesc.toLowerCase().includes(q))
     }
     return list
-  }, [products, activeFilter, search])
+  }, [products, activeFilter, petFilter, search])
 
   return (
     <section id="products" className="px-6 lg:px-12 pb-20">
@@ -41,6 +54,19 @@ export function ProductsSection({ products }: { products: Product[] }) {
         <p className="text-[#7ecad6] max-w-2xl leading-relaxed">
           {t(country, 'products_p')}
         </p>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-3 mb-4">
+        {(['tumu', 'kedi', 'kopek'] as const).map(p => (
+          <button key={p} onClick={() => setPetFilter(p)}
+            className={`rounded-full px-4 py-2 text-sm font-semibold border transition-all ${
+              petFilter === p
+                ? 'border-[rgba(236,72,153,0.5)] bg-[rgba(236,72,153,0.12)] text-[#ec4899]'
+                : 'border-white/10 bg-white/5 text-[#7ecad6] hover:border-white/20 hover:text-white'
+            }`}>
+            {p === 'tumu' ? '🐾 Tümü' : p === 'kedi' ? '🐱 Kedi' : '🐶 Köpek'}
+          </button>
+        ))}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">

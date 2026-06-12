@@ -255,6 +255,14 @@ export function Header() {
             className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
             {t(country, 'nav_analytics')}
           </Link>
+          <Link href="/blog" onClick={() => setMobileOpen(false)}
+            className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+            Blog
+          </Link>
+          <Link href="/favoriler" onClick={() => setMobileOpen(false)}
+            className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
+            Favorilerim
+          </Link>
 
           <div className="border-t border-white/[0.06] mt-2 pt-2">
             {status !== 'loading' && (session ? (

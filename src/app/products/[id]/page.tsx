@@ -120,9 +120,10 @@ export default async function ProductPage({ params }: Props) {
           {/* Info */}
           <div className="flex flex-col gap-5">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#ff9a3c]">
+              <Link href={`/kategori/${product.category}`}
+                className="text-xs font-bold uppercase tracking-wider text-[#ff9a3c] hover:underline">
                 {product.categoryLabel}
-              </span>
+              </Link>
               <h1 className="text-4xl font-black mt-1 mb-2">{product.name}</h1>
               <div className="flex items-center gap-2 text-sm">
                 <span className="text-amber-400 text-lg">

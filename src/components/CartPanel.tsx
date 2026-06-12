@@ -81,6 +81,29 @@ export function CartPanel() {
         {/* Footer */}
         {cart.length > 0 && (
           <div className="border-t border-white/8 px-6 py-4 space-y-3">
+            {/* Ücretsiz kargo eşiği */}
+            {(() => {
+              const FREE_SHIPPING = 500
+              const remaining = FREE_SHIPPING - totalTRY
+              return remaining > 0 ? (
+                <div className="rounded-xl bg-[rgba(6,182,212,0.07)] border border-[rgba(6,182,212,0.15)] px-4 py-3">
+                  <div className="flex justify-between text-xs text-[#7ecad6] mb-2">
+                    <span>Ücretsiz kargo için</span>
+                    <span className="text-[#06b6d4] font-bold">{remaining.toFixed(0)}₺ kaldı</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-[#06b6d4] to-[#ec4899] transition-all"
+                      style={{ width: `${Math.min((totalTRY / FREE_SHIPPING) * 100, 100)}%` }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="rounded-xl bg-[rgba(6,182,212,0.07)] border border-[rgba(6,182,212,0.15)] px-4 py-2.5 text-center text-sm text-[#06b6d4] font-semibold">
+                  🎉 Kargo bedava!
+                </div>
+              )
+            })()}
             <div className="flex justify-between items-center font-bold">
               <span>{t(country,'cart_total')}</span>
               <span className="text-xl text-[#06b6d4]">{formatPrice(totalTRY, country)}</span>

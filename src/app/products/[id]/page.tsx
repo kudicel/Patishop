@@ -147,6 +147,22 @@ export default async function ProductPage({ params }: Props) {
             {/* Client-side cart + variant selector */}
             <AddToCartButton product={product} />
 
+            {/* Kargo bilgisi */}
+            <div className="rounded-2xl border border-[rgba(6,182,212,0.12)] bg-[rgba(6,182,212,0.04)] p-5 flex flex-col gap-2">
+              <div className="flex items-center gap-2 text-sm text-[#7ecad6]">
+                <span>🚚</span>
+                <span><strong className="text-white">1–3 iş günü</strong> teslimat · 17 ülkeye gönderim</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-[#7ecad6]">
+                <span>📦</span>
+                <span>500₺ üzeri alışverişlerde <strong className="text-[#06b6d4]">kargo bedava</strong></span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-[#7ecad6]">
+                <span>✅</span>
+                <span>ISO sertifikalı Çin fabrikası, güvenli paketleme</span>
+              </div>
+            </div>
+
             {/* Supplier */}
             <div className="rounded-2xl border border-[rgba(255,154,60,0.12)] bg-[rgba(255,154,60,0.04)] p-5">
               <p className="text-xs font-bold uppercase tracking-wide text-[#ff9a3c] mb-1">Tedarikçi</p>

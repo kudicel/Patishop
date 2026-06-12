@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { getProducts } from '@/lib/db-products'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { ProductCard } from '@/components/ProductCard'
+import { SortableProductGrid } from '@/components/SortableProductGrid'
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -139,11 +139,7 @@ export default async function CategoryPage({ params }: Props) {
         {products.length === 0 ? (
           <p className="text-center text-[#7ecad6] py-20">Bu kategoride henüz ürün yok.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {products.map(p => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
+          <SortableProductGrid products={products} />
         )}
       </main>
       <Footer />

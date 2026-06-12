@@ -90,6 +90,17 @@ model Product {
   active        Boolean  @default(true)
 }
 
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  userId    String?
+  name      String
+  rating    Int
+  comment   String
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
 model Supplier {
   id         String   @id @default(cuid())
   name       String

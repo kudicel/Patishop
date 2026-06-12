@@ -5,6 +5,7 @@ import { getProducts, getProductById } from '@/lib/db-products'
 import { AddToCartButton } from '@/components/AddToCartButton'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import { ProductReviews } from '@/components/ProductReviews'
 
 interface Props { params: Promise<{ id: string }> }
 
@@ -175,6 +176,8 @@ export default async function ProductPage({ params }: Props) {
             </div>
           </div>
         </div>
+
+        <ProductReviews productId={product.id} />
 
         {/* Related products */}
         {related.length > 0 && (

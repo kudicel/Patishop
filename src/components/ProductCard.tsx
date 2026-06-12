@@ -27,9 +27,12 @@ const CATEGORY_KEYS: Record<string, TranslationKey> = {
 interface Props { product: Product }
 
 export function ProductCard({ product }: Props) {
-  const country    = useStore(s => s.currentCountry)
-  const addToCart  = useStore(s => s.addToCart)
-  const openModal  = useStore(s => s.openModal)
+  const country        = useStore(s => s.currentCountry)
+  const addToCart      = useStore(s => s.addToCart)
+  const openModal      = useStore(s => s.openModal)
+  const toggleWishlist = useStore(s => s.toggleWishlist)
+  const isWishlisted   = useStore(s => s.isWishlisted)
+  const wishlisted     = isWishlisted(product.id)
 
   return (
     <article
@@ -51,6 +54,15 @@ export function ProductCard({ product }: Props) {
             {BADGE_KEYS[product.badge] ? t(country, BADGE_KEYS[product.badge]) : product.badge}
           </span>
         )}
+        <button
+          onClick={e => { e.stopPropagation(); toggleWishlist(product.id) }}
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center transition-all hover:scale-110"
+          aria-label="Favorilere ekle"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill={wishlisted ? '#ec4899' : 'none'} stroke={wishlisted ? '#ec4899' : 'white'} strokeWidth="2">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
+        </button>
         <button
           onClick={e => { e.stopPropagation(); openModal(product.id) }}
           className="absolute bottom-3 left-1/2 -translate-x-1/2 translate-y-1 opacity-0

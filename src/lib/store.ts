@@ -18,6 +18,11 @@ interface AppStore {
   updateQty: (productId: string, qty: number) => void
   clearCart: () => void
 
+  // Wishlist
+  wishlist: string[]
+  toggleWishlist: (productId: string) => void
+  isWishlisted: (productId: string) => boolean
+
   // Modal
   modalProductId: string | null
   openModal: (id: string) => void
@@ -64,6 +69,17 @@ export const useStore = create<AppStore>()(
 
       clearCart: () => set({ cart: [] }),
 
+      // Wishlist
+      wishlist: [],
+      toggleWishlist: (productId) => {
+        const { wishlist } = get()
+        set({ wishlist: wishlist.includes(productId)
+          ? wishlist.filter(id => id !== productId)
+          : [...wishlist, productId]
+        })
+      },
+      isWishlisted: (productId) => get().wishlist.includes(productId),
+
       // Modal
       modalProductId: null,
       openModal: (id) => set({ modalProductId: id }),
@@ -71,7 +87,7 @@ export const useStore = create<AppStore>()(
     }),
     {
       name: 'patishop',
-      partialize: (s) => ({ cart: s.cart, currentCountry: s.currentCountry }),
+      partialize: (s) => ({ cart: s.cart, currentCountry: s.currentCountry, wishlist: s.wishlist }),
     }
   )
 )

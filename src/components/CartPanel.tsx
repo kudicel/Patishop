@@ -81,14 +81,15 @@ export function CartPanel() {
         {/* Footer */}
         {cart.length > 0 && (
           <div className="border-t border-white/8 px-6 py-4 space-y-3">
-            {/* Ücretsiz kargo eşiği */}
+            {/* Kargo eşiği */}
             {(() => {
-              const FREE_SHIPPING = 500
+              const FREE_SHIPPING = 2500
+              const SHIPPING_FEE  = 199
               const remaining = FREE_SHIPPING - totalTRY
               return remaining > 0 ? (
                 <div className="rounded-xl bg-[rgba(6,182,212,0.07)] border border-[rgba(6,182,212,0.15)] px-4 py-3">
                   <div className="flex justify-between text-xs text-[#7ecad6] mb-2">
-                    <span>Ücretsiz kargo için</span>
+                    <span>Kargo: <strong className="text-white">{SHIPPING_FEE}₺</strong> · Bedava için</span>
                     <span className="text-[#06b6d4] font-bold">{remaining.toFixed(0)}₺ kaldı</span>
                   </div>
                   <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">

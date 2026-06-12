@@ -83,8 +83,8 @@ export function CartPanel() {
           <div className="border-t border-white/8 px-6 py-4 space-y-3">
             {/* Kargo eşiği */}
             {(() => {
-              const FREE_SHIPPING = 2500
-              const SHIPPING_FEE  = 199
+              const FREE_SHIPPING = 3000
+              const SHIPPING_FEE  = 499
               const remaining = FREE_SHIPPING - totalTRY
               return remaining > 0 ? (
                 <div className="rounded-xl bg-[rgba(6,182,212,0.07)] border border-[rgba(6,182,212,0.15)] px-4 py-3">

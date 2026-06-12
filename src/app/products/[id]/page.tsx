@@ -84,6 +84,10 @@ export default async function ProductPage({ params }: Props) {
           <span>/</span>
           <Link href="/#products" className="hover:text-white transition-colors">Ürünler</Link>
           <span>/</span>
+          <Link href={`/kategori/${product.category}`} className="hover:text-white transition-colors">
+            {product.categoryLabel}
+          </Link>
+          <span>/</span>
           <span className="text-[#fff8f4]">{product.name}</span>
         </nav>
 

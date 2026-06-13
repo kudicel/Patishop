@@ -93,7 +93,6 @@ export function Header() {
 
         <Link href="/iletisim" className="hover:text-white transition-colors">İletişim</Link>
         <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
-        <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
       </nav>
 
       {/* Search overlay */}
@@ -250,10 +249,6 @@ export function Header() {
           <Link href="/iletisim" onClick={() => setMobileOpen(false)}
             className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
             İletişim
-          </Link>
-          <Link href="/blog" onClick={() => setMobileOpen(false)}
-            className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
-            Blog
           </Link>
           <Link href="/blog" onClick={() => setMobileOpen(false)}
             className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">

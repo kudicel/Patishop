@@ -56,7 +56,7 @@ export function Header() {
 
       {/* Nav */}
       <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[#7ecad6]">
-        <Link href="#discover"  className="hover:text-white transition-colors">{t(country, 'nav_discover')}</Link>
+        <Link href="/#products"  className="hover:text-white transition-colors">{t(country, 'nav_discover')}</Link>
 
         {/* Ürünler dropdown */}
         <div className="relative group">
@@ -91,8 +91,8 @@ export function Header() {
           </div>
         </div>
 
-        <Link href="#suppliers" className="hover:text-white transition-colors">{t(country, 'nav_suppliers')}</Link>
-        <Link href="#analytics" className="hover:text-white transition-colors">{t(country, 'nav_analytics')}</Link>
+        <Link href="/iletisim" className="hover:text-white transition-colors">İletişim</Link>
+        <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
         <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
       </nav>
 
@@ -212,7 +212,7 @@ export function Header() {
         ${mobileOpen ? 'max-h-[90vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}>
         <div className="px-6 py-4 flex flex-col gap-1">
 
-          <Link href="#discover" onClick={() => setMobileOpen(false)}
+          <Link href="/#products" onClick={() => setMobileOpen(false)}
             className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
             {t(country, 'nav_discover')}
           </Link>
@@ -247,13 +247,13 @@ export function Header() {
             </Link>
           </div>
 
-          <Link href="#suppliers" onClick={() => setMobileOpen(false)}
+          <Link href="/iletisim" onClick={() => setMobileOpen(false)}
             className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
-            {t(country, 'nav_suppliers')}
+            İletişim
           </Link>
-          <Link href="#analytics" onClick={() => setMobileOpen(false)}
+          <Link href="/blog" onClick={() => setMobileOpen(false)}
             className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">
-            {t(country, 'nav_analytics')}
+            Blog
           </Link>
           <Link href="/blog" onClick={() => setMobileOpen(false)}
             className="px-3 py-3 rounded-xl text-sm font-medium text-[#7ecad6] hover:text-white hover:bg-[rgba(6,182,212,0.08)] transition-colors">

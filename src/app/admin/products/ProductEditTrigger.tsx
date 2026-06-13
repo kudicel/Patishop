@@ -5,6 +5,7 @@ import { ProductEditModal } from '@/components/ProductEditModal'
 
 type ProductRow = {
   id: string
+  stock: number
   name: string
   category: string
   categoryLabel: string

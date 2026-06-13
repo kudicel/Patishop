@@ -19,7 +19,7 @@ export async function PATCH(
   const body = await req.json()
 
   const allowed = [
-    'name', 'category', 'categoryLabel', 'price', 'shortDesc', 'description',
+    'name', 'category', 'categoryLabel', 'price', 'stock', 'shortDesc', 'description',
     'features', 'badge', 'images', 'thumbImage', 'colors', 'sizes',
     'supplier', 'supplierNote', 'rating', 'reviewCount', 'active',
   ]

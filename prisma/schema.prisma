@@ -37,6 +37,8 @@ model Order {
   shippingPrice  Float
 
   subtotal       Float
+  discount       Float       @default(0)
+  couponCode     String?
   total          Float
 
   userId         String?
@@ -48,6 +50,19 @@ model Order {
 
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
+}
+
+model Coupon {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  type        String    // "percent" | "fixed"
+  value       Float
+  minOrderTRY Float     @default(0)
+  maxUses     Int       @default(0)
+  usedCount   Int       @default(0)
+  active      Boolean   @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
 }
 
 model OrderItem {

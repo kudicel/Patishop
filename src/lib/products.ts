@@ -3,6 +3,7 @@ import { Product } from '@/types'
 export const PRODUCTS: Product[] = [
   {
     id: 'autofeed-pro',
+    stock: 50,
     name: 'AutoFeed Pro X1',
     category: 'mama-kabi',
     categoryLabel: 'Akıllı Mama Kabı',
@@ -24,6 +25,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'smartbowl-duo',
+    stock: 50,
     name: 'SmartBowl Duo',
     category: 'mama-kabi',
     categoryLabel: 'Akıllı Mama Kabı',
@@ -45,6 +47,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'cleanbot-pro',
+    stock: 50,
     name: 'CleanBot Litter Pro',
     category: 'kum-temizleyici',
     categoryLabel: 'Otomatik Kum Temizleyici',
@@ -66,6 +69,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'scoopmate-classic',
+    stock: 50,
     name: 'ScoopMate Classic',
     category: 'kum-temizleyici',
     categoryLabel: 'Otomatik Kum Temizleyici',
@@ -87,6 +91,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'flexiwalk-set',
+    stock: 50,
     name: 'FlexiWalk Tasma Set',
     category: 'tasma',
     categoryLabel: 'Tasma & Göğüs Kemeri',
@@ -108,6 +113,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'easywalk-kosum',
+    stock: 50,
     name: 'EasyWalk Koşum Takımı',
     category: 'tasma',
     categoryLabel: 'Anti-Çekiş Koşum',
@@ -130,6 +136,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'pacaveli-set',
+    stock: 50,
     name: 'PaçaVeli Oyuncak Seti',
     category: 'oyuncak',
     categoryLabel: 'Oyuncak Seti — 12 Parça',
@@ -150,6 +157,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'laserbot-interactive',
+    stock: 50,
     name: 'LaserBot Interaktif',
     category: 'oyuncak',
     categoryLabel: 'Otomatik Lazer Oyuncak',
@@ -171,6 +179,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'furstyle-sezon',
+    stock: 50,
     name: 'FurStyle Sezon Kıyafeti',
     category: 'kiyafet',
     categoryLabel: 'Kıyafet — Kedi & Köpek',
@@ -192,6 +201,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'warmpaw-mont',
+    stock: 50,
     name: 'WarmPaw Kış Montu',
     category: 'kiyafet',
     categoryLabel: 'Kış Montu — Kedi & Köpek',
@@ -214,6 +224,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'cloudnap-lux',
+    stock: 50,
     name: 'CloudNap Lüks Yatak',
     category: 'yatak',
     categoryLabel: 'Lüks Evcil Yatak',
@@ -236,6 +247,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'cozynest-yuva',
+    stock: 50,
     name: 'CozyNest Yuva Yatak',
     category: 'yatak',
     categoryLabel: 'Pelüş Yuva Yatak',

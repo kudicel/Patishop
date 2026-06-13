@@ -25,6 +25,8 @@ export async function POST(req: NextRequest) {
       shippingMethod: string
       shippingPrice: number
       subtotal: number
+      discount?: number
+      couponCode?: string
       total: number
       items: CartItem[]
       status?: string
@@ -46,9 +48,19 @@ export async function POST(req: NextRequest) {
         shippingMethod: body.shippingMethod,
         shippingPrice:  body.shippingPrice,
         subtotal:       body.subtotal,
+        discount:       body.discount ?? 0,
+        couponCode:     body.couponCode ?? null,
         total:          body.total,
       },
     })
+
+    // Increment coupon usedCount if applied
+    if (body.couponCode) {
+      await prisma.coupon.update({
+        where: { code: body.couponCode },
+        data:  { usedCount: { increment: 1 } },
+      }).catch(() => null)
+    }
 
     for (const i of body.items) {
       await prisma.orderItem.create({

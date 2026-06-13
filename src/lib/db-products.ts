@@ -5,6 +5,7 @@ function rowToProduct(row: Awaited<ReturnType<typeof prisma.product.findFirst>>)
   if (!row || !row.name) return null
   return {
     id:            row.id,
+    stock:         row.stock,
     name:          row.name,
     category:      row.category as Category,
     categoryLabel: row.categoryLabel,

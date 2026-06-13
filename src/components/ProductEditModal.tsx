@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 
 type ProductRow = {
   id: string
+  stock: number
   name: string
   category: string
   categoryLabel: string
@@ -28,6 +29,7 @@ type Form = Omit<ProductRow, 'id'>
 
 function toForm(p: ProductRow): Form {
   return {
+    stock:         p.stock,
     name:          p.name,
     category:      p.category,
     categoryLabel: p.categoryLabel,
@@ -150,6 +152,15 @@ export function ProductEditModal({
                   <label className={labelCls}>Fiyat (TRY)</label>
                   <input className={inputCls} type="number" min={0} value={form.price}
                     onChange={e => set('price', Number(e.target.value))} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className={labelCls}>Stok Adedi</label>
+                  <input className={inputCls} type="number" min={0} value={form.stock}
+                    onChange={e => set('stock', Number(e.target.value))} />
+                  <p className="text-[10px] text-[#7ecad6] mt-1 opacity-70">0 = Tükendi · 1–5 = Son X adet uyarısı</p>
                 </div>
               </div>
 

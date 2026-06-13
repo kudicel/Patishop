@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const meta = CATEGORY_META[slug]
   if (!meta) return {}
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop-gamma.vercel.app'
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
   const url  = `${base}/kategori/${slug}`
   return {
     title: `${meta.label} — Evcil Hayvan Aksesuarları`,
@@ -75,7 +75,7 @@ export default async function CategoryPage({ params }: Props) {
 
   const allProducts = await getProducts()
   const products    = allProducts.filter(p => p.category === slug)
-  const base        = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop-gamma.vercel.app'
+  const base        = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
 
   const jsonLd = {
     '@context': 'https://schema.org',

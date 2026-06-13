@@ -11,6 +11,7 @@ const links = [
   { href: '/admin/products',    label: 'Ürünler',     icon: '🛍️' },
   { href: '/admin/suppliers',   label: 'Tedarikçiler', icon: '🏭' },
   { href: '/admin/reviews',     label: 'Yorumlar',    icon: '💬' },
+  { href: '/admin/coupons',    label: 'Kuponlar',    icon: '🎟️' },
 ]
 
 export function AdminNav({ userName }: { userName: string }) {

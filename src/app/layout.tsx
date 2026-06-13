@@ -3,11 +3,12 @@ import './globals.css'
 import { CartPanel } from '@/components/CartPanel'
 import { ProductModal } from '@/components/ProductModal'
 import { AuthProvider } from '@/components/AuthProvider'
+import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { getProducts } from '@/lib/db-products'
 
 export const dynamic = 'force-dynamic'
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop-gamma.vercel.app'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -46,6 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="tr">
       <body className="min-h-screen flex flex-col">
         <AuthProvider>
+          <GoogleAnalytics />
           {children}
           <CartPanel />
           <ProductModal products={products} />

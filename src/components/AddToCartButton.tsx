@@ -60,19 +60,28 @@ export function AddToCartButton({ product }: { product: Product }) {
         </div>
       )}
 
+      {/* Stok durumu */}
+      {product.stock === 0 ? (
+        <p className="text-sm font-bold text-red-400">Bu ürün şu anda stokta yok.</p>
+      ) : product.stock <= 5 ? (
+        <p className="text-sm font-bold text-orange-400">Son {product.stock} adet kaldı!</p>
+      ) : null}
+
       {/* Qty + CTA */}
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-3 border border-white/10 rounded-full px-2 py-1">
+        <div className={`flex items-center gap-3 border rounded-full px-2 py-1 ${product.stock === 0 ? 'border-white/5 opacity-40' : 'border-white/10'}`}>
           <button
             onClick={() => setQty(q => Math.max(1, q - 1))}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-lg hover:bg-white/10 transition-colors"
+            disabled={product.stock === 0}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-lg hover:bg-white/10 transition-colors disabled:cursor-not-allowed"
           >
             −
           </button>
           <span className="font-bold w-6 text-center">{qty}</span>
           <button
-            onClick={() => setQty(q => q + 1)}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-lg hover:bg-white/10 transition-colors"
+            onClick={() => setQty(q => Math.min(product.stock, q + 1))}
+            disabled={product.stock === 0}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-lg hover:bg-white/10 transition-colors disabled:cursor-not-allowed"
           >
             +
           </button>
@@ -80,9 +89,17 @@ export function AddToCartButton({ product }: { product: Product }) {
 
         <button
           onClick={() => addToCart(product, qty, color, size)}
-          className="btn-brand flex-1 rounded-full py-3.5 font-bold text-sm"
+          disabled={product.stock === 0}
+          className={`flex-1 rounded-full py-3.5 font-bold text-sm transition-all ${
+            product.stock === 0
+              ? 'bg-white/10 text-[#7ecad6] cursor-not-allowed'
+              : 'btn-brand'
+          }`}
         >
-          {formatPrice(product.price * qty, country)} · {t(country, 'add_to_cart')}
+          {product.stock === 0
+            ? 'Stokta Yok'
+            : `${formatPrice(product.price * qty, country)} · ${t(country, 'add_to_cart')}`
+          }
         </button>
       </div>
     </div>

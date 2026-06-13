@@ -3,7 +3,7 @@ import { getProducts } from '@/lib/db-products'
 import { BLOG_POSTS } from '@/lib/blog-posts'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base     = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop-gamma.vercel.app'
+  const base     = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
   const products = await getProducts()
 
   const categories = ['mama-kabi', 'kum-temizleyici', 'tasma', 'oyuncak', 'kiyafet', 'yatak']

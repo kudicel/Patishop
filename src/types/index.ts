@@ -2,6 +2,7 @@ export type Category = 'mama-kabi' | 'kum-temizleyici' | 'tasma' | 'oyuncak' | '
 
 export interface Product {
   id: string
+  stock: number
   name: string
   category: Category
   categoryLabel: string

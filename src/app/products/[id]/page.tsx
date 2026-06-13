@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
   const { id } = await params
   const product = await getProductById(id)
   if (!product) return {}
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop-gamma.vercel.app'
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
   const url  = `${base}/products/${id}`
   return {
     title: product.name,
@@ -47,7 +47,7 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound()
 
   const related  = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3)
-  const base     = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop-gamma.vercel.app'
+  const base     = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
   const jsonLd = {
     '@context': 'https://schema.org/',
     '@type': 'Product',
@@ -59,7 +59,7 @@ export default async function ProductPage({ params }: Props) {
       '@type': 'Offer',
       priceCurrency: 'TRY',
       price: product.price.toFixed(2),
-      availability: 'https://schema.org/InStock',
+      availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       url: `${base}/products/${id}`,
       seller: { '@type': 'Organization', name: 'PatiShop' },
     },
@@ -120,6 +120,22 @@ export default async function ProductPage({ params }: Props) {
                 <strong>{product.rating}</strong>
                 <span className="text-[#c4a896]">({product.reviewCount} yorum)</span>
               </div>
+              {product.stock === 0 ? (
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full w-fit mt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-400 inline-block" />
+                  Tükendi
+                </span>
+              ) : product.stock <= 5 ? (
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-3 py-1 rounded-full w-fit mt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block" />
+                  Son {product.stock} adet kaldı!
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-green-400 bg-green-500/10 border border-green-500/20 px-3 py-1 rounded-full w-fit mt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
+                  Stokta
+                </span>
+              )}
             </div>
 
             <p className="text-[#c4a896] leading-relaxed">{product.description}</p>

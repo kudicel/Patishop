@@ -49,9 +49,18 @@ export function ProductCard({ product }: Props) {
           sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
           loading="lazy"
         />
-        {product.badge && (
+        {product.stock === 0 ? (
+          <span className="absolute top-3 left-3 text-xs font-extrabold uppercase tracking-wide px-3 py-1 rounded-full bg-red-500/90 text-white">
+            Tükendi
+          </span>
+        ) : product.badge ? (
           <span className={`absolute top-3 left-3 text-xs font-extrabold uppercase tracking-wide px-3 py-1 rounded-full ${badgeClass(product.badge)}`}>
             {BADGE_KEYS[product.badge] ? t(country, BADGE_KEYS[product.badge]) : product.badge}
+          </span>
+        ) : null}
+        {product.stock > 0 && product.stock <= 5 && (
+          <span className="absolute bottom-12 left-3 text-[10px] font-bold px-2.5 py-1 rounded-full bg-orange-500/90 text-white">
+            Son {product.stock} adet!
           </span>
         )}
         <button
@@ -96,10 +105,15 @@ export function ProductCard({ product }: Props) {
           </span>
         </div>
         <button
-          onClick={e => { e.stopPropagation(); addToCart(product) }}
-          className="btn-brand w-full rounded-full py-3 font-bold text-sm"
+          onClick={e => { e.stopPropagation(); if (product.stock > 0) addToCart(product) }}
+          disabled={product.stock === 0}
+          className={`w-full rounded-full py-3 font-bold text-sm transition-all ${
+            product.stock === 0
+              ? 'bg-white/10 text-[#7ecad6] cursor-not-allowed'
+              : 'btn-brand'
+          }`}
         >
-          {t(country,'add_to_cart')}
+          {product.stock === 0 ? 'Stokta Yok' : t(country,'add_to_cart')}
         </button>
       </div>
 

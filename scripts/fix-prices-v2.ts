@@ -37,7 +37,7 @@ const CATEGORY_RANGES: Record<string, { cjMin: number; cjMax: number; sellMax: n
   'kiyafet':         { cjMin: 3,  cjMax: 15, sellMax: 900  },
   'kum-temizleyici': { cjMin: 10, cjMax: 40, sellMax: 2000 },
   'tasima-cantasi':  { cjMin: 5,  cjMax: 25, sellMax: 1400 },
-  'diger-aksesuar':  { cjMin: 2,  cjMax: 10, sellMax: 700  },
+  'diger-aksesuar':  { cjMin: 2,  cjMax: 10, sellMax: 950  },
 }
 
 function calcMin(cjMin: number): number {

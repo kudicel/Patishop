@@ -20,7 +20,8 @@ type FormData = {
 
 type Errors = Partial<Record<keyof FormData, string>>
 
-const LOGISTICS_RATE = 0.08
+const LOGISTICS_RATE_TR   = 0.08
+const LOGISTICS_RATE_INTL = 0.12
 
 export default function CheckoutPage() {
   const router    = useRouter()
@@ -45,7 +46,8 @@ export default function CheckoutPage() {
   const subtotalTRY = cart.reduce((s, i) => s + bulkLineTotal(i.product.price, i.quantity), 0)
   const discountTRY = couponApplied?.discount ?? 0
 
-  // Tedarikçi bazlı lojistik (%8)
+  // Tedarikçi bazlı lojistik (TR: %8, yurt dışı: %12)
+  const logisticsRate = form.country === 'TR' ? LOGISTICS_RATE_TR : LOGISTICS_RATE_INTL
   const supplierGroups = cart.reduce<Record<string, number>>((acc, item) => {
     const s = item.product.supplier
     acc[s] = (acc[s] ?? 0) + bulkLineTotal(item.product.price, item.quantity)
@@ -54,7 +56,7 @@ export default function CheckoutPage() {
   const logisticsLines = Object.entries(supplierGroups).map(([supplier, total]) => ({
     supplier,
     total,
-    logistics: Math.round(total * LOGISTICS_RATE),
+    logistics: Math.round(total * logisticsRate),
   }))
   const totalLogisticsTRY = logisticsLines.reduce((s, g) => s + g.logistics, 0)
 
@@ -261,7 +263,7 @@ export default function CheckoutPage() {
                   {/* Lojistik dağılımı */}
                   <div className="rounded-xl border border-[rgba(6,182,212,0.15)] bg-[rgba(6,182,212,0.04)] p-4">
                     <p className="text-xs font-bold uppercase tracking-wider text-[#06b6d4] mb-3">
-                      Lojistik Dağılımı (%{Math.round(LOGISTICS_RATE * 100)})
+                      Lojistik Dağılımı (%{Math.round(logisticsRate * 100)})
                     </p>
                     <div className="space-y-2">
                       {logisticsLines.map(g => (

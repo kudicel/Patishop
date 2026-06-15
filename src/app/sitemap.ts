@@ -6,7 +6,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base     = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
   const products = await getProducts()
 
-  const categories = ['mama-kabi', 'kum-temizleyici', 'tasma', 'oyuncak', 'kiyafet', 'yatak']
+  const categories = ['mama-kabi', 'kum-temizleyici', 'tasma', 'oyuncak', 'kiyafet', 'yatak', 'tasima-cantasi', 'diger-aksesuar']
 
   const categoryUrls: MetadataRoute.Sitemap = categories.map(slug => ({
     url:             `${base}/kategori/${slug}`,

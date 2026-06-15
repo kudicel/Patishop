@@ -9,12 +9,14 @@ import { t } from '@/lib/locale'
 import { LocaleSelector } from './LocaleSelector'
 
 const CATEGORIES = [
-  { slug: 'mama-kabi',       labelKey: 'filter_mama',    icon: '🍚' },
-  { slug: 'kum-temizleyici', labelKey: 'filter_kum',     icon: '🪣' },
-  { slug: 'tasma',           labelKey: 'filter_tasma',   icon: '🦮' },
-  { slug: 'oyuncak',         labelKey: 'filter_oyuncak', icon: '🎾' },
-  { slug: 'kiyafet',         labelKey: 'filter_kiyafet', icon: '👕' },
-  { slug: 'yatak',           labelKey: 'filter_yatak',   icon: '🛏️' },
+  { slug: 'mama-kabi',        labelKey: 'filter_mama',    icon: '🍚' },
+  { slug: 'kum-temizleyici',  labelKey: 'filter_kum',     icon: '🪣' },
+  { slug: 'tasma',            labelKey: 'filter_tasma',   icon: '🦮' },
+  { slug: 'oyuncak',          labelKey: 'filter_oyuncak', icon: '🎾' },
+  { slug: 'kiyafet',          labelKey: 'filter_kiyafet', icon: '👕' },
+  { slug: 'yatak',            labelKey: 'filter_yatak',   icon: '🛏️' },
+  { slug: 'tasima-cantasi',   labelKey: 'filter_tasima',  icon: '🎒' },
+  { slug: 'diger-aksesuar',   labelKey: 'filter_diger',   icon: '✨' },
 ] as const
 
 export function Header() {

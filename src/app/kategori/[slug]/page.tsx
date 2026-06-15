@@ -43,6 +43,16 @@ const CATEGORY_META: Record<string, {
     labelEn: 'Beds',
     description: 'Ortopedik ve lüks evcil hayvan yatakları. Yumuşak, yıkanabilir, dayanıklı.',
   },
+  'tasima-cantasi': {
+    label: 'Taşıma Çantaları',
+    labelEn: 'Carrier Bags',
+    description: 'Kedi ve köpekler için güvenli ve konforlu taşıma çantaları. Havayolu onaylı, nefes alabilen modeller.',
+  },
+  'diger-aksesuar': {
+    label: 'Diğer Aksesuarlar',
+    labelEn: 'Other Accessories',
+    description: 'Tımar fırçaları, tırnak makaları, bandanalar ve daha fazlası. Evcil hayvan bakımı için her şey.',
+  },
 }
 
 export async function generateStaticParams() {

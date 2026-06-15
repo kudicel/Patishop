@@ -396,17 +396,33 @@ function pickBadge(idx: number, price: number): string | null {
   return null
 }
 
+function parseImgField(val: unknown): string[] {
+  if (!val) return []
+  if (typeof val === 'string') {
+    const trimmed = val.trim()
+    // JSON-encoded array: '["url1","url2"]'
+    if (trimmed.startsWith('[')) {
+      try { return (JSON.parse(trimmed) as string[]).filter(Boolean) } catch { return [trimmed] }
+    }
+    return [trimmed]
+  }
+  if (Array.isArray(val)) return val.filter((v): v is string => typeof v === 'string' && Boolean(v))
+  return []
+}
+
 function extractImages(detail: any): string[] {
   const imgs: string[] = []
-  if (detail.productImage) imgs.push(detail.productImage)
-  if (Array.isArray(detail.productImages)) imgs.push(...detail.productImages)
-  if (Array.isArray(detail.productImageSet)) imgs.push(...detail.productImageSet.map((x: any) => x.imageUrl ?? x))
+  imgs.push(...parseImgField(detail.productImage))
+  if (Array.isArray(detail.productImages)) imgs.push(...detail.productImages.flatMap(parseImgField))
+  if (Array.isArray(detail.productImageSet)) {
+    imgs.push(...detail.productImageSet.flatMap((x: any) => parseImgField(x.imageUrl ?? x)))
+  }
   if (Array.isArray(detail.variants)) {
     for (const v of detail.variants) {
-      if (v.variantImage && !imgs.includes(v.variantImage)) imgs.push(v.variantImage)
+      if (v.variantImage) imgs.push(...parseImgField(v.variantImage))
     }
   }
-  return [...new Set(imgs)].filter(Boolean).slice(0, 6)
+  return [...new Set(imgs)].filter(u => u.startsWith('http')).slice(0, 6)
 }
 
 function slugify(str: string): string {

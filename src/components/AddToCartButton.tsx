@@ -4,13 +4,17 @@ import { useState } from 'react'
 import { Product } from '@/types'
 import { useStore } from '@/lib/store'
 import { formatPrice, t } from '@/lib/locale'
+import { BULK_TIERS, getTier, bulkUnitPrice, discountLabel } from '@/lib/bulk-pricing'
 
 export function AddToCartButton({ product }: { product: Product }) {
   const addToCart = useStore(s => s.addToCart)
   const country   = useStore(s => s.currentCountry)
-  const [qty,     setQty]   = useState(1)
-  const [color,   setColor] = useState(product.colors?.[0])
-  const [size,    setSize]  = useState(product.sizes?.[0])
+  const [qty,   setQty]   = useState(1)
+  const [color, setColor] = useState(product.colors?.[0])
+  const [size,  setSize]  = useState(product.sizes?.[0])
+
+  const activeTier = getTier(qty)
+  const unitPrice  = bulkUnitPrice(product.price, qty)
 
   return (
     <div className="flex flex-col gap-4">
@@ -60,6 +64,42 @@ export function AddToCartButton({ product }: { product: Product }) {
         </div>
       )}
 
+      {/* Toptan fiyat tablosu */}
+      <div className="rounded-2xl border border-[rgba(6,182,212,0.15)] bg-[rgba(6,182,212,0.04)] p-4">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#06b6d4] mb-3">Toptan Fiyatlandırma</p>
+        <div className="space-y-1">
+          {BULK_TIERS.map(tier => {
+            const isActive   = tier.minQty === activeTier.minQty
+            const tierPrice  = Math.round(product.price * (1 - tier.discount))
+            const label      = discountLabel(tier.discount)
+            return (
+              <div
+                key={tier.label}
+                className={`flex items-center justify-between rounded-xl px-3 py-2 transition-all ${
+                  isActive
+                    ? 'bg-[rgba(6,182,212,0.15)] border border-[rgba(6,182,212,0.3)]'
+                    : 'border border-transparent'
+                }`}
+              >
+                <span className={`text-sm ${isActive ? 'text-white font-bold' : 'text-[#7ecad6]'}`}>
+                  {tier.label}
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className={`text-sm font-semibold ${isActive ? 'text-[#06b6d4]' : 'text-[#c4a896]'}`}>
+                    {formatPrice(tierPrice, country)}/adet
+                  </span>
+                  {label && (
+                    <span className="text-xs font-bold bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-md">
+                      {label}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
       {/* Stok durumu */}
       {product.stock === 0 ? (
         <p className="text-sm font-bold text-red-400">Bu ürün şu anda stokta yok.</p>
@@ -98,7 +138,7 @@ export function AddToCartButton({ product }: { product: Product }) {
         >
           {product.stock === 0
             ? 'Stokta Yok'
-            : `${formatPrice(product.price * qty, country)} · ${t(country, 'add_to_cart')}`
+            : `${formatPrice(unitPrice * qty, country)} · ${t(country, 'add_to_cart')}`
           }
         </button>
       </div>

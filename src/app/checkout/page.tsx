@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useStore } from '@/lib/store'
 import { formatPrice, t, COUNTRIES } from '@/lib/locale'
+import { bulkLineTotal } from '@/lib/bulk-pricing'
 
 type FormData = {
   firstName: string
@@ -55,7 +56,7 @@ export default function CheckoutPage() {
   const shippingMap = isTR ? TR_SHIPPING : INTL_SHIPPING
   const freeThresh  = isTR ? FREE_THRESHOLD_TR : FREE_THRESHOLD_INTL
 
-  const subtotalTRY  = cart.reduce((s, i) => s + i.product.price * i.quantity, 0)
+  const subtotalTRY  = cart.reduce((s, i) => s + bulkLineTotal(i.product.price, i.quantity), 0)
   const discountTRY  = couponApplied?.discount ?? 0
   const shippingTRY  = (subtotalTRY - discountTRY) >= freeThresh ? 0 : shippingMap[form.shippingId].priceTRY
   const totalTRY     = subtotalTRY - discountTRY + shippingTRY

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useStore } from '@/lib/store'
 import { formatPrice, t } from '@/lib/locale'
+import { bulkUnitPrice, bulkLineTotal, getTier, discountLabel } from '@/lib/bulk-pricing'
 
 export function CartPanel() {
   const cart       = useStore(s => s.cart)
@@ -12,7 +13,7 @@ export function CartPanel() {
   const updateQty  = useStore(s => s.updateQty)
   const country    = useStore(s => s.currentCountry)
 
-  const totalTRY = cart.reduce((sum, i) => sum + i.product.price * i.quantity, 0)
+  const totalTRY = cart.reduce((sum, i) => sum + bulkLineTotal(i.product.price, i.quantity), 0)
 
   if (!cartOpen) return null
 
@@ -68,11 +69,26 @@ export function CartPanel() {
                     >
                       Sil
                     </button>
+                    {(() => {
+                      const label = discountLabel(getTier(item.quantity).discount)
+                      return label ? (
+                        <span className="text-xs font-bold bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-md">
+                          {label}
+                        </span>
+                      ) : null
+                    })()}
                   </div>
                 </div>
-                <span className="text-[#06b6d4] font-bold text-sm flex-shrink-0">
-                  {formatPrice(item.product.price * item.quantity, country)}
-                </span>
+                <div className="flex flex-col items-end gap-0.5 flex-shrink-0">
+                  <span className="text-[#06b6d4] font-bold text-sm">
+                    {formatPrice(bulkLineTotal(item.product.price, item.quantity), country)}
+                  </span>
+                  {getTier(item.quantity).discount > 0 && (
+                    <span className="text-[#7ecad6] text-xs line-through">
+                      {formatPrice(item.product.price * item.quantity, country)}
+                    </span>
+                  )}
+                </div>
               </div>
             ))
           )}

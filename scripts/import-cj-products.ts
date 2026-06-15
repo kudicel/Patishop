@@ -34,6 +34,37 @@ async function cjGet(path: string, params: Record<string, string> = {}): Promise
   return r.json()
 }
 
+// ─── Pet doğrulama ───────────────────────────────────────────────────────────
+const PET_KEYWORDS = [
+  'cat', 'dog', 'pet', 'kitten', 'puppy', 'feline', 'canine',
+  'harness', 'leash', 'collar', 'litter', 'feeder', 'fountain',
+  'carrier', 'kennel', 'scratching', 'catnip', 'paw',
+  'grooming', 'nail clip', 'tunnel', 'pet bed', 'pet toy', 'animal',
+]
+// Açık şekilde insan/eşya ürünü olduğunu gösteren kelimeler
+const HUMAN_PRODUCT_KEYWORDS = [
+  "sterling silver", "moissanite", "women's", "men's", "woman", "men ",
+  "bracelet", "necklace", "earring", " ring ", "anklet", "jewelry",
+  "jeans", " pants", "suit ", "blouse", "dress ", "skirt",
+  "school bag", "building block", "puzzle game", "pool game",
+  "inflatable", "bed frame", "side table", "dining", "camping chair",
+  "roof rack", "magnetic screen door", "screen door",
+  "chest pads", "trendy brand", "skin-friendly", "cardigan sweater",
+  "fleece suit", "two-piece suit", "three-piece suit", "windscreen",
+  "crossbody", "cosmetic bag", "washing cosmetic", "human hair",
+  "tic-tac-toe", "pool game", "knotted",
+]
+
+function isPetProductByName(name: string): boolean {
+  const lower = name.toLowerCase()
+  // Eğer açıkça insan ürünü kelimesi varsa reddet
+  if (HUMAN_PRODUCT_KEYWORDS.some(k => lower.includes(k))) return false
+  // Pet kelimesi içeriyorsa kabul et
+  if (PET_KEYWORDS.some(k => lower.includes(k))) return true
+  // Hiçbiri yoksa reddet
+  return false
+}
+
 async function searchCJByCategory(categoryId: string, page = 1, size = 50): Promise<any[]> {
   const d = await cjGet('/product/list', {
     categoryId, pageNum: String(page), pageSize: String(size),
@@ -68,7 +99,7 @@ interface CatConfig {
 
 const CATEGORIES: CatConfig[] = [
   {
-    slug: 'oyuncak', label: 'Oyuncak', target: 30,
+    slug: 'oyuncak', label: 'Oyuncak', target: 42,
     cjCategoryIds: [
       '2410110339311602900', // Pet Chase Toys
       '2410110339451623300', // Pet Chew Toys
@@ -80,7 +111,7 @@ const CATEGORIES: CatConfig[] = [
     ],
   },
   {
-    slug: 'tasma', label: 'Tasma & Göğüs Tasması', target: 25,
+    slug: 'tasma', label: 'Tasma & Göğüs Tasması', target: 35,
     cjCategoryIds: [
       '2410110352591600400', // Pet Harnesses
       '2410110352471611400', // Pet Leashes
@@ -89,7 +120,7 @@ const CATEGORIES: CatConfig[] = [
     ],
   },
   {
-    slug: 'yatak', label: 'Yatak & Yuva', target: 25,
+    slug: 'yatak', label: 'Yatak & Yuva', target: 32,
     cjCategoryIds: [
       '2410110358051626100', // Pet Beds
       '2410110357511615700', // Pet Nests
@@ -100,7 +131,7 @@ const CATEGORIES: CatConfig[] = [
     ],
   },
   {
-    slug: 'mama-kabi', label: 'Mama Kabı & Besleyici', target: 25,
+    slug: 'mama-kabi', label: 'Mama Kabı & Besleyici', target: 30,
     cjCategoryIds: [
       '2410110341061612000', // Pet Bowls
       '2410110341331606800', // Pet Drinking Tools
@@ -108,7 +139,7 @@ const CATEGORIES: CatConfig[] = [
     ],
   },
   {
-    slug: 'kiyafet', label: 'Kıyafet', target: 20,
+    slug: 'kiyafet', label: 'Kıyafet', target: 28,
     cjCategoryIds: [
       '2410110348401611500', // Pet Sweaters
       '2410110348531624100', // Pet Sweatshirts & Hoodies
@@ -122,18 +153,18 @@ const CATEGORIES: CatConfig[] = [
     ],
   },
   {
-    slug: 'kum-temizleyici', label: 'Kum Temizleyici', target: 15,
+    slug: 'kum-temizleyici', label: 'Kum Temizleyici', target: 20,
     keywords: ['cat litter box enclosed', 'self cleaning litter box', 'cat toilet litter tray', 'cat litter scoop'],
   },
   {
-    slug: 'tasima-cantasi', label: 'Taşıma Çantası', target: 10,
+    slug: 'tasima-cantasi', label: 'Taşıma Çantası', target: 16,
     cjCategoryIds: [
       '2410110342571606700', // Pet Bags (Outdoor)
       '2410110351121613900', // Pet Bags (Apparels)
     ],
   },
   {
-    slug: 'diger-aksesuar', label: 'Diğer Aksesuar', target: 10,
+    slug: 'diger-aksesuar', label: 'Diğer Aksesuar', target: 15,
     cjCategoryIds: [
       '2410110354491625800', // Pet Hair Removers & Combs
       '2410110355021623200', // Pet Nail Polishers
@@ -356,11 +387,12 @@ function usdToTry(usdPrice: number): number {
 }
 
 function pickBadge(idx: number, price: number): string | null {
+  if (price > 5000) return 'Premium'
   const r = idx % 10
   if (r === 0) return 'Çok Satan'
   if (r === 1) return 'Yeni'
   if (r === 2) return 'İndirim'
-  if (r === 3 && price > 500) return 'Premium'
+  if (r === 3 && price > 1500) return 'Premium'
   return null
 }
 
@@ -441,7 +473,10 @@ async function main() {
             seenPids.add(pid)
             if (!item.productImage) continue
             const price = parseFloat(item.sellPrice ?? item.variants?.[0]?.variantSellPrice ?? 0)
-            if (!price || isNaN(price) || price <= 0 || price > 80) continue
+            if (!price || isNaN(price) || price <= 0 || price > 200) continue  // $200 = ~10,000₺ premium
+            // Ön-filtre: liste isminden açık insan ürünü kırmızı bayrakları kontrol et
+            const listName = (item.productNameEn ?? item.productName ?? '').toLowerCase()
+            if (HUMAN_PRODUCT_KEYWORDS.some(k => listName.includes(k))) continue
             collected.push({ ...item, _price: price })
             if (collected.length >= cat.target * 2) break
           }
@@ -471,11 +506,9 @@ async function main() {
             seenPids.add(pid)
             if (!item.productImage) continue
             const price = parseFloat(item.sellPrice ?? item.variants?.[0]?.variantSellPrice ?? 0)
-            if (!price || isNaN(price) || price <= 0 || price > 80) continue
-            // For keyword search, verify it's actually a pet product
-            const name = (item.productNameEn ?? item.productName ?? '').toLowerCase()
-            const PET_KEYWORDS = ['cat', 'dog', 'pet', 'kitten', 'puppy', 'litter', 'feline', 'canine']
-            if (!PET_KEYWORDS.some(k => name.includes(k))) continue
+            if (!price || isNaN(price) || price <= 0 || price > 200) continue
+            // Keyword aramada hem pet keyword şart hem de insan ürünü filtresi
+            if (!isPetProductByName(item.productNameEn ?? item.productName ?? '')) continue
             collected.push({ ...item, _price: price })
             if (collected.length >= cat.target * 2) break
           }
@@ -499,6 +532,14 @@ async function main() {
         await new Promise(r => setTimeout(r, 500))
       } catch {
         // list verisini kullanmaya devam et
+      }
+
+      // ⚠ CJ ismini doğrula — pet ürünü değilse atla
+      const cjEnName: string = detail.productNameEn ?? detail.productName ?? item.productNameEn ?? item.productName ?? ''
+      if (!isPetProductByName(cjEnName)) {
+        console.log(`  ⛔ PET DEĞİL, atlandı: "${cjEnName.slice(0, 70)}"`)
+        totalSkipped++
+        continue
       }
 
       const images = extractImages(detail)

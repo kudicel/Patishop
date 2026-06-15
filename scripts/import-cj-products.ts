@@ -34,9 +34,18 @@ async function cjGet(path: string, params: Record<string, string> = {}): Promise
   return r.json()
 }
 
+async function searchCJByCategory(categoryId: string, page = 1, size = 50): Promise<any[]> {
+  const d = await cjGet('/product/list', {
+    categoryId, pageNum: String(page), pageSize: String(size),
+    productType: 'DROPSHIPPING',
+  })
+  return (d.data?.list ?? []) as any[]
+}
+
 async function searchCJ(keyword: string, page = 1, size = 50): Promise<any[]> {
   const d = await cjGet('/product/list', {
     productNameEn: keyword, pageNum: String(page), pageSize: String(size),
+    productType: 'DROPSHIPPING',
   })
   return (d.data?.list ?? []) as any[]
 }
@@ -50,19 +59,89 @@ async function getDetail(pid: string): Promise<any | null> {
 interface CatConfig {
   slug: string
   label: string
-  keywords: string[]
+  // CJ category IDs — guaranteed to be pet products
+  cjCategoryIds?: string[]
+  // Fallback keyword search (for kum-temizleyici where no exact CJ category exists)
+  keywords?: string[]
   target: number
 }
 
 const CATEGORIES: CatConfig[] = [
-  { slug: 'oyuncak',        label: 'Oyuncak',                  keywords: ['cat interactive toy feather', 'dog toy ball squeaky', 'pet laser pointer toy', 'cat tunnel toy'],             target: 30 },
-  { slug: 'tasma',          label: 'Tasma & Göğüs Tasması',    keywords: ['dog harness leash adjustable', 'cat harness vest leash', 'dog collar leash set'],                             target: 25 },
-  { slug: 'yatak',          label: 'Yatak & Yuva',             keywords: ['cat bed house cave nest', 'dog bed orthopedic cushion', 'pet sleeping bag bed plush'],                        target: 25 },
-  { slug: 'mama-kabi',      label: 'Mama Kabı & Besleyici',    keywords: ['automatic cat feeder bowl timer', 'dog automatic feeder dispenser', 'pet water fountain bowl'],               target: 25 },
-  { slug: 'kiyafet',        label: 'Kıyafet',                  keywords: ['dog clothes hoodie sweater', 'cat clothes costume pet', 'small dog raincoat jacket'],                         target: 20 },
-  { slug: 'kum-temizleyici',label: 'Kum Temizleyici',          keywords: ['cat litter box enclosed', 'cat toilet self cleaning litter', 'cat litter scoop mat'],                         target: 15 },
-  { slug: 'tasima-cantasi', label: 'Taşıma Çantası',           keywords: ['pet carrier bag portable dog cat', 'cat backpack carrier space capsule', 'dog carrier tote bag'],            target: 10 },
-  { slug: 'diger-aksesuar', label: 'Diğer Aksesuar',           keywords: ['pet grooming brush comb deshedding', 'cat dog bandana bow tie accessories', 'pet nail clipper grooming set'], target: 10 },
+  {
+    slug: 'oyuncak', label: 'Oyuncak', target: 30,
+    cjCategoryIds: [
+      '2410110339311602900', // Pet Chase Toys
+      '2410110339451623300', // Pet Chew Toys
+      '2410110340031614900', // Pet Training Toys
+      '2410110340161623400', // Pet Sound Toys
+      '2410110340291603400', // Pet Tunnel Toys
+      '2410110340411608400', // Pet Toy Set
+      '2410110340531618900', // Pet Plush Toys
+    ],
+  },
+  {
+    slug: 'tasma', label: 'Tasma & Göğüs Tasması', target: 25,
+    cjCategoryIds: [
+      '2410110352591600400', // Pet Harnesses
+      '2410110352471611400', // Pet Leashes
+      '2410110352331629800', // Pet Collars
+      '2410110353301600600', // Pet Collar, Leash & Harness Sets
+    ],
+  },
+  {
+    slug: 'yatak', label: 'Yatak & Yuva', target: 25,
+    cjCategoryIds: [
+      '2410110358051626100', // Pet Beds
+      '2410110357511615700', // Pet Nests
+      '2410110357391611900', // Pet Mats
+      '2410110356441603600', // Pet Houses & Cages
+      '2410110358191601900', // Pet Blankets & Quilts
+      '2410110357221629500', // Pet Hammocks
+    ],
+  },
+  {
+    slug: 'mama-kabi', label: 'Mama Kabı & Besleyici', target: 25,
+    cjCategoryIds: [
+      '2410110341061612000', // Pet Bowls
+      '2410110341331606800', // Pet Drinking Tools
+      '2410110341451628800', // Pet Feeding Tools
+    ],
+  },
+  {
+    slug: 'kiyafet', label: 'Kıyafet', target: 20,
+    cjCategoryIds: [
+      '2410110348401611500', // Pet Sweaters
+      '2410110348531624100', // Pet Sweatshirts & Hoodies
+      '2410110349061619800', // Pet Coats & Jackets
+      '2410110349471606300', // Pet Clothings
+      '2410110348131619300', // Pet Dresses
+      '2410110349341618600', // Pet Pajamas
+      '2410110349201623700', // Pet Jumpsuits
+      '2410110350021615300', // Pet Functional Clothings
+      '2410110350311612500', // Pet Down & Parkas
+    ],
+  },
+  {
+    slug: 'kum-temizleyici', label: 'Kum Temizleyici', target: 15,
+    keywords: ['cat litter box enclosed', 'self cleaning litter box', 'cat toilet litter tray', 'cat litter scoop'],
+  },
+  {
+    slug: 'tasima-cantasi', label: 'Taşıma Çantası', target: 10,
+    cjCategoryIds: [
+      '2410110342571606700', // Pet Bags (Outdoor)
+      '2410110351121613900', // Pet Bags (Apparels)
+    ],
+  },
+  {
+    slug: 'diger-aksesuar', label: 'Diğer Aksesuar', target: 10,
+    cjCategoryIds: [
+      '2410110354491625800', // Pet Hair Removers & Combs
+      '2410110355021623200', // Pet Nail Polishers
+      '2410110355151622300', // Pet Shower Products
+      '2410110355491614000', // Cat Scratching Posts
+      '2410110355321622400', // Pet Towels
+    ],
+  },
 ]
 
 // ─── Türkçe içerik üretici ──────────────────────────────────────────────────
@@ -317,10 +396,21 @@ async function main() {
   const adapter = new PrismaNeonHttp(process.env.DATABASE_URL?.trim()!, {})
   const prisma = new (PrismaClient as any)({ adapter }) as any
 
-  // Mevcut CJ ürün ID'lerini çek (tekrar import etmemek için)
-  const existing = await prisma.product.findMany({ select: { cjProductId: true } })
+  // Mevcut CJ ürün ID'lerini ve kategori sayılarını çek
+  const existing = await prisma.product.findMany({ select: { cjProductId: true, category: true } })
   const existingCjIds = new Set(existing.map((p: any) => p.cjProductId).filter(Boolean))
+  const categoryCounts: Record<string, number> = {}
+  for (const p of existing) categoryCounts[p.category] = (categoryCounts[p.category] ?? 0) + 1
   console.log(`📋 Mevcut ürün sayısı: ${existing.length}, mevcut CJ ürünleri: ${existingCjIds.size}`)
+  console.log('📊 Kategori dağılımı:', categoryCounts)
+
+  // target'ı mevcut sayıya göre ayarla (sadece eksik olanı import et)
+  for (const cat of CATEGORIES) {
+    const current = categoryCounts[cat.slug] ?? 0
+    const needed = Math.max(0, cat.target - current)
+    cat.target = needed
+    console.log(`  ${cat.slug}: ${current} mevcut → ${needed} eklenecek`)
+  }
 
   let totalImported = 0
   let totalSkipped = 0
@@ -330,36 +420,67 @@ async function main() {
     const collected: any[] = []
     const seenPids = new Set<string>()
 
-    for (const kw of cat.keywords) {
-      if (collected.length >= cat.target * 2) break
-
-      for (let page = 1; page <= 3; page++) {
+    // Category-ID-based search (preferred — guaranteed pet products)
+    if (cat.cjCategoryIds?.length) {
+      for (const catId of cat.cjCategoryIds) {
         if (collected.length >= cat.target * 2) break
-        console.log(`  🔍 "${kw}" — sayfa ${page}`)
-
-        let list: any[] = []
-        try {
-          list = await searchCJ(kw, page, 50)
-        } catch (err) {
-          console.warn(`  ⚠ Arama hatası: ${err}`)
-          break
-        }
-
-        if (!list.length) break
-
-        for (const item of list) {
-          const pid = item.pid ?? item.productId
-          if (!pid || seenPids.has(pid) || existingCjIds.has(pid)) continue
-          seenPids.add(pid)
-          // En az bir görsel ve geçerli fiyat şartı
-          if (!item.productImage) continue
-          const price = parseFloat(item.sellPrice ?? item.variants?.[0]?.variantSellPrice ?? 0)
-          if (!price || isNaN(price) || price <= 0 || price > 80) continue // $80+ CJ ürünleri atla
-          collected.push({ ...item, _price: price })
+        for (let page = 1; page <= 4; page++) {
           if (collected.length >= cat.target * 2) break
+          console.log(`  🔍 CJ catId ${catId.slice(-6)} — sayfa ${page}`)
+          let list: any[] = []
+          try {
+            list = await searchCJByCategory(catId, page, 50)
+          } catch (err) {
+            console.warn(`  ⚠ Kategori arama hatası: ${err}`)
+            break
+          }
+          if (!list.length) break
+          for (const item of list) {
+            const pid = item.pid ?? item.productId
+            if (!pid || seenPids.has(pid) || existingCjIds.has(pid)) continue
+            seenPids.add(pid)
+            if (!item.productImage) continue
+            const price = parseFloat(item.sellPrice ?? item.variants?.[0]?.variantSellPrice ?? 0)
+            if (!price || isNaN(price) || price <= 0 || price > 80) continue
+            collected.push({ ...item, _price: price })
+            if (collected.length >= cat.target * 2) break
+          }
+          await new Promise(r => setTimeout(r, 700))
         }
+      }
+    }
 
-        await new Promise(r => setTimeout(r, 700)) // rate limit
+    // Keyword fallback (kum-temizleyici, or if category search didn't yield enough)
+    if (collected.length < cat.target && cat.keywords?.length) {
+      for (const kw of cat.keywords) {
+        if (collected.length >= cat.target * 2) break
+        for (let page = 1; page <= 3; page++) {
+          if (collected.length >= cat.target * 2) break
+          console.log(`  🔍 keyword "${kw}" — sayfa ${page}`)
+          let list: any[] = []
+          try {
+            list = await searchCJ(kw, page, 50)
+          } catch (err) {
+            console.warn(`  ⚠ Arama hatası: ${err}`)
+            break
+          }
+          if (!list.length) break
+          for (const item of list) {
+            const pid = item.pid ?? item.productId
+            if (!pid || seenPids.has(pid) || existingCjIds.has(pid)) continue
+            seenPids.add(pid)
+            if (!item.productImage) continue
+            const price = parseFloat(item.sellPrice ?? item.variants?.[0]?.variantSellPrice ?? 0)
+            if (!price || isNaN(price) || price <= 0 || price > 80) continue
+            // For keyword search, verify it's actually a pet product
+            const name = (item.productNameEn ?? item.productName ?? '').toLowerCase()
+            const PET_KEYWORDS = ['cat', 'dog', 'pet', 'kitten', 'puppy', 'litter', 'feline', 'canine']
+            if (!PET_KEYWORDS.some(k => name.includes(k))) continue
+            collected.push({ ...item, _price: price })
+            if (collected.length >= cat.target * 2) break
+          }
+          await new Promise(r => setTimeout(r, 700))
+        }
       }
     }
 

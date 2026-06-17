@@ -401,6 +401,11 @@ export default function CheckoutPage() {
                   <span className="text-[#06b6d4] text-lg">{formatPrice(totalTRY, displayCountry)}</span>
                 </div>
               </div>
+
+              <div className="mt-4 flex items-center gap-2 text-xs text-[#7ecad6] bg-[rgba(6,182,212,0.05)] border border-[rgba(6,182,212,0.12)] rounded-xl px-3 py-2.5">
+                <span>🚚</span>
+                <span>Siparişiniz <strong className="text-white">20-25 gün</strong> içinde teslim edilir</span>
+              </div>
             </div>
           </div>
         </div>

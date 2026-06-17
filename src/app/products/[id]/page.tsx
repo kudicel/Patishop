@@ -155,7 +155,7 @@ export default async function ProductPage({ params }: Props) {
             <div className="rounded-2xl border border-[rgba(6,182,212,0.12)] bg-[rgba(6,182,212,0.04)] p-5 flex flex-col gap-2">
               <div className="flex items-center gap-2 text-sm text-[#7ecad6]">
                 <span>🚚</span>
-                <span><strong className="text-white">10–20 iş günü</strong> teslimat · 17 ülkeye gönderim</span>
+                <span><strong className="text-white">20-25 gün</strong> teslimat · 17 ülkeye gönderim</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-[#7ecad6]">
                 <span>📦</span>

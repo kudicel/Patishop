@@ -23,8 +23,6 @@ export async function POST(req: NextRequest) {
     }
     const base     = process.env.PAYTR_CALLBACK_BASE ?? process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3001'
     const testMode = process.env.PAYTR_TEST_MODE ?? '1'
-    console.log('[PayTR debug] merchantId:', merchantId, '| keyLen:', merchantKey.length, '| saltLen:', merchantSalt.length, '| testMode:', testMode, '| base:', base)
-
     const rawIp  = req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? req.headers.get('x-real-ip') ?? '127.0.0.1'
     const userIp = rawIp === '::1' ? '127.0.0.1' : rawIp
 
@@ -78,7 +76,6 @@ export async function POST(req: NextRequest) {
       timeout_limit:    '30',
     })
 
-    console.log('[PayTR params]', params.toString().replace(/paytr_token=[^&]+/, 'paytr_token=***').slice(0, 400))
     const response = await fetch('https://www.paytr.com/odeme/api/get-token', {
       method:  'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -86,14 +83,12 @@ export async function POST(req: NextRequest) {
     })
 
     const rawText = await response.text()
-    const hdrs = Object.fromEntries(response.headers.entries())
-    console.log('[PayTR token] HTTP status:', response.status, '| server:', hdrs['server'] ?? hdrs['cf-ray'] ? 'cloudflare' : '?', '| body:', rawText.slice(0, 300))
     let data: { status: string; token?: string; reason?: string }
     try {
       data = JSON.parse(rawText)
     } catch {
-      console.error('[PayTR token] JSON parse failed, HTTP status:', response.status, '| raw:', rawText.slice(0, 500))
-      return NextResponse.json({ error: `PayTR hata: HTTP ${response.status} — ${rawText.slice(0, 100) || '(boş yanıt)'}` }, { status: 500 })
+      console.error('[PayTR token] parse error, HTTP status:', response.status, '| raw:', rawText.slice(0, 200))
+      return NextResponse.json({ error: 'Ödeme başlatılamadı. Lütfen tekrar deneyin.' }, { status: 500 })
     }
 
     if (data.status !== 'success') {

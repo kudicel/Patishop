@@ -45,9 +45,12 @@ export async function POST(req: NextRequest) {
     const maxInstallment = '0'
     const currency       = 'TL'
 
+    // PayTR merchant_oid: tire ve özel karakter içeremez
+    const merchantOid = orderId.replace(/-/g, '')
+
     // Hash: merchant_id + user_ip + merchant_oid + email + payment_amount + user_basket + no_installment + max_installment + currency + test_mode + merchant_salt
     // HMAC key: merchant_key (not merchant_salt)
-    const hashStr = merchantId + userIp + orderId + order.email + paymentAmount + userBasket + noInstallment + maxInstallment + currency + testMode + merchantSalt
+    const hashStr = merchantId + userIp + merchantOid + order.email + paymentAmount + userBasket + noInstallment + maxInstallment + currency + testMode + merchantSalt
     const paytrToken = Buffer.from(
       createHmac('sha256', merchantKey).update(hashStr).digest()
     ).toString('base64')
@@ -55,7 +58,7 @@ export async function POST(req: NextRequest) {
     const params = new URLSearchParams({
       merchant_id:      merchantId,
       user_ip:          userIp,
-      merchant_oid:     orderId,
+      merchant_oid:     merchantOid,
       email:            order.email,
       payment_amount:   paymentAmount,
       paytr_token:      paytrToken,

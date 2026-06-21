@@ -78,9 +78,11 @@ export async function POST(req: NextRequest) {
       timeout_limit:    '30',
     })
 
+    console.log('[PayTR params]', params.toString().replace(/paytr_token=[^&]+/, 'paytr_token=***').slice(0, 400))
     const response = await fetch('https://www.paytr.com/odeme/api/get-token', {
-      method: 'POST',
-      body:   params,
+      method:  'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body:    params.toString(),
     })
 
     const rawText = await response.text()

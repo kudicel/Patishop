@@ -15,9 +15,9 @@ export async function POST(req: NextRequest) {
     })
     if (!order) return NextResponse.json({ error: 'Sipariş bulunamadı.' }, { status: 404 })
 
-    const merchantId   = process.env.PAYTR_MERCHANT_ID
-    const merchantKey  = process.env.PAYTR_MERCHANT_KEY
-    const merchantSalt = process.env.PAYTR_MERCHANT_SALT
+    const merchantId   = process.env.PAYTR_MERCHANT_ID?.trim()
+    const merchantKey  = process.env.PAYTR_MERCHANT_KEY?.trim()
+    const merchantSalt = process.env.PAYTR_MERCHANT_SALT?.trim()
     if (!merchantId || !merchantKey || !merchantSalt) {
       return NextResponse.json({ error: 'PayTR yapılandırması eksik.' }, { status: 500 })
     }

@@ -80,12 +80,13 @@ export async function POST(req: NextRequest) {
     })
 
     const rawText = await response.text()
+    console.log('[PayTR token] HTTP status:', response.status, '| body:', rawText.slice(0, 300))
     let data: { status: string; token?: string; reason?: string }
     try {
       data = JSON.parse(rawText)
     } catch {
-      console.error('[PayTR token] JSON parse failed, PayTR raw response:', rawText.slice(0, 500))
-      return NextResponse.json({ error: 'PayTR geçersiz yanıt döndürdü.' }, { status: 500 })
+      console.error('[PayTR token] JSON parse failed, HTTP status:', response.status, '| raw:', rawText.slice(0, 500))
+      return NextResponse.json({ error: `PayTR hata: HTTP ${response.status} — ${rawText.slice(0, 100) || '(boş yanıt)'}` }, { status: 500 })
     }
 
     if (data.status !== 'success') {

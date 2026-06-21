@@ -84,7 +84,8 @@ export async function POST(req: NextRequest) {
     })
 
     const rawText = await response.text()
-    console.log('[PayTR token] HTTP status:', response.status, '| body:', rawText.slice(0, 300))
+    const hdrs = Object.fromEntries(response.headers.entries())
+    console.log('[PayTR token] HTTP status:', response.status, '| server:', hdrs['server'] ?? hdrs['cf-ray'] ? 'cloudflare' : '?', '| body:', rawText.slice(0, 300))
     let data: { status: string; token?: string; reason?: string }
     try {
       data = JSON.parse(rawText)

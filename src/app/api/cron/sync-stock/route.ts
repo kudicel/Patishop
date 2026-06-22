@@ -51,7 +51,8 @@ export async function GET(req: NextRequest) {
 
       if (newStock === null) { stats.errors++; continue }
 
-      const stock = Math.min(Math.max(0, Math.round(newStock)), 999)
+      // CJ stoku 0 gösterse bile minimum 20 tut — geçici stok açığı "tükendi" göstermesin
+      const stock = Math.min(Math.max(newStock > 0 ? Math.round(newStock) : 20, 20), 999)
 
       if (stock === product.stock) { stats.unchanged++; continue }
 

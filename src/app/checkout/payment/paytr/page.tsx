@@ -8,11 +8,15 @@ function PayTRPaymentForm() {
   const searchParams = useSearchParams()
   const orderId      = searchParams.get('orderId') ?? ''
 
-  const [token,  setToken]  = useState<string | null>(null)
-  const [error,  setError]  = useState('')
+  const [token, setToken] = useState<string | null>(null)
+  const [error, setError] = useState('')
 
+  // Fetch PayTR token once orderId is known
   useEffect(() => {
-    if (!orderId) return
+    if (!orderId) {
+      setError('Geçersiz sipariş. Lütfen tekrar deneyin.')
+      return
+    }
     fetch('/api/payment/paytr/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -25,6 +29,18 @@ function PayTRPaymentForm() {
       })
       .catch(() => setError('Sunucu hatası. Lütfen tekrar deneyin.'))
   }, [orderId])
+
+  // PayTR iframe height via postMessage — registered once, cleaned up on unmount
+  useEffect(() => {
+    if (!token) return
+    const handler = (e: MessageEvent) => {
+      if (e.origin !== 'https://www.paytr.com') return
+      const iframe = document.getElementById('paytriframe') as HTMLIFrameElement | null
+      if (iframe && typeof e.data === 'number') iframe.style.height = e.data + 'px'
+    }
+    window.addEventListener('message', handler)
+    return () => window.removeEventListener('message', handler)
+  }, [token])
 
   return (
     <div className="min-h-screen bg-[#050f12] text-white">
@@ -40,9 +56,13 @@ function PayTRPaymentForm() {
         {error ? (
           <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-6 text-center space-y-4">
             <p className="text-red-400 font-semibold">{error}</p>
-            <Link href="/checkout"
+            <p className="text-xs text-white/40">
+              Sorun devam ederse <a href="mailto:destek@patishop.tr"
+                className="text-[#06b6d4] hover:underline">destek@patishop.tr</a> adresine yazın.
+            </p>
+            <Link href="/"
               className="inline-block btn-brand px-8 py-3 rounded-full text-sm font-bold">
-              Geri Dön
+              Ana Sayfaya Dön
             </Link>
           </div>
         ) : !token ? (
@@ -54,18 +74,7 @@ function PayTRPaymentForm() {
           <iframe
             src={`https://www.paytr.com/odeme/guvenli/${token}`}
             id="paytriframe"
-            frameBorder="0"
-            scrolling="no"
-            style={{ width: '100%', minHeight: '600px' }}
-            onLoad={() => {
-              // PayTR iFrame auto-resizes via postMessage
-              const handler = (e: MessageEvent) => {
-                if (e.origin !== 'https://www.paytr.com') return
-                const iframe = document.getElementById('paytriframe') as HTMLIFrameElement
-                if (iframe && typeof e.data === 'number') iframe.style.height = e.data + 'px'
-              }
-              window.addEventListener('message', handler)
-            }}
+            style={{ width: '100%', minHeight: '600px', border: 'none', overflow: 'hidden' }}
           />
         )}
       </div>

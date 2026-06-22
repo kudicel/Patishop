@@ -22,6 +22,8 @@ type ApiOrder = {
   shippingMethod: string
   shippingPrice: number
   subtotal: number
+  discount: number
+  couponCode: string | null
   total: number
   createdAt: string
   items: {
@@ -40,18 +42,35 @@ function OrderSuccessContent() {
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
 
-  const [order, setOrder] = useState<ApiOrder | null>(null)
+  const [order, setOrder]   = useState<ApiOrder | null>(null)
   const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
-    if (!id) { setLoading(false); return }
+    if (!id) { setLoading(false); setNotFound(true); return }
     fetch(`/api/orders/${id}`)
-      .then(r => r.ok ? r.json() : null)
+      .then(r => {
+        if (!r.ok) { setNotFound(true); return null }
+        return r.json()
+      })
       .then((data: ApiOrder | null) => { setOrder(data); setLoading(false) })
-      .catch(() => setLoading(false))
+      .catch(() => { setNotFound(true); setLoading(false) })
   }, [id])
 
   const displayCountry = order?.country ?? country
+
+  if (notFound && !loading) {
+    return (
+      <div className="flex-1 flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-lg text-center space-y-4">
+          <p className="text-[#7ecad6]">Sipariş bulunamadı.</p>
+          <Link href="/" className="btn-brand inline-block px-8 py-3 rounded-full font-bold text-sm">
+            Ana Sayfaya Dön
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex-1 flex items-center justify-center px-4 py-12">
@@ -67,9 +86,16 @@ function OrderSuccessContent() {
         <h1 className="text-2xl font-black text-center mb-2">
           {t(country, 'co_success_title')}
         </h1>
-        <p className="text-[#7ecad6] text-center text-sm mb-8">
+        <p className="text-[#7ecad6] text-center text-sm mb-2">
           {t(country, 'co_success_msg')}
         </p>
+
+        {/* Email confirmation hint */}
+        {order && (
+          <p className="text-center text-xs text-white/40 mb-8">
+            Onay emaili <span className="text-white/60">{order.email}</span> adresine gönderildi.
+          </p>
+        )}
 
         {loading && (
           <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 mb-6 text-center text-[#7ecad6] text-sm">
@@ -84,7 +110,7 @@ function OrderSuccessContent() {
               <span className="text-xs text-[#7ecad6] uppercase tracking-wide font-semibold">
                 {t(country, 'co_order_num')}
               </span>
-              <span className="font-black text-[#06b6d4] tracking-widest">{order.orderNumber}</span>
+              <span className="font-black text-[#06b6d4] tracking-widest">#{order.orderNumber}</span>
             </div>
 
             {/* Recipient */}
@@ -126,6 +152,16 @@ function OrderSuccessContent() {
                 <span className="text-[#7ecad6]">{t(country, 'co_subtotal')}</span>
                 <span>{formatPrice(order.subtotal, displayCountry)}</span>
               </div>
+              {order.discount > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-green-400">
+                    İndirim{order.couponCode ? ` (${order.couponCode})` : ''}
+                  </span>
+                  <span className="text-green-400 font-semibold">
+                    −{formatPrice(order.discount, displayCountry)}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between text-sm">
                 <span className="text-[#7ecad6]">{t(country, 'co_shipping')}</span>
                 <span className={order.shippingPrice === 0 ? 'text-green-400' : ''}>

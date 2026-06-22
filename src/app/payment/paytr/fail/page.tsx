@@ -1,12 +1,24 @@
 'use client'
 
-import { Suspense } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 function FailContent() {
   const params  = useSearchParams()
   const orderId = params.get('id') ?? ''
+
+  const [orderNumber, setOrderNumber] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!orderId) return
+    fetch(`/api/orders/${orderId}`)
+      .then(r => r.ok ? r.json() : null)
+      .then((data: { orderNumber?: string } | null) => {
+        if (data?.orderNumber) setOrderNumber(data.orderNumber)
+      })
+      .catch(() => null)
+  }, [orderId])
 
   return (
     <div className="min-h-screen bg-[#050f12] text-white flex items-center justify-center px-4">
@@ -19,11 +31,11 @@ function FailContent() {
         <p className="text-[#7ecad6] text-sm">
           Ödemeniz tamamlanamadı. Lütfen kart bilgilerinizi kontrol ederek tekrar deneyin.
         </p>
-        {orderId && (
-          <p className="text-xs text-white/30">Sipariş No: {orderId}</p>
+        {orderNumber && (
+          <p className="text-xs text-white/30">Sipariş No: #{orderNumber}</p>
         )}
         <div className="flex flex-col gap-3">
-          <Link href="/checkout"
+          <Link href={orderId ? `/checkout/payment/paytr?orderId=${orderId}` : '/checkout'}
             className="btn-brand rounded-full py-3.5 font-bold text-sm text-center">
             Tekrar Dene
           </Link>
@@ -33,6 +45,12 @@ function FailContent() {
             Ana Sayfaya Dön
           </Link>
         </div>
+        <p className="text-xs text-white/25">
+          Sorun devam ederse{' '}
+          <a href="mailto:destek@patishop.tr" className="text-[#06b6d4] hover:underline">
+            destek@patishop.tr
+          </a>
+        </p>
       </div>
     </div>
   )

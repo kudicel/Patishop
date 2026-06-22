@@ -62,14 +62,18 @@ async function main() {
   console.log(`Toplam ${products.length} ürün kontrol ediliyor...\n`)
 
   const bad: { id: string; name: string; cjName: string; category: string }[] = []
-  const noCj: string[] = []
+  const noCj: { id: string; name: string; category: string; cjProductId: string }[] = []
   let checked = 0
 
   for (const p of products) {
     await sleep(DELAY)
     try {
       const detail = await getDetail(p.cjProductId)
-      if (!detail) { noCj.push(p.id); continue }
+      if (!detail) {
+        noCj.push({ id: p.id, name: p.name, category: p.category, cjProductId: p.cjProductId! })
+        console.log(`? [${p.category}] ${p.name} (cjProductId: ${p.cjProductId})`)
+        continue
+      }
 
       const cjName: string = detail.productNameEn ?? detail.productName ?? ''
       if (!isPetProduct(cjName)) {
@@ -87,6 +91,11 @@ async function main() {
   console.log(`\n${'─'.repeat(60)}`)
   console.log(`Toplam yanlış ürün: ${bad.length}`)
   console.log(`CJ'de bulunamayan: ${noCj.length}`)
+
+  if (noCj.length > 0) {
+    console.log('\nCJ\'de bulunamayan ürünler:')
+    for (const p of noCj) console.log(`  ${p.category.padEnd(20)} ${p.name} (${p.cjProductId})`)
+  }
 
   if (DELETE && bad.length > 0) {
     console.log('\nSiliniyor...')

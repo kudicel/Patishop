@@ -53,6 +53,11 @@ const CATEGORY_META: Record<string, {
     labelEn: 'Other Accessories',
     description: 'Tımar fırçaları, tırnak makaları, bandanalar ve daha fazlası. Evcil hayvan bakımı için her şey.',
   },
+  'pet-medikal': {
+    label: 'Pet Medikal & Güvenlik',
+    labelEn: 'Pet Medical & Safety',
+    description: 'E-collar, koruyucu koni, ameliyat sonrası tulum, bandaj ve güvenlik ürünleri. Evcil hayvanınızın iyileşme sürecini destekleyin.',
+  },
 }
 
 export async function generateStaticParams() {

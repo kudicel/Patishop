@@ -17,6 +17,7 @@ const CATEGORIES = [
   { slug: 'yatak',            labelKey: 'filter_yatak',   icon: '🛏️' },
   { slug: 'tasima-cantasi',   labelKey: 'filter_tasima',  icon: '🎒' },
   { slug: 'diger-aksesuar',   labelKey: 'filter_diger',   icon: '✨' },
+  { slug: 'pet-medikal',      labelKey: 'filter_medikal', icon: '🏥' },
 ] as const
 
 export function Header() {

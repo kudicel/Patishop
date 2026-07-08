@@ -13,23 +13,23 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'PatiShop — Premium Kedi & Köpek Aksesuarları',
+    default: 'PatiShop — Uygun Fiyatlı Kedi & Köpek Aksesuarları',
     template: '%s | PatiShop',
   },
-  description: 'Premium kedi ve köpek aksesuarları — akıllı mama kapları, otomatik kum temizleyiciler, tasmalar ve daha fazlası. 17 ülkeye hızlı teslimat.',
-  keywords: ['kedi aksesuarı', 'köpek aksesuarı', 'evcil hayvan', 'akıllı mama kabı', 'kum temizleyici', 'tasma', 'pet shop'],
+  description: 'Kedi ve köpekler için özenle seçilmiş, uygun fiyatlı pet aksesuarları. Çin\'den doğrudan fabrikadan kedi köpek ürünleri — mama kabı, kum temizleyici, tasma ve daha fazlası, 17 ülkeye teslimat.',
+  keywords: ['kedi aksesuarı', 'köpek aksesuarı', 'evcil hayvan', 'akıllı mama kabı', 'kum temizleyici', 'tasma', 'pet shop', 'uygun fiyatlı pet aksesuarları', "çin'den kedi köpek ürünleri"],
   openGraph: {
     type: 'website',
     siteName: 'PatiShop',
-    title: 'PatiShop — Premium Kedi & Köpek Aksesuarları',
-    description: 'Premium kedi ve köpek aksesuarları. 17 ülkeye hızlı teslimat.',
+    title: 'PatiShop — Uygun Fiyatlı Kedi & Köpek Aksesuarları',
+    description: 'Kedi ve köpekler için özenle seçilmiş, uygun fiyatlı pet aksesuarları. Çin\'den doğrudan fabrikadan, 17 ülkeye teslimat.',
     url: BASE_URL,
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'PatiShop' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PatiShop — Premium Kedi & Köpek Aksesuarları',
-    description: 'Premium kedi ve köpek aksesuarları. 17 ülkeye hızlı teslimat.',
+    title: 'PatiShop — Uygun Fiyatlı Kedi & Köpek Aksesuarları',
+    description: 'Kedi ve köpekler için özenle seçilmiş, uygun fiyatlı pet aksesuarları. Çin\'den doğrudan fabrikadan, 17 ülkeye teslimat.',
     images: ['/og-image.jpg'],
   },
   alternates: {
@@ -41,11 +41,36 @@ export const metadata: Metadata = {
   },
 }
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'PatiShop',
+  url: BASE_URL,
+  logo: `${BASE_URL}/og-image.jpg`,
+  description: 'Kedi ve köpekler için özenle seçilmiş, uygun fiyatlı aksesuarlar. Çin\'deki üreticilerden doğrudan, aracısız olarak temin edilip müşteriye kapıya kadar teslim edilir.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Vatan Caddesi, Özay Sokak No 4',
+    postalCode: '34534',
+    addressLocality: 'Büyükçekmece-İstanbul',
+    addressCountry: 'TR',
+  },
+  email: 'info@patishop.tr',
+  sameAs: [
+    'https://linkedin.com/company/patishop',
+    'https://x.com/Patishop_tr',
+  ],
+}
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const products = await getProducts()
   return (
     <html lang="tr">
       <body className="min-h-screen flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <AuthProvider>
           <GoogleAnalytics />
           {children}

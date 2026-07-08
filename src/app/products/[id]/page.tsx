@@ -63,13 +63,6 @@ export default async function ProductPage({ params }: Props) {
       url: `${base}/products/${id}`,
       seller: { '@type': 'Organization', name: 'PatiShop' },
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: product.rating.toFixed(1),
-      reviewCount: product.reviewCount,
-      bestRating: '5',
-      worstRating: '1',
-    },
   }
 
   return (

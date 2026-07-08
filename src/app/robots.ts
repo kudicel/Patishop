@@ -9,6 +9,11 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: ['/admin', '/api/', '/account', '/checkout', '/order-success'],
       },
+      {
+        userAgent: ['GPTBot', 'ChatGPT-User', 'OAI-SearchBot', 'Google-Extended', 'PerplexityBot', 'anthropic-ai', 'ClaudeBot', 'Claude-Web'],
+        allow: '/',
+        disallow: ['/admin', '/api/', '/account', '/checkout', '/order-success'],
+      },
     ],
     sitemap: `${base}/sitemap.xml`,
   }

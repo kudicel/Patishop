@@ -6,7 +6,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base     = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
   const products = await getProducts()
 
-  const categories = ['mama-kabi', 'kum-temizleyici', 'tasma', 'oyuncak', 'kiyafet', 'yatak', 'tasima-cantasi', 'diger-aksesuar']
+  const categories = ['mama-kabi', 'kum-temizleyici', 'tasma', 'oyuncak', 'kiyafet', 'yatak', 'tasima-cantasi', 'diger-aksesuar', 'pet-medikal']
 
   const categoryUrls: MetadataRoute.Sitemap = categories.map(slug => ({
     url:             `${base}/kategori/${slug}`,
@@ -32,6 +32,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: base,          lastModified: new Date(), changeFrequency: 'daily'   as const, priority: 1   },
     { url: `${base}/blog`, lastModified: new Date(), changeFrequency: 'weekly'  as const, priority: 0.8 },
+    { url: `${base}/sss`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${base}/iletisim`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.5 },
+    { url: `${base}/teslimat`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.5 },
+    { url: `${base}/iade-kosullari`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.5 },
     ...categoryUrls,
     ...productUrls,
     ...blogUrls,

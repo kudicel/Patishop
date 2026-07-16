@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useStore } from '@/lib/store'
 import { Product } from '@/types'
-import { formatPrice, t, TranslationKey } from '@/lib/locale'
+import { formatPrice, withKdv, t, TranslationKey } from '@/lib/locale'
 import { badgeClass, stars } from '@/lib/utils'
 
 const BADGE_KEYS: Record<string, TranslationKey> = {
@@ -219,7 +219,7 @@ export function ProductModal({ products }: { products: Product[] }) {
 
             {/* CTA */}
             <div className="flex items-center gap-4 mt-2">
-              <span className="text-3xl font-black">{formatPrice(product.price * qty, country)}</span>
+              <span className="text-3xl font-black">{formatPrice(withKdv(product.price, country) * qty, country)}</span>
               <button onClick={handleAdd} className="btn-brand flex-1 rounded-full py-3.5 font-bold text-sm">
                 {t(country,'add_to_cart')}
               </button>

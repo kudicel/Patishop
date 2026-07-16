@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { Product } from '@/types'
 import { useStore } from '@/lib/store'
-import { formatPrice, t, TranslationKey } from '@/lib/locale'
+import { formatPrice, withKdv, t, TranslationKey } from '@/lib/locale'
 import { badgeClass, stars } from '@/lib/utils'
 
 const BADGE_KEYS: Record<string, TranslationKey> = {
@@ -99,7 +99,7 @@ export function ProductCard({ product }: Props) {
           ))}
         </ul>
         <div className="flex items-center justify-between mt-auto pt-2">
-          <span className="text-xl font-black">{formatPrice(product.price, country)}</span>
+          <span className="text-xl font-black">{formatPrice(withKdv(product.price, country), country)}</span>
           <span className="text-[#06b6d4] text-sm font-bold bg-[rgba(6,182,212,0.1)] px-3 py-1 rounded-full">
             {stars(product.rating)} {product.rating}
           </span>

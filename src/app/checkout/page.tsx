@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useStore } from '@/lib/store'
-import { formatPrice, t, COUNTRIES } from '@/lib/locale'
+import { formatPrice, withKdv, t, COUNTRIES } from '@/lib/locale'
 import { bulkLineTotal } from '@/lib/bulk-pricing'
 
 type FormData = {
@@ -20,8 +20,13 @@ type FormData = {
 
 type Errors = Partial<Record<keyof FormData, string>>
 
-const LOGISTICS_RATE_TR   = 0.08
+// Yurt içi lojistik ücreti kaldırıldı — kargo maliyeti ürün fiyatına ($13/ürün) zaten dahil,
+// ayrıca %8 eklemek çifte ücretlendirme oluyordu (karar: 25/06/2026).
+const LOGISTICS_RATE_TR   = 0
 const LOGISTICS_RATE_INTL = 0.12
+
+const CUSTOMS_THRESHOLD_TRY = 3000
+const CUSTOMS_RATE          = 0.10
 
 export default function CheckoutPage() {
   const router    = useRouter()
@@ -43,14 +48,16 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<Errors>({})
 
   // --- Fiyat hesaplamaları ---
-  const subtotalTRY = cart.reduce((s, i) => s + bulkLineTotal(i.product.price, i.quantity), 0)
+  // subtotalTRY: TR için KDV dahil (ürün sayfalarındaki gösterilen fiyatla birebir aynı,
+  // checkout'ta sürpriz ek ücret olmasın diye) — KDV artık ayrı bir satır olarak gösterilmiyor.
+  const subtotalTRY = cart.reduce((s, i) => s + bulkLineTotal(withKdv(i.product.price, form.country), i.quantity), 0)
   const discountTRY = couponApplied?.discount ?? 0
 
-  // Tedarikçi bazlı lojistik (TR: %8, yurt dışı: %12)
+  // Tedarikçi bazlı lojistik (TR: kaldırıldı, yurt dışı: %12)
   const logisticsRate = form.country === 'TR' ? LOGISTICS_RATE_TR : LOGISTICS_RATE_INTL
   const supplierGroups = cart.reduce<Record<string, number>>((acc, item) => {
     const s = item.product.supplier
-    acc[s] = (acc[s] ?? 0) + bulkLineTotal(item.product.price, item.quantity)
+    acc[s] = (acc[s] ?? 0) + bulkLineTotal(withKdv(item.product.price, form.country), item.quantity)
     return acc
   }, {})
   const logisticsLines = Object.entries(supplierGroups).map(([supplier, total]) => ({
@@ -60,11 +67,11 @@ export default function CheckoutPage() {
   }))
   const totalLogisticsTRY = logisticsLines.reduce((s, g) => s + g.logistics, 0)
 
-  // KDV: TR = %20, yurt dışı = %0
-  const kdvRate  = form.country === 'TR' ? 0.20 : 0
-  const kdvBase  = subtotalTRY - discountTRY + totalLogisticsTRY
-  const kdvTRY   = Math.round(kdvBase * kdvRate)
-  const totalTRY = kdvBase + kdvTRY
+  // Gümrük tahmini: 3.000₺ üstü siparişlerde sipariş tutarının %10'u (karar: 25/06/2026)
+  const customsBaseTRY = subtotalTRY - discountTRY
+  const customsTRY = customsBaseTRY > CUSTOMS_THRESHOLD_TRY ? Math.round(customsBaseTRY * CUSTOMS_RATE) : 0
+
+  const totalTRY = subtotalTRY - discountTRY + totalLogisticsTRY + customsTRY
 
   async function applyCoupon() {
     if (!couponInput.trim()) return
@@ -129,7 +136,8 @@ export default function CheckoutPage() {
           zip:            form.zip,
           country:        form.country,
           shippingMethod: 'logistics',
-          shippingPrice:  totalLogisticsTRY,
+          // Şemada ayrı bir "gümrük" alanı yok — customsTRY, lojistikle birlikte shippingPrice'a dahil ediliyor
+          shippingPrice:  totalLogisticsTRY + customsTRY,
           subtotal:       subtotalTRY,
           discount:       discountTRY,
           couponCode:     couponApplied?.code ?? undefined,
@@ -260,42 +268,47 @@ export default function CheckoutPage() {
                 <div className="space-y-5">
                   <h2 className="text-lg font-bold mb-6">{t(country, 'co_step3')}</h2>
 
-                  {/* Lojistik dağılımı */}
-                  <div className="rounded-xl border border-[rgba(6,182,212,0.15)] bg-[rgba(6,182,212,0.04)] p-4">
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#06b6d4] mb-3">
-                      Lojistik Dağılımı (%{Math.round(logisticsRate * 100)})
-                    </p>
-                    <div className="space-y-2">
-                      {logisticsLines.map(g => (
-                        <div key={g.supplier} className="flex items-center justify-between text-sm">
-                          <span className="text-[#7ecad6] truncate max-w-[65%]">{g.supplier}</span>
-                          <span className="text-white font-semibold">
-                            {formatPrice(g.logistics, displayCountry)}
-                          </span>
-                        </div>
-                      ))}
-                      {logisticsLines.length > 1 && (
-                        <div className="flex justify-between text-sm pt-2 border-t border-white/[0.08] font-bold">
-                          <span className="text-[#7ecad6]">Toplam Lojistik</span>
-                          <span className="text-[#06b6d4]">{formatPrice(totalLogisticsTRY, displayCountry)}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* KDV bilgisi */}
-                  <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                    {kdvRate > 0 ? (
-                      <div className="flex justify-between text-sm">
-                        <span className="text-[#7ecad6]">KDV (%{Math.round(kdvRate * 100)})</span>
-                        <span className="text-white font-semibold">{formatPrice(kdvTRY, displayCountry)}</span>
-                      </div>
-                    ) : (
-                      <p className="text-sm text-[#7ecad6]">
-                        KDV: <span className="text-green-400 font-semibold">%0</span> — yurt dışı satış, ihracat faturası
+                  {/* Lojistik dağılımı — sadece yurt dışı siparişlerde gösterilir (TR'de kargo fiyata dahil) */}
+                  {totalLogisticsTRY > 0 && (
+                    <div className="rounded-xl border border-[rgba(6,182,212,0.15)] bg-[rgba(6,182,212,0.04)] p-4">
+                      <p className="text-xs font-bold uppercase tracking-wider text-[#06b6d4] mb-3">
+                        Lojistik Dağılımı (%{Math.round(logisticsRate * 100)})
                       </p>
-                    )}
-                  </div>
+                      <div className="space-y-2">
+                        {logisticsLines.map(g => (
+                          <div key={g.supplier} className="flex items-center justify-between text-sm">
+                            <span className="text-[#7ecad6] truncate max-w-[65%]">{g.supplier}</span>
+                            <span className="text-white font-semibold">
+                              {formatPrice(g.logistics, displayCountry)}
+                            </span>
+                          </div>
+                        ))}
+                        {logisticsLines.length > 1 && (
+                          <div className="flex justify-between text-sm pt-2 border-t border-white/[0.08] font-bold">
+                            <span className="text-[#7ecad6]">Toplam Lojistik</span>
+                            <span className="text-[#06b6d4]">{formatPrice(totalLogisticsTRY, displayCountry)}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Gümrük tahmini */}
+                  {form.country === 'TR' && (
+                    <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
+                      {customsTRY > 0 ? (
+                        <div className="flex justify-between text-sm">
+                          <span className="text-[#7ecad6]">Gümrük Tahmini (%{Math.round(CUSTOMS_RATE * 100)})</span>
+                          <span className="text-white font-semibold">{formatPrice(customsTRY, displayCountry)}</span>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-[#7ecad6]">
+                          Gümrük Tahmini: <span className="text-green-400 font-semibold">Ücretsiz</span> ({CUSTOMS_THRESHOLD_TRY.toLocaleString('tr-TR')}₺ altı sipariş)
+                        </p>
+                      )}
+                      <p className="text-xs text-[#7ecad6]/60 mt-1.5">Gümrük tutarı kargoya göre değişebilir.</p>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -339,7 +352,7 @@ export default function CheckoutPage() {
                       <p className="text-xs text-[#7ecad6]">x{item.quantity}</p>
                     </div>
                     <span className="text-sm font-bold text-[#06b6d4] flex-shrink-0">
-                      {formatPrice(bulkLineTotal(item.product.price, item.quantity), displayCountry)}
+                      {formatPrice(bulkLineTotal(withKdv(item.product.price, form.country), item.quantity), displayCountry)}
                     </span>
                   </div>
                 ))}
@@ -386,14 +399,16 @@ export default function CheckoutPage() {
                     <span className="text-green-400 font-bold">−{formatPrice(discountTRY, displayCountry)}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-sm">
-                  <span className="text-[#7ecad6]">Lojistik</span>
-                  <span>{formatPrice(totalLogisticsTRY, displayCountry)}</span>
-                </div>
-                {kdvRate > 0 && (
+                {totalLogisticsTRY > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#7ecad6]">KDV (%{Math.round(kdvRate * 100)})</span>
-                    <span>{formatPrice(kdvTRY, displayCountry)}</span>
+                    <span className="text-[#7ecad6]">Lojistik</span>
+                    <span>{formatPrice(totalLogisticsTRY, displayCountry)}</span>
+                  </div>
+                )}
+                {customsTRY > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-[#7ecad6]">Gümrük Tahmini</span>
+                    <span>{formatPrice(customsTRY, displayCountry)}</span>
                   </div>
                 )}
                 <div className="flex justify-between font-bold pt-2 border-t border-white/[0.06]">

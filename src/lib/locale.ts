@@ -86,6 +86,12 @@ export function t(countryCode: string, key: TranslationKey): string {
   return TRANSLATIONS[lang]?.[key] ?? TRANSLATIONS.en[key] ?? key
 }
 
+// KDV dahil fiyat: TR'de %20 KDV ürün fiyatına gömülü gösterilir (B2C standardı,
+// checkout'ta sürpriz ek ücret olmasın diye) — yurt dışı satışlarda KDV %0 (ihracat).
+export function withKdv(tryAmount: number, countryCode: string): number {
+  return countryCode === 'TR' ? Math.round(tryAmount * 1.20) : tryAmount
+}
+
 export function formatPrice(tryAmount: number, countryCode: string): string {
   const cfg = getCountryConfig(countryCode)
   const amount = tryAmount * cfg.rate

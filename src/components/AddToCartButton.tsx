@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Product } from '@/types'
 import { useStore } from '@/lib/store'
-import { formatPrice, t } from '@/lib/locale'
+import { formatPrice, withKdv, t } from '@/lib/locale'
 import { BULK_TIERS, getTier, bulkUnitPrice, discountLabel } from '@/lib/bulk-pricing'
 
 export function AddToCartButton({ product }: { product: Product }) {
@@ -13,8 +13,9 @@ export function AddToCartButton({ product }: { product: Product }) {
   const [color, setColor] = useState(product.colors?.[0])
   const [size,  setSize]  = useState(product.sizes?.[0])
 
-  const activeTier = getTier(qty)
-  const unitPrice  = bulkUnitPrice(product.price, qty)
+  const activeTier   = getTier(qty)
+  const kdvPrice      = withKdv(product.price, country)
+  const unitPrice     = bulkUnitPrice(kdvPrice, qty)
 
   return (
     <div className="flex flex-col gap-4">
@@ -70,7 +71,7 @@ export function AddToCartButton({ product }: { product: Product }) {
         <div className="space-y-1">
           {BULK_TIERS.map(tier => {
             const isActive   = tier.minQty === activeTier.minQty
-            const tierPrice  = Math.round(product.price * (1 - tier.discount))
+            const tierPrice  = Math.round(kdvPrice * (1 - tier.discount))
             const label      = discountLabel(tier.discount)
             return (
               <div

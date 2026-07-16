@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: 'PatiShop kargo/teslimat süresi ne kadar?',
-    a: 'Sipariş onayından itibaren standart teslimat 10–20 iş günü sürer (Çin\'den doğrudan sevkiyat nedeniyle). Standart kargo ücreti 499 TL olup 3.000 TL ve üzeri siparişlerde kargo ücretsizdir.',
+    a: 'Sipariş onayından itibaren standart teslimat 10–20 iş günü sürer (Çin\'den doğrudan sevkiyat nedeniyle). Kargo ücreti her zaman ürün fiyatına dahildir, ek ücret alınmaz. 3.000 TL ve üzeri siparişlerde sipariş tutarının %10\'u kadar gümrük tahmini eklenir.',
   },
   {
     q: 'PatiShop\'ta hangi ürünler satılıyor?',

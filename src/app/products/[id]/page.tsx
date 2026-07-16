@@ -152,7 +152,7 @@ export default async function ProductPage({ params }: Props) {
               </div>
               <div className="flex items-center gap-2 text-sm text-[#7ecad6]">
                 <span>📦</span>
-                <span>Kargo + gümrük dahil <strong className="text-white">499₺</strong> · 3000₺ üzeri <strong className="text-[#06b6d4]">bedava</strong></span>
+                <span>Kargo ücreti <strong className="text-[#06b6d4]">fiyata dahil</strong> · 3.000₺ üzeri siparişlerde <strong className="text-white">%10 gümrük tahmini</strong> eklenir</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-[#7ecad6]">
                 <span>✅</span>

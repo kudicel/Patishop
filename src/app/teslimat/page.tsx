@@ -29,10 +29,10 @@ export default function TeslimatPage() {
           </section>
 
           <section className="rounded-2xl border border-[rgba(6,182,212,0.12)] bg-[rgba(6,182,212,0.04)] p-6">
-            <h2 className="text-base font-bold text-white mb-3">Kargo Ücretleri</h2>
+            <h2 className="text-base font-bold text-white mb-3">Kargo ve Gümrük</h2>
             <ul className="space-y-2">
-              <li>• Standart kargo ücreti: <strong className="text-white">499 ₺</strong> (kargo + gümrük dahil)</li>
-              <li>• <strong className="text-white">3.000 ₺</strong> ve üzeri siparişlerde kargo <span className="text-[#06b6d4] font-bold">ücretsizdir</span></li>
+              <li>• Kargo ücreti her zaman <span className="text-[#06b6d4] font-bold">ürün fiyatına dahildir</span>, ek ücret alınmaz</li>
+              <li>• <strong className="text-white">3.000 ₺</strong> ve üzeri siparişlerde sipariş tutarının <strong className="text-white">%10&#39;u</strong> kadar gümrük tahmini eklenir</li>
             </ul>
           </section>
 

@@ -30,8 +30,39 @@ export default async function BlogPostPage({ params }: Props) {
 
   const others = BLOG_POSTS.filter(p => p.slug !== slug).slice(0, 3)
 
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
+  const url  = `${base}/blog/${slug}`
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    image: [post.image],
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      '@type': 'Organization',
+      name: 'PatiShop',
+      url: base,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'PatiShop',
+      url: base,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url,
+    },
+    articleSection: post.category,
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
       <main className="px-6 lg:px-12 py-12 max-w-4xl mx-auto">
         <nav className="flex items-center gap-2 text-sm text-[#7ecad6] mb-8">

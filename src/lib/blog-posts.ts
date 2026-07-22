@@ -144,6 +144,44 @@ Oyuncaklar yalnızca eğlence aracı değildir. Evcil hayvanların zihinsel uyar
 - Hasarlı oyuncakları hemen atın
     `,
   },
+  {
+    slug: 'e-collar-koruyucu-koni-kullanimi',
+    title: 'E-Collar (Koruyucu Koni) Ne Zaman ve Nasıl Kullanılır?',
+    excerpt: 'Ameliyat sonrası veya yara bakımında koruyucu koni ne zaman gerekir, doğru boyut nasıl seçilir ve hayvanın alışması nasıl kolaylaştırılır?',
+    date: '2026-07-15',
+    readTime: '5 dk',
+    category: 'Pet Medikal',
+    image: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=800&q=80',
+    content: `
+## E-Collar (Koruyucu Koni) Nedir, Ne Zaman Gerekir?
+
+E-collar, halk arasında "koruyucu koni" olarak bilinen, evcil hayvanın kendi vücuduna (özellikle yara, dikiş veya tahriş bölgesine) ağzıyla erişmesini engelleyen bir yardımcı ekipmandır. En sık kullanım alanları arasında ameliyat sonrası dikiş bölgesinin korunması, kaşıntılı cilt problemlerinde yaranın büyümesinin önlenmesi ve bandaj/pansuman altındaki bölgenin dış müdahaleden korunması sayılabilir.
+
+Koninin ne zaman ve ne süreyle kullanılması gerektiğine dair kesin karar her zaman veteriner hekiminize aittir; bu ürün bir tedavi yöntemi değil, iyileşme sürecini destekleyen tamamlayıcı bir önlemdir.
+
+## Doğru Boyut Nasıl Seçilir?
+
+Koni seçerken iki ölçü önemlidir: boyun çevresi ve koninin uzunluğu. Boyun çevresi, koninin rahat ama kaymayacak şekilde oturmasını sağlamalıdır — çok gevşek bir koni hayvanın başını çıkarmasına, çok sıkı bir koni ise nefes almasını zorlaştırmasına yol açabilir. Koninin uzunluğu ise, evcil hayvan başını düz tuttuğunda koninin ucunun burnu hafifçe geçmesi şeklinde ayarlanmalıdır; bu sayede hayvan yara bölgesine erişemezken mama kabına ve su kabına rahatça ulaşabilir.
+
+## Sert Plastik Koni mi, Yumuşak/Şişme Yaka mı?
+
+**Sert plastik koniler** görüş açısını daha fazla kısıtlasa da en güvenilir bariyeri sağlar. Dikiş bölgesine erişme riski yüksek olan vakalarda veya hareketli, meraklı hayvanlarda tercih edilir.
+
+**Yumuşak/şişme yaka veya kumaş koniler** ise daha hafif ve konforludur, hayvanın günlük hareketlerini (yemek yeme, uyuma, evin içinde dolaşma) daha az kısıtlar. Ancak koruma seviyesi sert konilere göre daha düşüktür, bu yüzden genellikle hafif tahriş veya düşük riskli durumlarda tercih edilir.
+
+## Hayvanın Koniye Alışması İçin Öneriler
+
+1. Koniyi ilk taktığınızda kısa süreli denemelerle başlayın, hemen uzun süreli takılı bırakmayın
+2. Ödül ve sevgi göstererek koniyi olumlu bir deneyimle ilişkilendirin
+3. Mama ve su kaplarının erişilebilir yükseklikte olduğundan emin olun, gerekirse kap boyutunu koniye uygun şekilde ayarlayın
+4. Eve mobilya köşelerine çarpma riskine karşı ilk günlerde hayvanı yakından gözlemleyin
+5. Koninin altındaki cilt bölgesinde kızarıklık veya tahriş fark ederseniz veterinerinize danışın
+
+## Önemli Uyarı
+
+Bu yazıdaki bilgiler genel bilgilendirme amaçlıdır ve bir veteriner hekim muayenesinin yerine geçmez. Evcil hayvanınızın koni kullanımı, süresi ve boyutu konusunda mutlaka veterinerinize danışın; ameliyat sonrası iyileşme sürecinde belirtilerin kötüleşmesi durumunda vakit kaybetmeden veteriner kliniğine başvurun.
+    `,
+  },
 ]
 
 export function getBlogPost(slug: string): BlogPost | undefined {

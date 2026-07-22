@@ -106,11 +106,25 @@ export default async function CategoryPage({ params }: Props) {
     })),
   }
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type':    'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: base },
+      { '@type': 'ListItem', position: 2, name: 'Ürünler', item: `${base}/#products` },
+      { '@type': 'ListItem', position: 3, name: meta.label, item: `${base}/kategori/${slug}` },
+    ],
+  }
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Header />
       <main className="px-6 lg:px-12 py-12 max-w-6xl mx-auto">

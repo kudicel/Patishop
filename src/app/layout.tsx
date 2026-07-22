@@ -62,6 +62,27 @@ const organizationJsonLd = {
   ],
 }
 
+const localBusinessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'PatiShop',
+  url: BASE_URL,
+  image: `${BASE_URL}/og-image.jpg`,
+  description: 'Kedi ve köpekler için özenle seçilmiş, uygun fiyatlı pet aksesuarları satan e-ticaret işletmesi.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Vatan Caddesi, Özay Sokak No 4',
+    postalCode: '34534',
+    addressLocality: 'Büyükçekmece-İstanbul',
+    addressCountry: 'TR',
+  },
+  email: 'info@patishop.tr',
+  sameAs: [
+    'https://linkedin.com/company/patishop',
+    'https://x.com/Patishop_tr',
+  ],
+}
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const products = await getProducts()
   return (
@@ -70,6 +91,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
         <AuthProvider>
           <GoogleAnalytics />

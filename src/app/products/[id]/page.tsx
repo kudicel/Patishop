@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getProducts, getProductById } from '@/lib/db-products'
+import { prisma } from '@/lib/prisma'
 import { AddToCartButton } from '@/components/AddToCartButton'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
@@ -48,6 +49,14 @@ export default async function ProductPage({ params }: Props) {
 
   const related  = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3)
   const base     = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://patishop.tr'
+  const isPetMedikal = (product.category as string) === 'pet-medikal'
+
+  const approvedReviews = await prisma.review.findMany({
+    where: { productId: id, approved: true },
+    orderBy: { createdAt: 'desc' },
+    take: 10,
+  })
+
   const jsonLd = {
     '@context': 'https://schema.org/',
     '@type': 'Product',
@@ -55,6 +64,23 @@ export default async function ProductPage({ params }: Props) {
     description: product.description,
     image: product.images,
     url: `${base}/products/${id}`,
+    brand: { '@type': 'Brand', name: 'PatiShop' },
+    ...(product.reviewCount > 0 ? {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: product.rating,
+        reviewCount: product.reviewCount,
+      },
+    } : {}),
+    ...(approvedReviews.length > 0 ? {
+      review: approvedReviews.map(r => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.name },
+        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+        reviewBody: r.comment,
+        datePublished: r.createdAt.toISOString(),
+      })),
+    } : {}),
     offers: {
       '@type': 'Offer',
       priceCurrency: 'TRY',
@@ -65,11 +91,26 @@ export default async function ProductPage({ params }: Props) {
     },
   }
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: base },
+      { '@type': 'ListItem', position: 2, name: 'Ürünler', item: `${base}/#products` },
+      { '@type': 'ListItem', position: 3, name: product.categoryLabel, item: `${base}/kategori/${product.category}` },
+      { '@type': 'ListItem', position: 4, name: product.name, item: `${base}/products/${id}` },
+    ],
+  }
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Header />
       <main className="px-6 lg:px-12 py-12 max-w-6xl mx-auto">
@@ -143,6 +184,16 @@ export default async function ProductPage({ params }: Props) {
 
             {/* Client-side cart + variant selector */}
             <AddToCartButton product={product} />
+
+            {/* Pet Medikal güven notu */}
+            {isPetMedikal && (
+              <div className="rounded-2xl border border-[rgba(6,182,212,0.2)] bg-[rgba(6,182,212,0.06)] p-4 flex items-start gap-2.5">
+                <span className="text-[#06b6d4] mt-0.5">🛡️</span>
+                <p className="text-sm text-[#7ecad6]">
+                  <strong className="text-white">Güvenli Kullanım Notu:</strong> Bu ürün, evcil hayvanınızın iyileşme ve bakım sürecinde güvenli kullanım gözetilerek seçilmiştir. Kullanmadan önce ürün açıklamasını inceleyin, ciddi sağlık durumlarında veteriner hekiminize danışın.
+                </p>
+              </div>
+            )}
 
             {/* Kargo bilgisi */}
             <div className="rounded-2xl border border-[rgba(6,182,212,0.12)] bg-[rgba(6,182,212,0.04)] p-5 flex flex-col gap-2">

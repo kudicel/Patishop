@@ -33,6 +33,7 @@ export function Footer() {
             <p className="text-white font-semibold mb-3">Yardım</p>
             <ul className="space-y-2 text-xs">
               <li><Link href="/sss" className="hover:text-white transition-colors">Sık Sorulan Sorular</Link></li>
+              <li><Link href="/hakkimizda" className="hover:text-white transition-colors">Hakkımızda</Link></li>
               <li><Link href="/iletisim" className="hover:text-white transition-colors">İletişim</Link></li>
               <li><Link href="/teslimat" className="hover:text-white transition-colors">Teslimat &amp; Kargo</Link></li>
               <li><Link href="/iade-kosullari" className="hover:text-white transition-colors">İptal &amp; İade</Link></li>

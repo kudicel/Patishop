@@ -182,6 +182,100 @@ Koni seçerken iki ölçü önemlidir: boyun çevresi ve koninin uzunluğu. Boyu
 Bu yazıdaki bilgiler genel bilgilendirme amaçlıdır ve bir veteriner hekim muayenesinin yerine geçmez. Evcil hayvanınızın koni kullanımı, süresi ve boyutu konusunda mutlaka veterinerinize danışın; ameliyat sonrası iyileşme sürecinde belirtilerin kötüleşmesi durumunda vakit kaybetmeden veteriner kliniğine başvurun.
     `,
   },
+  {
+    slug: 'kedi-aksesuar-rehberi-2026',
+    title: '2026 Kedi Aksesuar Rehberi: Yeni Bir Kedi İçin Hangi Ürünler Gerçekten Gerekli?',
+    excerpt: 'Mama kabından tırmalama direğine, kum kabından taşıma çantasına kadar bir kedinin ihtiyaç duyduğu temel aksesuarları ve doğru seçim kriterlerini tek bir rehberde topladık.',
+    date: '2026-07-23',
+    readTime: '8 dk',
+    category: 'Kedi Bakımı',
+    image: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=800&q=80',
+    content: `
+Yeni bir kedi sahiplendiğinizde ya da mevcut kediniz için ev düzenini gözden geçirirken "gerçekten hangi ürünlere ihtiyacım var?" sorusu kafa karıştırıcı olabilir. Piyasada onlarca aksesuar türü olsa da, bir kedinin günlük yaşamında ihtiyaç duyduğu temel kategoriler aslında sınırlıdır. Bu rehberde her kategoriyi tek tek ele alıyor, hangi kedi için hangi ürünün daha uygun olduğunu ve seçim yaparken nelere dikkat etmeniz gerektiğini anlatıyoruz.
+
+## 1. Mama ve Su Kabı
+
+Her kedinin en temel ihtiyacı, temiz ve düzenli beslenme imkânıdır. Mama kabı seçerken malzeme, boyut ve konum aynı derecede önemlidir.
+
+- **Paslanmaz çelik veya seramik kaplar** plastiğe göre daha hijyeniktir ve çene aknesi riskini azaltır.
+- **Geniş, sığ kaplar** kedinin bıyıklarının kaba temas etmesini (bıyık stresi) önler.
+- **Su kabı, mama kabından ayrı ve uzakta** konumlandırılmalıdır — kediler doğal olarak su kaynağını av bölgesinden uzak tutmayı tercih eder.
+- Birden fazla kediniz varsa kedi başına en az bir kap ayırmak rekabeti azaltır.
+
+Evde kalan zamanınız düzensizse **otomatik/akıllı mama kapları** porsiyon kontrolü ve sabit besleme saatleri sağlar; özellikle uzun mesai saatleri olan sahipler için pratik bir çözümdür. PatiShop'un [mama kapları kategorisinde](/kategori/mama-kabi) WiFi kontrollü ve porsiyon ayarlı modelleri inceleyebilirsiniz. Beslenme düzeni hakkında daha detaylı bilgi için [Kedi Beslenmesi Rehberi](/blog/kedi-beslenmesi-rehberi) yazımıza da göz atabilirsiniz.
+
+## 2. Kum Kabı ve Otomatik Temizleyiciler
+
+Kum kabı, kedinin tuvalet alışkanlıklarını doğrudan etkileyen bir üründür ve yanlış seçim davranış problemlerine (kum kabını kullanmama gibi) yol açabilir.
+
+- **Açık kum kapları** çoğu kedi için daha rahattır çünkü sıkışmışlık hissi yaratmaz.
+- **Kapalı/gizli kum kapları** koku yayılımını azaltır ama bazı kediler tarafından tercih edilmeyebilir.
+- Genel kural: ev içindeki kedi sayısı + 1 kadar kum kabı bulundurmak, özellikle çoklu kedi evlerinde önemlidir.
+
+Günlük temizlik yükünü azaltmak isteyenler için **otomatik kum temizleyiciler** iyi bir yatırımdır; hareket sensörü ile atığı algılayıp ayrı bir hazneye toplar. Bu cihazların büyük çoğunluğu topaklaşan kum ile uyumlu çalışır, bu yüzden cihaz almadan önce kum türü uyumluluğunu kontrol etmek gerekir. Detaylı kum türü karşılaştırması için [Kedi Kumu Seçimi](/blog/kedi-kumu-secimi) yazımıza bakabilir, PatiShop'un [kum temizleyici kategorisinden](/kategori/kum-temizleyici) sessiz çalışan modelleri inceleyebilirsiniz.
+
+## 3. Tırmalama Direği
+
+Tırmalama, kedilerin pençe sağlığı ve stres atma açısından doğal bir ihtiyacıdır — engellenirse mobilyalara yönelebilir. Bu yüzden tırmalama direği, "isteğe bağlı" değil neredeyse zorunlu bir aksesuar olarak değerlendirilmelidir.
+
+- **Sisal halat kaplı direkler** en dayanıklı ve kedilerin en çok tercih ettiği yüzeydir.
+- **Sabit, ağır tabanlı modeller** devrilme riskini azaltır; özellikle enerjik ve genç kedilerde bu önemlidir.
+- Direği kedinin sık uğradığı bir alana (pencere kenarı, uyku alanına yakın) yerleştirmek kullanım oranını artırır.
+- Çok katlı "kedi evi" tarzı modeller hem tırmalama hem de gözlem noktası ihtiyacını birlikte karşılar.
+
+PatiShop'ta tırmalama direği modellerini [diğer aksesuarlar kategorisinde](/kategori/diger-aksesuar) bulabilirsiniz.
+
+## 4. Oyuncaklar
+
+Kediler zeki ve av içgüdüsü yüksek hayvanlardır; düzenli oyun hem fiziksel hem zihinsel sağlık için gereklidir.
+
+- **Tüylü değnek oyuncaklar** interaktif oyun için idealdir, sahiple bağ kurmayı destekler.
+- **Lazer pointer** av içgüdüsünü tetikler ancak seansı gerçek bir ödülle (mama parçası, oyuncak) bitirmek önemlidir — aksi halde kedi tatminsiz kalabilir.
+- **Zeka geliştirici bulmaca oyuncaklar**, özellikle tek başına kalan kediler için yararlıdır.
+- **Catnip'li oyuncaklar** bazı kedilerde belirgin ilgi uyandırır (genetik olarak her kedi tepki vermeyebilir).
+
+Yavru kediler için daha küçük ve hafif oyuncaklar, yetişkin kediler için daha dayanıklı modeller tercih edilmelidir. PatiShop'un [oyuncak kategorisinde](/kategori/oyuncak) geniş bir seçki bulunuyor.
+
+## 5. Yatak ve Uyku Alanı
+
+Kediler günün büyük bölümünü uyuyarak geçirir; bu yüzden rahat bir uyku alanı yaşam kalitesini doğrudan etkiler.
+
+- **Kenarlı/yuvalı yataklar** kediye güvenlik hissi verir, özellikle çekingen kediler tarafından tercih edilir.
+- **Isıtmalı yataklar** kış aylarında veya yaşlı/eklem sorunu olan kediler için faydalı olabilir.
+- Yatağı ev içinde sakin, az trafikli bir köşeye yerleştirmek kullanım sıklığını artırır.
+- Yıkanabilir kılıflı modeller hijyen açısından pratiklik sağlar.
+
+[Yatak kategorimizde](/kategori/yatak) farklı boyut ve modellerde seçenekler bulunuyor.
+
+## 6. Taşıma Çantası
+
+Veteriner ziyaretleri, seyahat veya ev taşıma gibi durumlar için sağlam bir taşıma çantası/kafesi şarttır — acil bir durumda son anda aramak istemezsiniz.
+
+- **Sert kabuklu taşıma kutuları** uçak/uzun yolculuklar için daha güvenlidir.
+- **Yumuşak kumaş taşıma çantaları** kısa mesafeli, günlük kullanım (veteriner gidiş-geliş) için daha pratiktir.
+- Havalandırma delikleri geniş ve kedinin rahatça dönebileceği boyutta bir model seçilmelidir.
+- Kediyi çantaya erken yaşta, olumlu deneyimlerle (içine ödül koyarak) alıştırmak ileride stresli veteriner ziyaretlerini kolaylaştırır.
+
+PatiShop'un [taşıma çantası kategorisinde](/kategori/tasima-cantasi) farklı bütçe ve boyutlarda modeller mevcut.
+
+## Öncelik Sırası: Hangi Ürünü Önce Almalı?
+
+Yeni bir kedi sahiplendiyseniz ve tüm bu listeyi bir anda karşılamak bütçenizi zorluyorsa, öncelik sırası genellikle şöyledir:
+
+1. Mama ve su kabı
+2. Kum kabı
+3. Taşıma çantası (ilk veteriner kontrolü için)
+4. Tırmalama direği
+5. Yatak
+6. Oyuncaklar
+
+Otomatik mama kabı ve otomatik kum temizleyici gibi "konfor" ürünleri ise bütçe uygun olduğunda ikinci aşamada eklenebilecek yatırımlardır.
+
+## Sonuç
+
+Bir kedinin temel ihtiyaçları aslında karmaşık değildir: doğru boyutta mama/su kabı, uygun kum kabı, tırmalama alanı, düzenli oyun ve güvenli bir uyku/taşıma alanı. Ürün seçerken kedinizin yaşını, karakterini (çekingen/enerjik) ve ev ortamınızı göz önünde bulundurmak, hem kedinizin hem de sizin için en verimli sonucu verir. Her kategori için detaylı seçim kriterlerini kendi ürün sayfalarımızda da bulabilirsiniz.
+    `,
+  },
 ]
 
 export function getBlogPost(slug: string): BlogPost | undefined {

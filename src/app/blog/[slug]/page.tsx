@@ -8,6 +8,26 @@ import type { Metadata } from 'next'
 
 interface Props { params: Promise<{ slug: string }> }
 
+// "[metin](/yol)" biçimindeki basit markdown linklerini gerçek <Link> bileşenine çevirir
+function renderInline(text: string, keyPrefix: string) {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g
+  const nodes: React.ReactNode[] = []
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+  let idx = 0
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) nodes.push(text.slice(lastIndex, match.index))
+    nodes.push(
+      <Link key={`${keyPrefix}-link-${idx++}`} href={match[2]} className="text-[#06b6d4] font-semibold hover:underline">
+        {match[1]}
+      </Link>
+    )
+    lastIndex = match.index + match[0].length
+  }
+  if (lastIndex < text.length) nodes.push(text.slice(lastIndex))
+  return nodes.length ? nodes : [text]
+}
+
 export async function generateStaticParams() {
   return BLOG_POSTS.map(p => ({ slug: p.slug }))
 }
@@ -97,10 +117,10 @@ export default async function BlogPostPage({ params }: Props) {
             if (line.startsWith('## ')) return <h2 key={i}>{line.slice(3)}</h2>
             if (line.startsWith('### ')) return <h3 key={i}>{line.slice(4)}</h3>
             if (line.startsWith('**') && line.endsWith('**')) return <p key={i}><strong>{line.slice(2, -2)}</strong></p>
-            if (line.startsWith('- ')) return <li key={i} className="ml-4 list-disc">{line.slice(2)}</li>
-            if (line.match(/^\d+\. /)) return <li key={i} className="ml-4 list-decimal">{line.replace(/^\d+\. /, '')}</li>
+            if (line.startsWith('- ')) return <li key={i} className="ml-4 list-disc">{renderInline(line.slice(2), `li-${i}`)}</li>
+            if (line.match(/^\d+\. /)) return <li key={i} className="ml-4 list-decimal">{renderInline(line.replace(/^\d+\. /, ''), `oli-${i}`)}</li>
             if (line.trim() === '') return null
-            return <p key={i}>{line}</p>
+            return <p key={i}>{renderInline(line, `p-${i}`)}</p>
           })}
         </article>
 

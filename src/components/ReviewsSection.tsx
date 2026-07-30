@@ -2,15 +2,12 @@
 
 import { useStore } from '@/lib/store'
 import { t } from '@/lib/locale'
+import type { FeaturedReview } from '@/lib/db-reviews'
 
-export function ReviewsSection() {
+export function ReviewsSection({ reviews }: { reviews: FeaturedReview[] }) {
   const country = useStore(s => s.currentCountry)
 
-  const reviews = [
-    { textKey: 'rev1_text' as const, authorKey: 'rev1_author' as const },
-    { textKey: 'rev2_text' as const, authorKey: 'rev2_author' as const },
-    { textKey: 'rev3_text' as const, authorKey: 'rev3_author' as const },
-  ]
+  if (reviews.length === 0) return null
 
   return (
     <section className="px-6 lg:px-12 pb-20">
@@ -21,11 +18,11 @@ export function ReviewsSection() {
         <h2 className="text-4xl font-black">{t(country, 'rev_h2')}</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {reviews.map((r, i) => (
-          <article key={i} className="rounded-[1.75rem] border border-[rgba(6,182,212,0.1)] bg-white/[0.04] p-7">
-            <p className="text-amber-400 text-lg mb-3">★★★★★</p>
-            <p className="text-[#f0fafb] leading-relaxed italic mb-4 text-sm">{t(country, r.textKey)}</p>
-            <span className="text-[#06b6d4] font-bold text-sm">{t(country, r.authorKey)}</span>
+        {reviews.map(r => (
+          <article key={r.id} className="rounded-[1.75rem] border border-[rgba(6,182,212,0.1)] bg-white/[0.04] p-7">
+            <p className="text-amber-400 text-lg mb-3">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</p>
+            <p className="text-[#f0fafb] leading-relaxed italic mb-4 text-sm">{r.comment}</p>
+            <span className="text-[#06b6d4] font-bold text-sm">{r.name}</span>
           </article>
         ))}
       </div>

@@ -52,7 +52,7 @@ export function Footer() {
 
         <div className="border-t border-[rgba(6,182,212,0.08)] pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#7ecad6]">
           <p>© 2026 <span className="brand-gradient font-bold">PatiShop</span> — Kuvix Digital Solutions</p>
-          <p>Vatan Caddesi, Özay Sokak No 4, 34534 Büyükçekmece-İstanbul/Türkiye</p>
+          <p>Celaliye Mah. Özay Sk. No: 4 İç Kapı No: 1, 34534 Büyükçekmece-İstanbul/Türkiye</p>
         </div>
       </div>
     </footer>

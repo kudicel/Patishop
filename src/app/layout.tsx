@@ -50,7 +50,7 @@ const organizationJsonLd = {
   description: 'Kedi ve köpekler için özenle seçilmiş, uygun fiyatlı aksesuarlar. Çin\'deki üreticilerden doğrudan, aracısız olarak temin edilip müşteriye kapıya kadar teslim edilir.',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Vatan Caddesi, Özay Sokak No 4',
+    streetAddress: 'Celaliye Mah. Özay Sk. No: 4 İç Kapı No: 1',
     postalCode: '34534',
     addressLocality: 'Büyükçekmece-İstanbul',
     addressCountry: 'TR',
@@ -71,7 +71,7 @@ const localBusinessJsonLd = {
   description: 'Kedi ve köpekler için özenle seçilmiş, uygun fiyatlı pet aksesuarları satan e-ticaret işletmesi.',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Vatan Caddesi, Özay Sokak No 4',
+    streetAddress: 'Celaliye Mah. Özay Sk. No: 4 İç Kapı No: 1',
     postalCode: '34534',
     addressLocality: 'Büyükçekmece-İstanbul',
     addressCountry: 'TR',

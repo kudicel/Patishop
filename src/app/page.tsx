@@ -14,9 +14,10 @@ import { SuppliersSection } from '@/components/SuppliersSection'
 import { AnalyticsSection } from '@/components/AnalyticsSection'
 import { Footer } from '@/components/Footer'
 import { getProducts } from '@/lib/db-products'
+import { getFeaturedReviews } from '@/lib/db-reviews'
 
 export default async function HomePage() {
-  const products = await getProducts()
+  const [products, reviews] = await Promise.all([getProducts(), getFeaturedReviews()])
   return (
     <>
       <Header />
@@ -24,7 +25,7 @@ export default async function HomePage() {
         <HeroSection />
         <FeaturedPanels />
         <ProductsSection products={products} />
-        <ReviewsSection />
+        <ReviewsSection reviews={reviews} />
         <SuppliersSection />
         <AnalyticsSection />
       </main>

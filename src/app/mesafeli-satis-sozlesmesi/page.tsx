@@ -21,7 +21,7 @@ export default function MesafeliSatisSozlesmesiPage() {
             <div className="space-y-1">
               <p><span className="text-white font-semibold">Unvan:</span> Kuvix Digital Solutions</p>
               <p><span className="text-white font-semibold">Faaliyet türü:</span> Bireysel — Muaf</p>
-              <p><span className="text-white font-semibold">Adres:</span> Vatan Caddesi, Özay Sokak No 4, 34534 Büyükçekmece-İstanbul/Türkiye</p>
+              <p><span className="text-white font-semibold">Adres:</span> Celaliye Mah. Özay Sk. No: 4 İç Kapı No: 1, 34534 Büyükçekmece-İstanbul/Türkiye</p>
               <p><span className="text-white font-semibold">E-posta:</span>{' '}
                 <a href="mailto:info@patishop.tr" className="text-[#06b6d4] hover:underline">info@patishop.tr</a>
               </p>
